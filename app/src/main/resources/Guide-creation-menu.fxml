@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Scene?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.stage.Stage?>
+
+<Stage xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <scene>
+        <Scene>
+            <AnchorPane prefHeight="360.0" prefWidth="570.0">
+            <children>
+               <Label layoutX="31.0" layoutY="14.0" text="Nuova guida" />
+               <Button layoutX="30.0" layoutY="312.0" mnemonicParsing="false" text="Indietro" />
+               <Button layoutX="434.0" layoutY="312.0" mnemonicParsing="false" text="Salva" />
+               <ListView layoutX="356.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0" />
+               <Label layoutX="356.0" layoutY="70.0" text="Scegli il mezzo:" />
+               <Label layoutX="29.0" layoutY="57.0" text="Data inizio:" />
+               <Label layoutX="29.0" layoutY="100.0" text="Data fine (opzionale): " />
+               <Label layoutX="29.0" layoutY="220.0" text="Ora inizio:" />
+               <Label layoutX="29.0" layoutY="267.0" text="Ora fine (opzionale):" />
+               <TextField layoutX="87.0" layoutY="215.0" prefHeight="26.0" prefWidth="44.0" promptText="Ora" />
+               <TextField layoutX="145.0" layoutY="215.0" prefHeight="26.0" prefWidth="48.0" promptText="Minuti" />
+               <Label layoutX="134.0" layoutY="220.0" text=":" />
+               <TextField layoutX="145.0" layoutY="262.0" prefHeight="26.0" prefWidth="44.0" promptText="Ora" />
+               <Label layoutX="197.0" layoutY="267.0" text=":" />
+               <TextField layoutX="207.0" layoutY="262.0" prefHeight="26.0" prefWidth="50.0" promptText="Minuti" />
+               <Label layoutX="34.0" layoutY="173.0" text="Orari in formato 24h" />
+               <DatePicker layoutX="92.0" layoutY="53.0" />
+               <DatePicker layoutX="152.0" layoutY="96.0" />
+            </children></AnchorPane>
+        </Scene>
+    </scene>
+</Stage>
