@@ -7,20 +7,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="598.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="db.ecommerce.controller.ShoppingController">
    <children>
-      <VBox alignment="CENTER_LEFT" prefHeight="400.0" prefWidth="257.0">
+      <VBox alignment="CENTER_LEFT" prefHeight="386.0" prefWidth="193.0">
          <children>
             <Label text="Spese effettuate">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Button fx:id="btn_new_shopping" mnemonicParsing="false" text="Nuova spesa" />
-            <Button fx:id="btn_delivery_info" mnemonicParsing="false" text="Guarda dettagli consegna" />
+            <Button fx:id="btn_new_shopping" mnemonicParsing="false" onAction="#newShopping" text="Nuova spesa" />
+            <Button fx:id="btn_delivery_info" mnemonicParsing="false" onAction="#getDetails" text="Guarda dettagli consegna" />
          </children>
       </VBox>
-      <ListView fx:id="lstvw_shopping_list" prefHeight="400.0" prefWidth="315.0" />
+      <ListView fx:id="lstvw_shopping_list" prefHeight="400.0" prefWidth="383.0" />
    </children>
 </HBox>
