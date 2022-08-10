@@ -49,9 +49,10 @@ public class ShoppingController {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
         ShoppingTable shpTbl = new ShoppingTable(c.getMySQLConnection());
-        var allShopping = shpTbl.allShoppingOfClient(user);
+        //var allShopping = shpTbl.allShoppingOfClient(user);
+        //lstvw_shopping_list.setItems(FXCollections.observableList(buildShopping(allShopping)));
 
-        lstvw_shopping_list.setItems(FXCollections.observableList(buildShopping(allShopping)));
+        lstvw_shopping_list.setItems(FXCollections.observableList(List.of()));
     }
 
     private List<String> buildShopping(List<ShoppingPK> l) {
