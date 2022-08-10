@@ -16,26 +16,8 @@ public class LoginMenuImpl extends Application {
     private final static String F = "/LoginMenu.fxml";
     private VBox root;
 
-    public LoginMenuImpl() throws IOException {
-        /*
-         * LoadFXML loader = new LoadFXMLImpl(); var a = loader.load(F);
-         */
-
-        /*
-         * var l=new FXMLLoader(); l.setLocation(getClass().getResource(F)); var
-         * a=l.load();
-         */
-
-    }
-
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        /*
-         * FXMLLoader loader = new FXMLLoader();
-         * loader.setLocation(getClass().getResource("/LoginMenu.fxml")); var a =
-         * loader.load();
-         */
 
         LoadFXML loader = new LoadFXMLImpl();
         var a = loader.load(F);
