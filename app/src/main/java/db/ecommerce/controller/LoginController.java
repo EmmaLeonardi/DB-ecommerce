@@ -62,50 +62,58 @@ public class LoginController {
      */
     @FXML
     public void login(final Event event) throws IOException {
+        if (cbx_role.getValue() != null) {
 
-        switch (cbx_role.getValue()) {
-        case ADMIN:
-            if (txt_psw.getText().equals(ADMIN_CRED) && txt_username.getText().equals(ADMIN_CRED)) {
-                System.out.println("ROLE.ADMIN");
+            switch (cbx_role.getValue()) {
+            case ADMIN:
+                if (txt_psw.getText().equals(ADMIN_CRED) && txt_username.getText().equals(ADMIN_CRED)) {
+                    System.out.println("ROLE.ADMIN");
 
-            } else {
-                var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                } else {
+                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                    alert.show();
+                }
+                break;
+            case CLIENTE:
+                Optional<ClientPK> client = this.clientTbl.findByPrimaryKey(Integer.parseInt(txt_username.getText()));
+                if (client.isPresent() && client.get().getName().equals(txt_psw.getText())) {
+                    Stage s = (Stage) btn_login.getScene().getWindow();
+                    new ShoppingMenuImpl(s, client.get());
+
+                } else {
+                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                    alert.show();
+                }
+                break;
+            case CORRIERE:
+                Optional<CourierPK> courier = this.courierTbl
+                        .findByPrimaryKey(Integer.parseInt(txt_username.getText()));
+                if (courier.isPresent() && courier.get().getName().equals(txt_psw.getText())) {
+                    System.out.println("ROLE.CORRIERE");
+                } else {
+                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                    alert.show();
+                }
+                break;
+            case PRODUTTORE:
+                Optional<ProducerPK> producer = this.producerTbl
+                        .findByPrimaryKey(Integer.parseInt(txt_username.getText()));
+                if (producer.isPresent() && producer.get().getName().equals(txt_psw.getText())) {
+                    System.out.println("ROLE.PRODUTTORE");
+                } else {
+                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                    alert.show();
+                }
+                break;
+            default:
+                var alert = new Alert(AlertType.ERROR, "Please select a role, retry");
                 alert.show();
+                break;
+
             }
-            break;
-        case CLIENTE:
-            Optional<ClientPK> client = this.clientTbl.findByPrimaryKey(Integer.parseInt(txt_username.getText()));
-            if (client.isPresent() && client.get().getName().equals(txt_psw.getText())) {
-                Stage s = (Stage) btn_login.getScene().getWindow();
-                new ShoppingMenuImpl(s,client.get());
-            } else {
-                var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
-                alert.show();
-            }
-            break;
-        case CORRIERE:
-            Optional<CourierPK> courier = this.courierTbl.findByPrimaryKey(Integer.parseInt(txt_username.getText()));
-            if (courier.isPresent() && courier.get().getName().equals(txt_psw.getText())) {
-                System.out.println("ROLE.CORRIERE");
-            } else {
-                var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
-                alert.show();
-            }
-            break;
-        case PRODUTTORE:
-            Optional<ProducerPK> producer = this.producerTbl.findByPrimaryKey(Integer.parseInt(txt_username.getText()));
-            if (producer.isPresent() && producer.get().getName().equals(txt_psw.getText())) {
-                System.out.println("ROLE.PRODUTTORE");
-            } else {
-                var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
-                alert.show();
-            }
-            break;
-        default:
+        } else {
             var alert = new Alert(AlertType.ERROR, "Please select a role, retry");
             alert.show();
-            break;
-
         }
 
     }
