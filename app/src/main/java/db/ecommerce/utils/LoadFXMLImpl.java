@@ -21,4 +21,17 @@ public class LoadFXMLImpl implements LoadFXML {
         return loader.load();
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Object getController() throws IllegalStateException {
+        var a = this.loader.getController();
+        if (a == null) {
+            throw new IllegalStateException("Cannot call getController without first calling load");
+        } else {
+            return a;
+        }
+    }
+
 }

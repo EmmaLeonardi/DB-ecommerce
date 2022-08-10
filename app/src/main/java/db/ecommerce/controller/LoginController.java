@@ -77,7 +77,7 @@ public class LoginController {
             Optional<ClientPK> client = this.clientTbl.findByPrimaryKey(Integer.parseInt(txt_username.getText()));
             if (client.isPresent() && client.get().getName().equals(txt_psw.getText())) {
                 Stage s = (Stage) btn_login.getScene().getWindow();
-                new ShoppingMenuImpl(s);
+                new ShoppingMenuImpl(s,client.get());
             } else {
                 var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
                 alert.show();
