@@ -17,7 +17,7 @@
                </font>
             </Label>
             <Button fx:id="btn_new_shopping" mnemonicParsing="false" onAction="#newShopping" text="Nuova spesa" />
-            <Button fx:id="btn_delivery_info" mnemonicParsing="false" onAction="#getDetails" text="Guarda dettagli consegna" />
+            <Button fx:id="btn_delivery_info" mnemonicParsing="false" onAction="#getDetails" text="Guarda spese non consegnate" />
          </children>
       </VBox>
       <ListView fx:id="lstvw_shopping_list" prefHeight="400.0" prefWidth="383.0" />
