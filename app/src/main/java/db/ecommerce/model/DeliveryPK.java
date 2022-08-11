@@ -2,6 +2,7 @@ package db.ecommerce.model;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Optional;
 
 import db.ecommerce.utils.TYPEDELIVERY;
 
@@ -9,15 +10,15 @@ public class DeliveryPK extends DeliveryImpl {
 
     private final int codConsegna;
 
-    public DeliveryPK(Integer cod_spesa, float priceDelivery, Date date, TYPEDELIVERY type, int codIndirizzo,
-            Integer codCorriere, String targa, int codConsegna) {
+    public DeliveryPK(Optional<Integer> cod_spesa, float priceDelivery, Optional<Date> date, TYPEDELIVERY type,
+            int codIndirizzo, Optional<Integer> codCorriere, Optional<String> targa, int codConsegna) {
         super(cod_spesa, priceDelivery, date, type, codIndirizzo, codCorriere, targa);
         this.codConsegna = codConsegna;
     }
 
     public DeliveryPK(Delivery d, int codConsegna) {
-        super(d.getCod_spesa().get(), d.getPriceDelivery(), d.getDate().get(), d.getType(), d.getCodIndirizzo(),
-                d.getCodCorriere().get(), d.getTarga().get());
+        super(d.getCod_spesa(), d.getPriceDelivery(), d.getDate(), d.getType(), d.getCodIndirizzo(), d.getCodCorriere(),
+                d.getTarga());
         this.codConsegna = codConsegna;
     }
 
@@ -29,13 +30,13 @@ public class DeliveryPK extends DeliveryImpl {
     }
 
     public static Delivery convertToDelivery(final DeliveryPK d) {
-        return new DeliveryImpl(d.getCod_spesa().get(), d.getPriceDelivery(), d.getDate().get(), d.getType(),
-                d.getCodIndirizzo(), d.getCodCorriere().get(), d.getTarga().get());
+        return new DeliveryImpl(d.getCod_spesa(), d.getPriceDelivery(), d.getDate(), d.getType(), d.getCodIndirizzo(),
+                d.getCodCorriere(), d.getTarga());
     }
 
     @Override
     public String toString() {
-        return "DeliveryPK [codConsegna=" + codConsegna +super.toString()+"]";
+        return "DeliveryPK [codConsegna=" + codConsegna + super.toString() + "]";
     }
 
     @Override
@@ -55,11 +56,7 @@ public class DeliveryPK extends DeliveryImpl {
         if (getClass() != obj.getClass())
             return false;
         DeliveryPK other = (DeliveryPK) obj;
-        return codConsegna == other.codConsegna&&convertToDelivery(this).equals(convertToDelivery(other));
+        return codConsegna == other.codConsegna && convertToDelivery(this).equals(convertToDelivery(other));
     }
-    
-    
-    
-    
 
 }

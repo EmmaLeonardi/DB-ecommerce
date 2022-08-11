@@ -32,15 +32,15 @@ public class DeliveryImpl implements Delivery {
      * @param codCorriere
      * @param targa
      */
-    public DeliveryImpl(Integer cod_spesa, float priceDelivery, Date date, TYPEDELIVERY type, int codIndirizzo,
-            Integer codCorriere, String targa) {
-        this.codSpesa = Optional.of(cod_spesa);
+    public DeliveryImpl(Optional<Integer> cod_spesa, float priceDelivery, Optional<Date> date, TYPEDELIVERY type,
+            int codIndirizzo, Optional<Integer> codCorriere, Optional<String> targa) {
+        this.codSpesa = cod_spesa;
         this.priceDelivery = priceDelivery;
-        this.date = Optional.of(date);
+        this.date = date;
         this.type = type;
         this.codIndirizzo = codIndirizzo;
-        this.codCorriere = Optional.of(codCorriere);
-        this.targa = Optional.of(targa);
+        this.codCorriere = codCorriere;
+        this.targa = targa;
     }
 
     /**
