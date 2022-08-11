@@ -7,6 +7,7 @@ import java.util.List;
 import db.ecommerce.model.ClientPK;
 import db.ecommerce.model.ShoppingPK;
 import db.ecommerce.model.tables.ClientTable;
+import db.ecommerce.model.tables.DeliveryTable;
 import db.ecommerce.model.tables.ShoppingTable;
 import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
@@ -34,6 +35,12 @@ public class ShoppingController {
     private ClientPK user;
     private int cod_user;
 
+    private ShoppingTable shpTbl;
+
+    private ClientTable cltTbl;
+
+    private DeliveryTable dlvTbl;
+
     public void setClient(int cod_user) {
         this.cod_user = cod_user;
     }
@@ -54,8 +61,9 @@ public class ShoppingController {
     public void initialize() {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
-        ShoppingTable shpTbl = new ShoppingTable(c.getMySQLConnection());
-        ClientTable cltTbl = new ClientTable(c.getMySQLConnection());
+        this.shpTbl = new ShoppingTable(c.getMySQLConnection());
+        this.cltTbl = new ClientTable(c.getMySQLConnection());
+        this.dlvTbl = new DeliveryTable(c.getMySQLConnection());
         Platform.runLater(() -> {
             var tmp = cltTbl.findByPrimaryKey(cod_user);
             if (tmp.isEmpty()) {
@@ -72,14 +80,30 @@ public class ShoppingController {
                 lstvw_shopping_list.setItems(FXCollections.observableList(buildShopping(allShopping)));
 
             }
+
+            if (dlvTbl.allDeliveryOfClientUnsent(user).isEmpty()) {
+                btn_delivery_info.setDisable(true);
+            }
         });
     }
 
     private List<String> buildShopping(List<ShoppingPK> l) {
         List<String> list = new ArrayList<>();
         for (final ShoppingPK elem : l) {
-            list.add(elem.getPrice() + "Delivery:");
-            // + dettagli consegna (via query)
+            String s = "Prezzo totale €" + elem.getPrice() + " Dati consegna ";
+            var d = dlvTbl.deliveryOfShopping(elem);
+            if (d.isEmpty()) {
+                s = s + "nessuno";
+            } else {
+                var D = d.get();
+                s = s + "N° " + D.getCod_Consegna() + " ";
+                s = s + "Prezzo consegna €" + D.getPriceDelivery() + " ";
+                s = s + "Tipo " + D.getType().name() + " ";
+                s = s + "Indirizzo N° " + D.getCodIndirizzo() + " ";
+                // TODO: mettere dati indirizzo invece che numero
+                s = s + (D.getCodCorriere().isPresent() ? "CONSEGNATA" : "DA CONSEGNARE");
+            }
+            list.add(s);
 
         }
 
