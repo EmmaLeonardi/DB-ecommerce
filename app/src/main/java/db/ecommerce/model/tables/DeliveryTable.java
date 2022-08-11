@@ -80,7 +80,8 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
                             result.getFloat("Costo_consegna"),
                             Optional.ofNullable(DateConverter.sqlDateToDate(result.getDate("Data"))),
                             TYPEDELIVERY.convert(result.getString("Tipo")), result.getInt("Cod_indirizzo"),
-                            Optional.ofNullable(result.getInt("Cod_corriere")),
+                            Optional.ofNullable(
+                                    result.getInt("Cod_corriere") == 0 ? null : result.getInt("Cod_corriere")),
                             Optional.ofNullable(result.getString("Targa")), result.getInt("Cod_consegna")));
                 }
             } catch (SQLException e) {
@@ -214,7 +215,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
     public List<DeliveryPK> allDeliveryOfClientUnsent(final ClientPK c) {
         List<DeliveryPK> listDelivery = this.allDeliveryOfClient(c);
         return listDelivery.stream()
-                .filter(l -> l.getCodCorriere().isEmpty() || l.getDate().isEmpty() || l.getTarga().isEmpty())
+                .filter(l -> l.getCodCorriere().isEmpty() && l.getDate().isEmpty() && l.getTarga().isEmpty())
                 .collect(Collectors.toUnmodifiableList());
 
     }
