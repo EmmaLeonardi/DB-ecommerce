@@ -33,7 +33,7 @@ public class ShoppingMenuImpl {
             var tmp = loader.getController();
             if (tmp instanceof ShoppingController) {
                 sc = (ShoppingController) tmp;
-                sc.setClient(c.getCod_cliente());
+                sc.setClient(c);
             } else {
                 var alert = new Alert(AlertType.ERROR, "Something went wrong loading the ShoppingMenu");
                 alert.show();
