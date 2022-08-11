@@ -17,4 +17,9 @@ public interface LoadFXML {
      */
     Object getController() throws IllegalStateException;
 
+    /**
+     * @param the controller of the object loaded
+     */
+    void setController(Object o);
+
 }

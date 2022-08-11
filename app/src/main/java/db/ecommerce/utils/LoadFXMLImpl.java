@@ -34,4 +34,12 @@ public class LoadFXMLImpl implements LoadFXML {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setController(Object s) {
+        this.loader.setController(s);
+    }
+
 }
