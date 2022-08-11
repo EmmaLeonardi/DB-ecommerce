@@ -16,7 +16,7 @@ public class ShoppingMenuImpl {
 
     private final static String F = "/ShoppingMenu.fxml";
     private final HBox root;
-    private final ShoppingController sc;
+    private ShoppingController sc;
 
     public ShoppingMenuImpl(Stage s, ClientPK c) throws IOException {
         LoadFXML loader = new LoadFXMLImpl();
@@ -29,15 +29,20 @@ public class ShoppingMenuImpl {
             throw new IOException("The loaded menu wasn't a HBox as expected");
         }
         Scene scene = new Scene(root);
-        var contr = loader.getController();
-        if (contr instanceof ShoppingController) {
-            this.sc = (ShoppingController) contr;
-            sc.setClient(c);
-        } else {
-            var alert = new Alert(AlertType.ERROR, "Something went wrong loading the ShoppingMenu");
-            alert.show();
-            throw new IOException("The Controller wasn't a Shopping Controller as expected");
+        try {
+            var tmp = loader.getController();
+            if (tmp instanceof ShoppingController) {
+                sc = (ShoppingController) tmp;
+                sc.setClient(c.getCod_cliente());
+            } else {
+                var alert = new Alert(AlertType.ERROR, "Something went wrong loading the ShoppingMenu");
+                alert.show();
+                throw new IOException("The controller wasn't a Shopping Controller as expected");
+            }
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
         }
+
         s.setScene(scene);
         s.show();
     }

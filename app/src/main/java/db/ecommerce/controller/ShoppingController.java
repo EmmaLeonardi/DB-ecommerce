@@ -1,19 +1,24 @@
 package db.ecommerce.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import db.ecommerce.model.ClientPK;
 import db.ecommerce.model.ShoppingPK;
+import db.ecommerce.model.tables.ClientTable;
 import db.ecommerce.model.tables.ShoppingTable;
 import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 
 public class ShoppingController {
 
@@ -27,9 +32,10 @@ public class ShoppingController {
     private ListView<String> lstvw_shopping_list;
 
     private ClientPK user;
+    private int cod_user;
 
-    public void setClient(ClientPK user) {
-        this.user = user;
+    public void setClient(int cod_user) {
+        this.cod_user = cod_user;
     }
 
     @FXML
@@ -49,10 +55,24 @@ public class ShoppingController {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
         ShoppingTable shpTbl = new ShoppingTable(c.getMySQLConnection());
-        //var allShopping = shpTbl.allShoppingOfClient(user);
-        //lstvw_shopping_list.setItems(FXCollections.observableList(buildShopping(allShopping)));
+        ClientTable cltTbl = new ClientTable(c.getMySQLConnection());
+        Platform.runLater(() -> {
+            var tmp = cltTbl.findByPrimaryKey(cod_user);
+            if (tmp.isEmpty()) {
+                var alert = new Alert(AlertType.ERROR, "Something went wrong loading the User");
+                alert.show();
+                try {
+                    throw new IOException("The user wasn't present in the database");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                this.user = tmp.get();
+                var allShopping = shpTbl.allShoppingOfClient(user);
+                lstvw_shopping_list.setItems(FXCollections.observableList(buildShopping(allShopping)));
 
-        lstvw_shopping_list.setItems(FXCollections.observableList(List.of()));
+            }
+        });
     }
 
     private List<String> buildShopping(List<ShoppingPK> l) {
