@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="360.0" prefWidth="255.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" nodeOrientation="RIGHT_TO_LEFT" prefHeight="360.0" prefWidth="255.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="db.ecommerce.controller.ShoppingPendingController">
    <children>
       <Label text="Spese non ancora consegnate">
          <font>
