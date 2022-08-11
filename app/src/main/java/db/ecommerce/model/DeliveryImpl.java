@@ -8,8 +8,6 @@ import db.ecommerce.utils.TYPEDELIVERY;
 
 public class DeliveryImpl implements Delivery {
 
-    private final int codConsegna;
-
     private final Optional<Integer> codSpesa;
 
     private final float priceDelivery;
@@ -34,25 +32,15 @@ public class DeliveryImpl implements Delivery {
      * @param codCorriere
      * @param targa
      */
-    public DeliveryImpl(int cod_Consegna, Integer cod_spesa, float priceDelivery, Date date, TYPEDELIVERY type,
-            int codIndirizzo, Integer codCorriere, String targa) {
-        super();
-        this.codConsegna = cod_Consegna;
-        this.codSpesa = Optional.of(Objects.requireNonNull(cod_spesa));
+    public DeliveryImpl(Integer cod_spesa, float priceDelivery, Date date, TYPEDELIVERY type, int codIndirizzo,
+            Integer codCorriere, String targa) {
+        this.codSpesa = Optional.of(cod_spesa);
         this.priceDelivery = priceDelivery;
-        this.date = Optional.of(Objects.requireNonNull(date));
+        this.date = Optional.of(date);
         this.type = type;
         this.codIndirizzo = codIndirizzo;
-        this.codCorriere = Optional.of(Objects.requireNonNull(codCorriere));
-        this.targa = Optional.of(Objects.requireNonNull(targa));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getCod_Consegna() {
-        return codConsegna;
+        this.codCorriere = Optional.of(codCorriere);
+        this.targa = Optional.of(targa);
     }
 
     /**
@@ -113,15 +101,14 @@ public class DeliveryImpl implements Delivery {
 
     @Override
     public String toString() {
-        return "DeliveryImpl [cod_Consegna=" + codConsegna + ", cod_spesa=" + codSpesa + ", priceDelivery="
-                + priceDelivery + ", date=" + date + ", type=" + type + ", codIndirizzo=" + codIndirizzo
-                + ", codCorriere=" + codCorriere + ", targa=" + targa + "]";
+        return "DeliveryImpl [cod_spesa=" + codSpesa + ", priceDelivery=" + priceDelivery + ", date=" + date + ", type="
+                + type + ", codIndirizzo=" + codIndirizzo + ", codCorriere=" + codCorriere + ", targa=" + targa + "]";
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codCorriere, codIndirizzo, codConsegna, codSpesa, date, priceDelivery, targa, type);
-        
+        return Objects.hash(codCorriere, codIndirizzo, codSpesa, date, priceDelivery, targa, type);
+
     }
 
     @Override
@@ -134,8 +121,7 @@ public class DeliveryImpl implements Delivery {
             return false;
         DeliveryImpl other = (DeliveryImpl) obj;
         return Objects.equals(codCorriere, other.codCorriere) && codIndirizzo == other.codIndirizzo
-                && codConsegna == other.codConsegna && Objects.equals(codSpesa, other.codSpesa)
-                && Objects.equals(date, other.date)
+                && Objects.equals(codSpesa, other.codSpesa) && Objects.equals(date, other.date)
                 && Float.floatToIntBits(priceDelivery) == Float.floatToIntBits(other.priceDelivery)
                 && Objects.equals(targa, other.targa) && type == other.type;
     }

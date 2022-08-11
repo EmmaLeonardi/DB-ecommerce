@@ -8,11 +8,6 @@ import db.ecommerce.utils.TYPEDELIVERY;
 public interface Delivery {
 
     /**
-     * @return the cod_Consegna
-     */
-    int getCod_Consegna();
-
-    /**
      * @return the cod_spesa
      */
     Optional<Integer> getCod_spesa();
