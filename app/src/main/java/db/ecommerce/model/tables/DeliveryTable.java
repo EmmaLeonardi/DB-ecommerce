@@ -106,8 +106,8 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
      * Saves the Delivery into the db
      */
     public boolean save(Delivery value) {
-        final String query = "INSERT INTO (Cod_spesa, Costo_consegna, Data, Tipo, Cod_indirizzo, Cod_corriere, Targa)"
-                + "VALUES " + TABLE_NAME + "(?,?,?,?,?,?,?)";
+        final String query = "INSERT INTO " +TABLE_NAME +" (Cod_spesa, Costo_consegna, Data, Tipo, Cod_indirizzo, Cod_corriere, Targa)"
+                + "VALUES (?,?,?,?,?,?,?)";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, value.getCod_spesa().orElseGet(null));
             statement.setFloat(2, value.getPriceDelivery());

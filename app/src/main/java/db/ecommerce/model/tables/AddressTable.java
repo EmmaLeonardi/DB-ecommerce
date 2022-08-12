@@ -98,8 +98,8 @@ public class AddressTable implements Table<AddressPK, Integer> {
      * Saves the Address into the db
      */
     public boolean save(Address value) {
-        final String query = "INSERT INTO (Via, Numero_civico, Città, CAP, Provincia, Paese)" + "VALUES " + TABLE_NAME
-                + "(?,?,?,?,?,?)";
+        final String query = "INSERT INTO " + TABLE_NAME + " (Via, Numero_civico, Città, CAP, Provincia, Paese)"
+                + "VALUES (?,?,?,?,?,?)";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getRoad());
             statement.setInt(2, value.getnCiv());

@@ -102,9 +102,9 @@ public class ClientTable implements Table<ClientPK, Integer> {
      * Saves the Client into the db
      */
     public boolean save(Client value) {
-        final String query = "INSERT INTO (Codice_fiscale, Nome, Cognome,"
+        final String query = "INSERT INTO " + TABLE_NAME + " (Codice_fiscale, Nome, Cognome,"
                 + " Data_di_nascita, Email, Numero_di_telefono, Via_residenza, Numero_civ_residenza,"
-                + " Città_residenza, Coordinate_bancarie) VALUES " + TABLE_NAME + "(?,?,?,?,?,?,?,?,?,?)";
+                + " Città_residenza, Coordinate_bancarie) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getCodFis());

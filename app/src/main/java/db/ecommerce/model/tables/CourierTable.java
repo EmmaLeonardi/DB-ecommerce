@@ -98,8 +98,8 @@ public class CourierTable implements Table<CourierPK, Integer> {
      * Saves the Courier into the db
      */
     public boolean save(Courier value) {
-        final String query = "INSERT INTO (Codice_fiscale, Nome, Cognome,"
-                + " Data_di_nascita, Cod_patente, Nazionalità_patente) VALUES " + TABLE_NAME + "(?,?,?,?,?)";
+        final String query = "INSERT INTO " + TABLE_NAME + " (Codice_fiscale, Nome, Cognome,"
+                + " Data_di_nascita, Cod_patente, Nazionalità_patente) VALUES (?,?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getCodFis());

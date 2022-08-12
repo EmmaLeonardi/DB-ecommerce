@@ -98,8 +98,8 @@ public class ProducerTable implements Table<ProducerPK, Integer> {
      * Saves the Producer into the db
      */
     public boolean save(Producer value) {
-        final String query = "INSERT INTO (Codice_fiscale, Nome, Cognome," + " Data_di_nascita, Partita_IVA) VALUES "
-                + TABLE_NAME + "(?,?,?,?,?)";
+        final String query = "INSERT INTO " + TABLE_NAME + " (Codice_fiscale, Nome, Cognome,"
+                + " Data_di_nascita, Partita_IVA) VALUES (?,?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getCodFis());
@@ -122,7 +122,7 @@ public class ProducerTable implements Table<ProducerPK, Integer> {
     public boolean save(ProducerPK value) {
         return this.save(ProducerPK.convertToProducer(value));
     }
-    
+
     /**
      * This method return the last Cod producer inserted into the db. This operation
      * is safe if the latest insertion was possibile and no other insertions were
