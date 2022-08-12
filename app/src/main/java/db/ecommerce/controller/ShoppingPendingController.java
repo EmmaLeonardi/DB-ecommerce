@@ -3,9 +3,12 @@ package db.ecommerce.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import db.ecommerce.model.AddressPK;
 import db.ecommerce.model.ClientPK;
 import db.ecommerce.model.DeliveryPK;
+import db.ecommerce.model.tables.AddressTable;
 import db.ecommerce.model.tables.DeliveryTable;
 import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
@@ -33,6 +36,8 @@ public class ShoppingPendingController {
 
     private DeliveryTable dlvTbl;
 
+    private AddressTable addTbl;
+
     public void setClient(ClientPK user) {
         this.user = user;
     }
@@ -54,6 +59,7 @@ public class ShoppingPendingController {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
         this.dlvTbl = new DeliveryTable(c.getMySQLConnection());
+        this.addTbl = new AddressTable(c.getMySQLConnection());
         Platform.runLater(() -> {
             var allDelivery = dlvTbl.allDeliveryOfClientUnsent(user);
             if (allDelivery.isEmpty()) {
@@ -72,8 +78,13 @@ public class ShoppingPendingController {
             String s = "Consegna N° " + elem.getCod_Consegna() + " ";
             s = s + "Prezzo consegna €" + elem.getPriceDelivery() + " ";
             s = s + "Tipo " + elem.getType().name() + " ";
-            s = s + "Indirizzo N° " + elem.getCodIndirizzo() + " ";
-            // TODO: mettere dati indirizzo invece che numero
+            s = s + "Indirizzo ";
+            Optional<AddressPK> a = addTbl.findByPrimaryKey(elem.getCodIndirizzo());
+            if (a.isPresent()) {
+                s = s + a.get().getRoad()+" "+a.get().getnCiv()+" "+a.get().getCity()+" ("+a.get().getCity()+") ";
+            } else {
+                s=s+"nessuno ";
+            }
             list.add(s);
 
         }

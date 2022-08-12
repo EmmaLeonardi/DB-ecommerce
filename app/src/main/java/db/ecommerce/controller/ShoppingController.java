@@ -3,9 +3,13 @@ package db.ecommerce.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import db.ecommerce.model.AddressPK;
 import db.ecommerce.model.ClientPK;
+import db.ecommerce.model.DeliveryPK;
 import db.ecommerce.model.ShoppingPK;
+import db.ecommerce.model.tables.AddressTable;
 import db.ecommerce.model.tables.DeliveryTable;
 import db.ecommerce.model.tables.ShoppingTable;
 import db.ecommerce.utils.ConnectionProvider;
@@ -37,6 +41,8 @@ public class ShoppingController {
 
     private DeliveryTable dlvTbl;
 
+    private AddressTable addTbl;
+
     public void setClient(ClientPK user) {
         this.user = user;
     }
@@ -65,6 +71,7 @@ public class ShoppingController {
                 Credentials.getDbname());
         this.shpTbl = new ShoppingTable(c.getMySQLConnection());
         this.dlvTbl = new DeliveryTable(c.getMySQLConnection());
+        this.addTbl = new AddressTable(c.getMySQLConnection());
         Platform.runLater(() -> {
             var allShopping = shpTbl.allShoppingOfClient(user);
             lstvw_shopping_list.setItems(FXCollections.observableList(buildShopping(allShopping)));
@@ -84,12 +91,17 @@ public class ShoppingController {
             if (d.isEmpty()) {
                 s = s + "nessuno";
             } else {
-                var D = d.get();
+                DeliveryPK D = d.get();
+                Optional<AddressPK> a = addTbl.findByPrimaryKey(D.getCodIndirizzo());
                 s = s + "N° " + D.getCod_Consegna() + " ";
                 s = s + "Prezzo consegna €" + D.getPriceDelivery() + " ";
                 s = s + "Tipo " + D.getType().name() + " ";
-                s = s + "Indirizzo N° " + D.getCodIndirizzo() + " ";
-                // TODO: mettere dati indirizzo invece che numero
+                s = s + "Indirizzo ";
+                if (a.isPresent()) {
+                    s = s + a.get().getRoad()+" "+a.get().getnCiv()+" "+a.get().getCity()+" ("+a.get().getCity()+") ";
+                } else {
+                    s=s+"nessuno ";
+                }
                 s = s + (D.getCodCorriere().isPresent() ? "CONSEGNATA" : "DA CONSEGNARE");
             }
             list.add(s);
