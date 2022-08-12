@@ -103,7 +103,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
     }
 
     /**
-     * Saves the Shopping into the db
+     * Saves the Delivery into the db
      */
     public boolean save(Delivery value) {
         final String query = "INSERT INTO (Cod_spesa, Costo_consegna, Data, Tipo, Cod_indirizzo, Cod_corriere, Targa)"
