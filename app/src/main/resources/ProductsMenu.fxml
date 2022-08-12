@@ -4,12 +4,11 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SplitMenuButton?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<HBox alignment="TOP_CENTER" prefHeight="416.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<HBox alignment="TOP_CENTER" prefHeight="416.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="db.ecommerce.controller.ProductsController">
    <children>
       <VBox alignment="TOP_CENTER" prefHeight="444.0" prefWidth="316.0">
          <children>
@@ -22,18 +21,14 @@
          <children>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <SplitMenuButton fx:id="mnbtn_size" mnemonicParsing="false" prefHeight="26.0" prefWidth="162.0" text="--">
-                     <items>
-                        <MenuItem mnemonicParsing="false" text="Action 1" />
-                        <MenuItem mnemonicParsing="false" text="Action 2" />
-                     </items>
+                  <SplitMenuButton fx:id="mnbtn_size" mnemonicParsing="false" prefHeight="26.0" prefWidth="162.0" text="Seleziona una taglia">
                   </SplitMenuButton>
                   <Button fx:id="btn_size" mnemonicParsing="false" onAction="#size_filter" prefHeight="26.0" prefWidth="125.0" text="Filtra per taglia" />
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <DatePicker />
+                  <DatePicker fx:id="dtpkr_expiry" editable="false" />
                   <Button fx:id="btn_expiry" mnemonicParsing="false" onAction="#expiry_filter" text="Filtra per scadenza" />
                </children>
             </HBox>
