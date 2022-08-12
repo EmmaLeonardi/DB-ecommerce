@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitMenuButton?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="TOP_CENTER" prefHeight="416.0" prefWidth="895.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="444.0" prefWidth="316.0">
+         <children>
+            <ListView fx:id="lstvw_shopping_cart" prefHeight="346.0" prefWidth="87.0" />
+            <Label text="Prodotti nel carrello" />
+            <Button fx:id="btn_back" mnemonicParsing="false" onAction="#back" prefHeight="26.0" prefWidth="131.0" text="Torna agli ordini" />
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" prefHeight="451.0" prefWidth="318.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <SplitMenuButton fx:id="mnbtn_size" mnemonicParsing="false" prefHeight="26.0" prefWidth="162.0" text="--">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Action 1" />
+                        <MenuItem mnemonicParsing="false" text="Action 2" />
+                     </items>
+                  </SplitMenuButton>
+                  <Button fx:id="btn_size" mnemonicParsing="false" onAction="#size_filter" prefHeight="26.0" prefWidth="125.0" text="Filtra per taglia" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <DatePicker />
+                  <Button fx:id="btn_expiry" mnemonicParsing="false" onAction="#expiry_filter" text="Filtra per scadenza" />
+               </children>
+            </HBox>
+            <Button fx:id="btn_add" mnemonicParsing="false" onAction="#add" text="Aggiungi al carrello" />
+            <Button fx:id="btn_remove" mnemonicParsing="false" onAction="#remove" text="Rimuovi dal carrello" />
+            <HBox alignment="CENTER" prefHeight="46.0" prefWidth="100.0">
+               <children>
+                  <Label text="Totale: " />
+                  <Label fx:id="lbl_total" text="0,00" />
+               </children>
+            </HBox>
+            <Button fx:id="btn_pay" mnemonicParsing="false" onAction="#end_pay" text="Finisci ordine e paga" />
+         </children>
+      </VBox>
+      <VBox alignment="TOP_CENTER" prefHeight="444.0" prefWidth="326.0">
+         <children>
+            <ListView fx:id="lstvw_products" prefHeight="346.0" prefWidth="254.0" />
+            <Label text="Prodotti disponibili in vendita" />
+            <Button fx:id="btn_details" mnemonicParsing="false" onAction="#details" prefHeight="26.0" prefWidth="118.0" text="Dettagli prodotto" />
+         </children>
+      </VBox>
+   </children>
+</HBox>
