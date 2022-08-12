@@ -124,6 +124,7 @@ public class LoginController {
     public void initialize() {
         cbx_role.setItems(FXCollections
                 .observableArrayList(List.of(ROLE.NESSUNO, ROLE.CLIENTE, ROLE.CORRIERE, ROLE.PRODUTTORE, ROLE.ADMIN)));
+        cbx_role.getSelectionModel().selectFirst();
 
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
