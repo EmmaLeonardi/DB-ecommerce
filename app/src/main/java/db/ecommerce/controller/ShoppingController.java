@@ -15,6 +15,7 @@ import db.ecommerce.model.tables.ShoppingTable;
 import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
+import db.ecommerce.view.ProductsMenuImpl;
 import db.ecommerce.view.ShoppingPendingMenuImpl;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -49,7 +50,12 @@ public class ShoppingController {
 
     @FXML
     public void newShopping(final Event event) {
-        System.out.println("Cambio scena, vado in nuova spesa");
+        Stage s = (Stage) btn_new_shopping.getScene().getWindow();
+        try {
+            new ProductsMenuImpl(s, this.user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
