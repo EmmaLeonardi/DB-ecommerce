@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import db.ecommerce.model.ProductPK;
 import db.ecommerce.model.SoldProduct;
 import db.ecommerce.model.SoldProductPK;
 import db.ecommerce.utils.DateConverter;
@@ -186,6 +187,27 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
         } catch (final SQLException e) {
             return false;
         }
+    }
+
+    /**
+     * @param the Product
+     * @return all the Products versions sold
+     */
+    public List<SoldProductPK> allSoldProductsOfProduct(ProductPK p) {
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_prodotto=?";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+            statement.setInt(1, p.getCod_prodotto());
+            var result = statement.executeQuery();
+            if (result != null) {
+                return convertResultSet(result);
+            } else {
+                return List.of();
+            }
+
+        } catch (final SQLException e) {
+            return List.of();
+        }
+
     }
 
 }
