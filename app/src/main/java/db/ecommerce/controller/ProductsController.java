@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +17,7 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.PRODUCTTYPE;
+import db.ecommerce.view.AddressSelectionMenuImpl;
 import db.ecommerce.view.ShoppingMenuImpl;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -156,7 +158,12 @@ public class ProductsController {
 
     @FXML
     public void end_pay(final Event event) {
-        System.out.println("Prossima schermata");
+        Stage s = (Stage) btn_back.getScene().getWindow();
+        try {
+            new AddressSelectionMenuImpl(s, user, Collections.unmodifiableList(cartList));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
