@@ -1,5 +1,8 @@
 package db.ecommerce.controller;
 
+import java.io.IOException;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,15 +16,17 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.PRODUCTTYPE;
+import db.ecommerce.view.ShoppingMenuImpl;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.SplitMenuButton;
+import javafx.stage.Stage;
 
 public class ProductsController {
 
@@ -53,10 +58,13 @@ public class ProductsController {
     private Button btn_details;
 
     @FXML
+    private Button btn_reset;
+
+    @FXML
     private Label lbl_total;
 
     @FXML
-    private SplitMenuButton mnbtn_size;
+    private ChoiceBox<String> cbx_size;
 
     @FXML
     private DatePicker dtpkr_expiry;
@@ -67,37 +75,83 @@ public class ProductsController {
 
     private SoldProductTable slpTbl;
 
+    private List<SoldProductPK> fullList;
+
+    private List<SoldProductPK> filteredListShop;
+
+    private List<SoldProductPK> cartList;
+
     public void setClient(ClientPK user) {
         this.user = user;
     }
 
-    // TODO on action della selezione (e spegni bottoni consistently)
-
-    // TODO on action
-
     @FXML
     public void back(final Event event) {
-        System.out.println("Indietro");
+        Stage s = (Stage) btn_back.getScene().getWindow();
+        try {
+            new ShoppingMenuImpl(s, user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     public void size_filter(final Event event) {
-        System.out.println("Filtro per dimensioni");
+        if (cbx_size.getSelectionModel().getSelectedItem() != null) {
+            String s = cbx_size.getSelectionModel().getSelectedItem();
+            filteredListShop = fullList.stream().filter(p -> p.getSize().isPresent() && p.getSize().get().equals(s))
+                    .collect(Collectors.toList());
+            this.lstvw_products.setItems(FXCollections.observableList(this.buildProduct(filteredListShop)));
+            this.btn_expiry.setDisable(true);
+            this.dtpkr_expiry.setDisable(true);
+        }
     }
 
     @FXML
     public void expiry_filter(final Event event) {
-        System.out.println("Filtro per scadenza");
+        if (dtpkr_expiry.getValue() != null) {
+            Date d = Date.from(Instant.from(dtpkr_expiry.getValue().atStartOfDay(ZoneId.systemDefault())));
+            filteredListShop = fullList.stream()
+                    .filter(p -> p.getExpiration().isPresent() && p.getExpiration().get().compareTo(d) > 0)
+                    .collect(Collectors.toList());
+            this.lstvw_products.setItems(FXCollections.observableList(this.buildProduct(filteredListShop)));
+            this.btn_size.setDisable(true);
+            this.cbx_size.setDisable(true);
+        }
+    }
+
+    @FXML
+    public void reset(final Event event) {
+        this.lstvw_products.setItems(FXCollections.observableList(this.buildProduct(fullList)));
+        filteredListShop = new ArrayList<>(fullList);
+
+        this.btn_expiry.setDisable(false);
+        this.dtpkr_expiry.setDisable(false);
+        this.btn_size.setDisable(false);
+        this.cbx_size.setDisable(false);
+        this.cbx_size.getSelectionModel().clearAndSelect(-1);
+        this.dtpkr_expiry.setValue(null);
+
     }
 
     @FXML
     public void add(final Event event) {
-        System.out.println("Aggiungo");
+        final int i = lstvw_products.getSelectionModel().getSelectedIndex();
+        if (i >= 0) {
+            cartList.add(filteredListShop.get(i));
+            lstvw_shopping_cart.setItems(FXCollections.observableList(this.buildProduct(cartList)));
+            lbl_total.setText(cartList.stream().map(p -> p.getPrice()).reduce(Double::sum).orElse(0.0) + "€");
+        }
     }
 
     @FXML
     public void remove(final Event event) {
-        System.out.println("Tolgo");
+        final int i = lstvw_shopping_cart.getSelectionModel().getSelectedIndex();
+        if (i >= 0) {
+            cartList.remove(i);
+            lstvw_shopping_cart.setItems(FXCollections.observableList(this.buildProduct(cartList)));
+            lbl_total.setText(cartList.stream().map(p -> p.getPrice()).reduce(Double::sum).orElse(0.0) + "€");
+        }
     }
 
     @FXML
@@ -109,8 +163,6 @@ public class ProductsController {
     public void details(final Event event) {
         System.out.println("Dettagli su questo prodotto");
     }
-
-    // TODO riempire listview
 
     /**
      * This method is called at the start and inizializes the list view
@@ -130,6 +182,15 @@ public class ProductsController {
                 }
             }).collect(Collectors.toList());
             this.lstvw_products.setItems(FXCollections.observableList(this.buildProduct(allProduct)));
+            this.fullList = new ArrayList<>(allProduct);
+            this.filteredListShop = new ArrayList<>(allProduct);
+            this.cartList = new ArrayList<>();
+
+            var sizes = allProduct.stream().map(p -> p.getSize()).distinct().filter(s -> s.isPresent())
+                    .map(s -> s.get()).collect(Collectors.toList());
+
+            this.cbx_size.setItems(FXCollections.observableList(sizes));
+
         });
 
     }
