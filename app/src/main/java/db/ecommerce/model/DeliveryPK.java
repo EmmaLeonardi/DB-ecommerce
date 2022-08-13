@@ -10,7 +10,7 @@ public class DeliveryPK extends DeliveryImpl {
 
     private final int codConsegna;
 
-    public DeliveryPK(Optional<Integer> cod_spesa, float priceDelivery, Optional<Date> date, TYPEDELIVERY type,
+    public DeliveryPK(Optional<Integer> cod_spesa, double priceDelivery, Optional<Date> date, TYPEDELIVERY type,
             int codIndirizzo, Optional<Integer> codCorriere, Optional<String> targa, int codConsegna) {
         super(cod_spesa, priceDelivery, date, type, codIndirizzo, codCorriere, targa);
         this.codConsegna = codConsegna;

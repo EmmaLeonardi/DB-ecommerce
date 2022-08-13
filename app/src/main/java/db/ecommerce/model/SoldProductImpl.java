@@ -8,7 +8,7 @@ import db.ecommerce.utils.PRODUCTTYPE;
 
 public class SoldProductImpl implements SoldProduct {
 
-    private final float price;
+    private final double price;
     private final Date start;
     private final Optional<Date> end;
     private final PRODUCTTYPE type;
@@ -25,7 +25,7 @@ public class SoldProductImpl implements SoldProduct {
      * @param size
      * @param codProduct
      */
-    public SoldProductImpl(float price, Date start, Optional<Date> end, PRODUCTTYPE type, Optional<Date> expiration,
+    public SoldProductImpl(double price, Date start, Optional<Date> end, PRODUCTTYPE type, Optional<Date> expiration,
             Optional<String> size, int codProduct) {
         this.price = price;
         this.start = start;
@@ -76,7 +76,7 @@ public class SoldProductImpl implements SoldProduct {
      * {@inheritDoc}
      */
     @Override
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -150,8 +150,10 @@ public class SoldProductImpl implements SoldProduct {
         SoldProductImpl other = (SoldProductImpl) obj;
         return codProduct == other.codProduct && Objects.equals(end, other.end)
                 && Objects.equals(expiration, other.expiration)
-                && Float.floatToIntBits(price) == Float.floatToIntBits(other.price) && Objects.equals(size, other.size)
-                && Objects.equals(start, other.start) && type == other.type;
+                && Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price)
+                && Objects.equals(size, other.size) && Objects.equals(start, other.start) && type == other.type;
     }
+
+    
 
 }

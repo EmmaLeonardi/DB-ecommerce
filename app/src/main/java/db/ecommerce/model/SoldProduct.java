@@ -10,7 +10,7 @@ public interface SoldProduct {
     /**
      * @return the price
      */
-    float getPrice();
+    double getPrice();
 
     /**
      * @return the start

@@ -20,7 +20,7 @@ public class SoldProductPK extends SoldProductImpl {
      * @param codProduct
      * @param codSoldProduct
      */
-    public SoldProductPK(float price, Date start, Optional<Date> end, PRODUCTTYPE type, Optional<Date> expiration,
+    public SoldProductPK(double price, Date start, Optional<Date> end, PRODUCTTYPE type, Optional<Date> expiration,
             Optional<String> size, int codProduct, int codSoldProduct) {
         super(price, start, end, type, expiration, size, codProduct);
         this.codSoldProduct = codSoldProduct;

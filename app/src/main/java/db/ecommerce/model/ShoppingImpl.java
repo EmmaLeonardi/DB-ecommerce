@@ -6,14 +6,14 @@ public class ShoppingImpl implements Shopping {
 
     private final int Cod_cliente;
 
-    private final float price;
+    private final double price;
 
     /**
      * @param cod_spesa
      * @param cod_cliente
      * @param price
      */
-    public ShoppingImpl(int cod_cliente, float price) {
+    public ShoppingImpl(int cod_cliente, double price) {
         Cod_cliente = cod_cliente;
         this.price = price;
     }
@@ -30,7 +30,7 @@ public class ShoppingImpl implements Shopping {
      * {@inheritDoc}
      */
     @Override
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
@@ -53,7 +53,8 @@ public class ShoppingImpl implements Shopping {
         if (getClass() != obj.getClass())
             return false;
         ShoppingImpl other = (ShoppingImpl) obj;
-        return Cod_cliente == other.Cod_cliente && Float.floatToIntBits(price) == Float.floatToIntBits(other.price);
+        return Cod_cliente == other.Cod_cliente
+                && Double.doubleToLongBits(price) == Double.doubleToLongBits(other.price);
     }
 
 }

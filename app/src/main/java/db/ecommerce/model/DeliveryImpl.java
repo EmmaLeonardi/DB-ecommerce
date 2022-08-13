@@ -10,7 +10,7 @@ public class DeliveryImpl implements Delivery {
 
     private final Optional<Integer> codSpesa;
 
-    private final float priceDelivery;
+    private final double priceDelivery;
 
     private final Optional<Date> date;
 
@@ -32,7 +32,7 @@ public class DeliveryImpl implements Delivery {
      * @param codCorriere
      * @param targa
      */
-    public DeliveryImpl(Optional<Integer> cod_spesa, float priceDelivery, Optional<Date> date, TYPEDELIVERY type,
+    public DeliveryImpl(Optional<Integer> cod_spesa, double priceDelivery, Optional<Date> date, TYPEDELIVERY type,
             int codIndirizzo, Optional<Integer> codCorriere, Optional<String> targa) {
         this.codSpesa = cod_spesa;
         this.priceDelivery = priceDelivery;
@@ -55,7 +55,7 @@ public class DeliveryImpl implements Delivery {
      * {@inheritDoc}
      */
     @Override
-    public float getPriceDelivery() {
+    public double getPriceDelivery() {
         return priceDelivery;
     }
 
@@ -108,7 +108,6 @@ public class DeliveryImpl implements Delivery {
     @Override
     public int hashCode() {
         return Objects.hash(codCorriere, codIndirizzo, codSpesa, date, priceDelivery, targa, type);
-
     }
 
     @Override
@@ -122,8 +121,10 @@ public class DeliveryImpl implements Delivery {
         DeliveryImpl other = (DeliveryImpl) obj;
         return Objects.equals(codCorriere, other.codCorriere) && codIndirizzo == other.codIndirizzo
                 && Objects.equals(codSpesa, other.codSpesa) && Objects.equals(date, other.date)
-                && Float.floatToIntBits(priceDelivery) == Float.floatToIntBits(other.priceDelivery)
+                && Double.doubleToLongBits(priceDelivery) == Double.doubleToLongBits(other.priceDelivery)
                 && Objects.equals(targa, other.targa) && type == other.type;
     }
+
+   
 
 }

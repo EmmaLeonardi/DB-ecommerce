@@ -73,7 +73,7 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
         if (result != null) {
             try {
                 while (result.next()) {
-                    list.add(new SoldProductPK(result.getFloat("Prezzo"),
+                    list.add(new SoldProductPK(result.getDouble("Prezzo"),
                             DateConverter.sqlDateToDate(result.getDate("Data_inizio")),
                             Optional.ofNullable(DateConverter.sqlDateToDate(result.getDate("Data_fine"))),
                             PRODUCTTYPE.convert(result.getString("Tipo")),
@@ -107,7 +107,7 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
                 + " (Prezzo, Data_inizio, Data_fine, Tipo, Scadenza, Taglia, Cod_prodotto) VALUES (?,?,?,?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            statement.setFloat(1, value.getPrice());
+            statement.setDouble(1, value.getPrice());
             statement.setDate(2, DateConverter.dateToSqlDate(value.getStart()));
             statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().get()));
             statement.setString(4, value.getType().name());
@@ -161,7 +161,7 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
                 + " SET Prezzo=?, Data_inizio=?, Data_fine=?, Tipo=?, Scadenza=?, Taglia=?, Cod_prodotto=? WHERE Cod_prodotto_vendita=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            statement.setFloat(1, value.getPrice());
+            statement.setDouble(1, value.getPrice());
             statement.setDate(2, DateConverter.dateToSqlDate(value.getStart()));
             statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().get()));
             statement.setString(4, value.getType().name());

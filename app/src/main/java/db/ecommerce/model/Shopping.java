@@ -10,6 +10,6 @@ public interface Shopping {
     /**
      * @return the price
      */
-    float getPrice();
+    double getPrice();
 
 }

@@ -15,7 +15,7 @@ public interface Delivery {
     /**
      * @return the priceDelivery
      */
-    float getPriceDelivery();
+    double getPriceDelivery();
 
     /**
      * @return the date

@@ -70,7 +70,7 @@ public class ShoppingTable implements Table<ShoppingPK, Integer> {
         if (result != null) {
             try {
                 while (result.next()) {
-                    list.add(new ShoppingPK(result.getInt("Cod_cliente"), result.getFloat("Costo"),
+                    list.add(new ShoppingPK(result.getInt("Cod_cliente"), result.getDouble("Costo"),
                             result.getInt("Cod_spesa")));
                 }
             } catch (SQLException e) {
@@ -98,7 +98,7 @@ public class ShoppingTable implements Table<ShoppingPK, Integer> {
         final String query = "INSERT INTO (Costo,Cod_cliente) " + TABLE_NAME + " VALUES (?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            statement.setFloat(1, value.getPrice());
+            statement.setDouble(1, value.getPrice());
             statement.setInt(2, value.getCodCliente());
             final var r = statement.executeUpdate();
             return r == 1;
@@ -145,7 +145,7 @@ public class ShoppingTable implements Table<ShoppingPK, Integer> {
         final String query = "UPDATE " + TABLE_NAME + " SET Costo=?,Cod_cliente=? WHERE Cod_spesa=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            statement.setFloat(1, value.getPrice());
+            statement.setDouble(1, value.getPrice());
             statement.setInt(2, value.getCodCliente());
             statement.setInt(3, value.getCodSpesa());
             final var r = statement.executeUpdate();

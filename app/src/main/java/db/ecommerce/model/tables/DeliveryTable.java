@@ -77,7 +77,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
             try {
                 while (result.next()) {
                     list.add(new DeliveryPK(Optional.ofNullable(result.getInt("Cod_spesa")),
-                            result.getFloat("Costo_consegna"),
+                            result.getDouble("Costo_consegna"),
                             Optional.ofNullable(DateConverter.sqlDateToDate(result.getDate("Data"))),
                             TYPEDELIVERY.convert(result.getString("Tipo")), result.getInt("Cod_indirizzo"),
                             Optional.ofNullable(
@@ -110,7 +110,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
                 + "VALUES (?,?,?,?,?,?,?)";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, value.getCod_spesa().orElseGet(null));
-            statement.setFloat(2, value.getPriceDelivery());
+            statement.setDouble(2, value.getPriceDelivery());
             statement.setDate(3, value.getDate().isEmpty() ? null : DateConverter.dateToSqlDate(value.getDate().get()));
             statement.setString(4, value.getType().name());
             statement.setInt(5, value.getCodIndirizzo());
@@ -165,7 +165,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, value.getCod_spesa().orElseGet(null));
-            statement.setFloat(2, value.getPriceDelivery());
+            statement.setDouble(2, value.getPriceDelivery());
             statement.setDate(3, value.getDate().isEmpty() ? null : DateConverter.dateToSqlDate(value.getDate().get()));
             statement.setString(4, value.getType().name());
             statement.setInt(5, value.getCodIndirizzo());

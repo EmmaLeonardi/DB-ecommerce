@@ -11,7 +11,7 @@ public class ShoppingPK extends ShoppingImpl {
      * @param price
      * @param cod_spesa
      */
-    public ShoppingPK(int cod_cliente, float price, int cod_spesa) {
+    public ShoppingPK(int cod_cliente, double price, int cod_spesa) {
         super(cod_cliente, price);
         CodSpesa = cod_spesa;
     }
