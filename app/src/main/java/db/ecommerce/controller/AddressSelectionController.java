@@ -1,19 +1,18 @@
 package db.ecommerce.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
-
+import db.ecommerce.model.AddressPK;
 import db.ecommerce.model.ClientPK;
 import db.ecommerce.model.SoldProductPK;
-import db.ecommerce.model.tables.ProductTable;
-import db.ecommerce.model.tables.SoldProductTable;
+import db.ecommerce.model.tables.AddressTable;
 import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.TYPEDELIVERY;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -43,6 +42,9 @@ public class AddressSelectionController {
 
     private ClientPK user;
     private List<SoldProductPK> list;
+    private AddressTable adsTbl;
+
+    private List<AddressPK> allAddresses;
 
     public void setClient(ClientPK c) {
         this.user = c;
@@ -51,7 +53,6 @@ public class AddressSelectionController {
 
     public void setShopping(List<SoldProductPK> l) {
         this.list = new ArrayList<>(l);
-
     }
 
     @FXML
@@ -62,6 +63,8 @@ public class AddressSelectionController {
     @FXML
     public void end(final Event event) {
         System.out.println("Fine+popup per dire numero spesa");
+        //Faccio tutte query
+        //Torniamo alla schermata iniziale
     }
 
     /**
@@ -70,32 +73,47 @@ public class AddressSelectionController {
     public void initialize() {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
-//        this.slpTbl = new SoldProductTable(c.getMySQLConnection());
-//        this.prdTbl = new ProductTable(c.getMySQLConnection());
-//
+        this.adsTbl = new AddressTable(c.getMySQLConnection());
         Platform.runLater(() -> {
-//            List<SoldProductPK> allProduct = slpTbl.findAll().stream().filter(p -> {
-//                if (p.getEnd().isEmpty() || (p.getEnd().isPresent() && p.getEnd().get().compareTo(new Date()) > 0)) {
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }).collect(Collectors.toList());
-//            this.lstvw_products.setItems(FXCollections.observableList(this.buildProduct(allProduct)));
-//            this.fullList = new ArrayList<>(allProduct);
-//            this.filteredListShop = new ArrayList<>(allProduct);
-//            this.cartList = new ArrayList<>();
-//
-//            var sizes = allProduct.stream().map(p -> p.getSize()).distinct().filter(s -> s.isPresent())
-//                    .map(s -> s.get()).collect(Collectors.toList());
-//
-//            this.cbx_size.setItems(FXCollections.observableList(sizes));
-            System.out.println(list.toString());
-        });
-        //Non so perchè tira eccezione, sistema
-        /*cmb_delivery_type.setItems(
-                FXCollections.observableList(List.of(TYPEDELIVERY.STANDARD.name(), TYPEDELIVERY.PREMIUM.name())));*/
+            this.allAddresses = adsTbl.allAddressOfClient(user);
+            lstvw_address.setItems(FXCollections.observableList(buildAddress(allAddresses)));
+            cmb_delivery_type.setItems(
+                    FXCollections.observableList(List.of(TYPEDELIVERY.STANDARD.name(), TYPEDELIVERY.PREMIUM.name())));
+            cmb_delivery_type.getSelectionModel().selectFirst();
+            double price = list.stream().map(p -> p.getPrice()).reduce(Double::sum).orElse(0.0);
+            lbl_price.setText(price + "€");
+            lbl_cc.setText(user.getBankInfo());
+            lbl_total_price.setText(price + TYPEDELIVERY.STANDARD.getPrice() + "€");
 
+            cmb_delivery_type.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+                if (newValue == TYPEDELIVERY.STANDARD.name()) {
+                    lbl_total_price.setText((price + TYPEDELIVERY.STANDARD.getPrice()) + "€");
+                } else {
+                    lbl_total_price.setText((price + TYPEDELIVERY.PREMIUM.getPrice()) + "€");
+                }
+            });
+
+            lstvw_address.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    lbl_chosen_address.setText(newValue);
+
+                }
+
+            });
+        });
+
+    }
+
+    private List<String> buildAddress(List<AddressPK> l) {
+        List<String> list = new ArrayList<>();
+        for (final AddressPK elem : l) {
+            String s = elem.getRoad() + " " + elem.getnCiv() + " ";
+            s = s + elem.getCity() + " (" + elem.getRegion() + ") " + elem.getCity();
+            list.add(s);
+        }
+        return list;
     }
 
 }
