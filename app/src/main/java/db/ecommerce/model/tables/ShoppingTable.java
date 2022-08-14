@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -94,17 +95,24 @@ public class ShoppingTable implements Table<ShoppingPK, Integer> {
     /**
      * Saves the Shopping into the db
      */
-    public boolean save(Shopping value) {
+    public Optional<ShoppingPK> save(Shopping value) {
         final String query = "INSERT INTO (Costo,Cod_cliente) " + TABLE_NAME + " VALUES (?,?)";
 
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+        try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setDouble(1, value.getPrice());
             statement.setInt(2, value.getCodCliente());
             final var r = statement.executeUpdate();
-            return r == 1;
+            if (r == 1) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return Optional.ofNullable(new ShoppingPK(value, generatedKeys.getInt(1)));
+                    }
+                }
+            }
         } catch (final SQLException e) {
-            return false;
+            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     /**
@@ -112,32 +120,8 @@ public class ShoppingTable implements Table<ShoppingPK, Integer> {
      * ShoppingPK will be cast to Shopping and Cod_spesa values will be ignored
      */
     @Override
-    public boolean save(ShoppingPK value) {
+    public Optional<ShoppingPK> save(ShoppingPK value) {
         return this.save(ShoppingPK.convertToShopping(value));
-    }
-
-    /**
-     * This method returns the last Cod spesa inserted into the db. This operation
-     * is safe if the latest insertion was possibile and no other insertions were
-     * made meanwhile this method was called
-     * 
-     * @returns the Cod spesa or -1 if the db is empty
-     */
-    public int getLastShoppingSaved() {
-
-        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY DESC";
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            var result = statement.executeQuery();
-            if (result != null && convertResultSet(result).stream().findFirst().isPresent()) {
-                return convertResultSet(result).stream().findFirst().get().getCodSpesa();
-            } else {
-                return -1;
-            }
-
-        } catch (final SQLException e) {
-            return -1;
-        }
-
     }
 
     @Override

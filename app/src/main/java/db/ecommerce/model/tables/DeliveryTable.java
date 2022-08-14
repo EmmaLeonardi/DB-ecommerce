@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -105,10 +106,11 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
     /**
      * Saves the Delivery into the db
      */
-    public boolean save(Delivery value) {
-        final String query = "INSERT INTO " +TABLE_NAME +" (Cod_spesa, Costo_consegna, Data, Tipo, Cod_indirizzo, Cod_corriere, Targa)"
+    public Optional<DeliveryPK> save(Delivery value) {
+        final String query = "INSERT INTO " + TABLE_NAME
+                + " (Cod_spesa, Costo_consegna, Data, Tipo, Cod_indirizzo, Cod_corriere, Targa)"
                 + "VALUES (?,?,?,?,?,?,?)";
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+        try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, value.getCod_spesa().orElseGet(null));
             statement.setDouble(2, value.getPriceDelivery());
             statement.setDate(3, value.getDate().isEmpty() ? null : DateConverter.dateToSqlDate(value.getDate().get()));
@@ -117,10 +119,17 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
             statement.setInt(6, value.getCodCorriere().orElseGet(null));
             statement.setString(7, value.getTarga().orElse(null));
             final var r = statement.executeUpdate();
-            return r == 1;
+            if (r == 1) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return Optional.ofNullable(new DeliveryPK(value, generatedKeys.getInt(1)));
+                    }
+                }
+            }
         } catch (final SQLException e) {
-            return false;
+            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     /**
@@ -129,7 +138,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
      * ignored
      */
     @Override
-    public boolean save(DeliveryPK value) {
+    public Optional<DeliveryPK> save(DeliveryPK value) {
         return this.save(DeliveryPK.convertToDelivery(value));
     }
 
@@ -142,7 +151,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
      */
     public int getLastDeliverySaved() {
 
-        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY DESC";
+        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY Cod_consegna DESC";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             var result = statement.executeQuery();
             if (result != null && convertResultSet(result).stream().findFirst().isPresent()) {

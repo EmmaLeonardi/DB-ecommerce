@@ -45,7 +45,7 @@ public interface Table<O, K> {
      * @return false if the object could not be saved (e.g. an object with the same key
      *         is already present)
      */
-    boolean save(final O value);
+    Optional<O> save(final O value);
     
     /**
      * Updates an object 

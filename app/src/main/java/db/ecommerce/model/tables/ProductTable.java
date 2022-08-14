@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -96,20 +97,27 @@ public class ProductTable implements Table<ProductPK, Integer> {
     /**
      * Saves the Product into the db
      */
-    public boolean save(Product value) {
+    public Optional<ProductPK> save(Product value) {
         final String query = "INSERT INTO (Materiale, Descrizione, Cod_produttore, Cod_fabbrica) " + TABLE_NAME
                 + " VALUES (?,?,?,?)";
 
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+        try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getMateriale());
             statement.setString(2, value.getDescrizione());
             statement.setInt(3, value.getCod_produttore());
             statement.setInt(4, value.getCod_fabbrica());
             final var r = statement.executeUpdate();
-            return r == 1;
+            if (r == 1) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return Optional.ofNullable(new ProductPK(value, generatedKeys.getInt(1)));
+                    }
+                }
+            }
         } catch (final SQLException e) {
-            return false;
+            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     /**
@@ -117,7 +125,7 @@ public class ProductTable implements Table<ProductPK, Integer> {
      * all ProductPK will be cast to Product and Cod_prodotto values will be ignored
      */
     @Override
-    public boolean save(ProductPK value) {
+    public Optional<ProductPK> save(ProductPK value) {
         return this.save(ProductPK.convertToProduct(value));
     }
 
@@ -130,7 +138,7 @@ public class ProductTable implements Table<ProductPK, Integer> {
      */
     public int getLastProductSaved() {
 
-        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY DESC";
+        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY Cod_prodotto DESC";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             var result = statement.executeQuery();
             if (result != null && convertResultSet(result).stream().findFirst().isPresent()) {

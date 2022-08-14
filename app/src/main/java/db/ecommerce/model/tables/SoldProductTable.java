@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -102,11 +103,11 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
     /**
      * Saves the SoldProduct into the db
      */
-    public boolean save(SoldProduct value) {
+    public Optional<SoldProductPK> save(SoldProduct value) {
         final String query = "INSERT INTO " + TABLE_NAME
                 + " (Prezzo, Data_inizio, Data_fine, Tipo, Scadenza, Taglia, Cod_prodotto) VALUES (?,?,?,?,?,?,?)";
 
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+        try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setDouble(1, value.getPrice());
             statement.setDate(2, DateConverter.dateToSqlDate(value.getStart()));
             statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().get()));
@@ -115,10 +116,17 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
             statement.setString(6, value.getSize().get());
             statement.setInt(7, value.getCodProduct());
             final var r = statement.executeUpdate();
-            return r == 1;
+            if (r == 1) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return Optional.ofNullable(new SoldProductPK(value, generatedKeys.getInt(1)));
+                    }
+                }
+            }
         } catch (final SQLException e) {
-            return false;
+            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     /**
@@ -127,32 +135,8 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
      * Cod_prodotto_vendita values will be ignored
      */
     @Override
-    public boolean save(SoldProductPK value) {
+    public Optional<SoldProductPK> save(SoldProductPK value) {
         return this.save(SoldProductPK.convertToSoldProduct(value));
-    }
-
-    /**
-     * This method returns the last Cod prodotto vendita inserted into the db. This
-     * operation is safe if the latest insertion was possibile and no other
-     * insertions were made meanwhile this method was called
-     * 
-     * @returns the Cod prodotto vendita or -1 if the db is empty
-     */
-    public int getLastShoppingSaved() {
-
-        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY DESC";
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            var result = statement.executeQuery();
-            if (result != null && convertResultSet(result).stream().findFirst().isPresent()) {
-                return convertResultSet(result).stream().findFirst().get().getCodSoldProduct();
-            } else {
-                return -1;
-            }
-
-        } catch (final SQLException e) {
-            return -1;
-        }
-
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -97,20 +98,27 @@ public class ProducerTable implements Table<ProducerPK, Integer> {
     /**
      * Saves the Producer into the db
      */
-    public boolean save(Producer value) {
+    public Optional<ProducerPK> save(Producer value) {
         final String query = "INSERT INTO " + TABLE_NAME + " (Codice_fiscale, Nome, Cognome,"
                 + " Data_di_nascita, Partita_IVA) VALUES (?,?,?,?,?)";
 
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+        try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getCodFis());
             statement.setString(2, value.getName());
             statement.setDate(3, DateConverter.dateToSqlDate(value.getDateBirth()));
             statement.setString(4, value.getPIVA());
             final var r = statement.executeUpdate();
-            return r == 1;
+            if (r == 1) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return Optional.ofNullable(new ProducerPK(generatedKeys.getInt(1), value));
+                    }
+                }
+            }
         } catch (final SQLException e) {
-            return false;
+            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     /**
@@ -119,32 +127,8 @@ public class ProducerTable implements Table<ProducerPK, Integer> {
      * ignored
      */
     @Override
-    public boolean save(ProducerPK value) {
+    public Optional<ProducerPK> save(ProducerPK value) {
         return this.save(ProducerPK.convertToProducer(value));
-    }
-
-    /**
-     * This method return the last Cod producer inserted into the db. This operation
-     * is safe if the latest insertion was possibile and no other insertions were
-     * made meanwhile this method was called
-     * 
-     * @returns the Cod Producer or -1 if the db is empty
-     */
-    public int getLastProducerSaved() {
-
-        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY DESC";
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            var result = statement.executeQuery();
-            if (result != null && convertResultSet(result).stream().findFirst().isPresent()) {
-                return convertResultSet(result).stream().findFirst().get().getCod_produttore();
-            } else {
-                return -1;
-            }
-
-        } catch (final SQLException e) {
-            return -1;
-        }
-
     }
 
     @Override
