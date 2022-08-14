@@ -1,6 +1,8 @@
 package db.ecommerce.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import db.ecommerce.model.AddressPK;
 import db.ecommerce.model.ClientPK;
@@ -10,6 +12,7 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.TYPEDELIVERY;
+import db.ecommerce.view.AddressCreationMenuImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +23,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 public class AddressSelectionController {
 
@@ -57,7 +61,12 @@ public class AddressSelectionController {
 
     @FXML
     public void new_address(final Event event) {
-        System.out.println("Nuovo indirizzo");
+        Stage s = (Stage) btn_new_address.getScene().getWindow();
+        try {
+            new AddressCreationMenuImpl(s, user, Collections.unmodifiableList(list));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
