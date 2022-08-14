@@ -8,17 +8,7 @@ import db.ecommerce.model.Address;
 import db.ecommerce.model.AddressImpl;
 import db.ecommerce.model.ClientPK;
 import db.ecommerce.model.SoldProductPK;
-import db.ecommerce.model.tables.AddressTable;
-import db.ecommerce.utils.ConnectionProvider;
-import db.ecommerce.utils.ConnectionProviderImpl;
-import db.ecommerce.utils.Credentials;
-import db.ecommerce.utils.TYPEDELIVERY;
-import db.ecommerce.view.AddressCreationMenuImpl;
 import db.ecommerce.view.AddressSelectionMenuImpl;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -54,8 +44,6 @@ public class AddressCreationController {
     @FXML
     private Button btn_undo;
 
-    private AddressTable adsTbl;
-
     public void setShopping(List<SoldProductPK> list) {
         this.list = list;
     }
@@ -72,14 +60,18 @@ public class AddressCreationController {
                 Address a = new AddressImpl(txt_via.getText(), Integer.valueOf(txt_n_civ.getText()),
                         txt_citta.getText(), Integer.valueOf(txt_cap.getText()), txt_provincia.getText(),
                         txt_paese.getText());
-                adsTbl.save(a);
-                System.out.println(adsTbl.getLastAddressSaved() + "");
+                Stage s = (Stage) btn_undo.getScene().getWindow();
+                try {
+                    new AddressSelectionMenuImpl(s, user, Collections.unmodifiableList(list), List.of(a));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } catch (NumberFormatException e) {
-                var alert = new Alert(AlertType.ERROR, "I campi numero civico e CAP devono essere solo numerici");
+                var alert = new Alert(AlertType.ERROR,
+                        "Riempi tutti i campi, ricorda che numero civico e CAP devono essere solo numerici");
                 alert.show();
             }
         }
-        System.out.println("salva");
     }
 
     @FXML
@@ -93,12 +85,9 @@ public class AddressCreationController {
     }
 
     /**
-     * This method is called at the start and inizializes the list view
+     * This method is called at the start
      */
     public void initialize() {
-        ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
-                Credentials.getDbname());
-        this.adsTbl = new AddressTable(c.getMySQLConnection());
     }
 
 }

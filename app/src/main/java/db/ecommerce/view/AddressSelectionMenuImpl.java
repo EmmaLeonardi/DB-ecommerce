@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import db.ecommerce.controller.AddressSelectionController;
+import db.ecommerce.model.Address;
 import db.ecommerce.model.ClientPK;
 import db.ecommerce.model.SoldProductPK;
 import db.ecommerce.utils.LoadFXML;
@@ -20,7 +21,8 @@ public class AddressSelectionMenuImpl {
     private final HBox root;
     private AddressSelectionController ac;
 
-    public AddressSelectionMenuImpl(Stage s, ClientPK c, List<SoldProductPK> l) throws IOException {
+    public AddressSelectionMenuImpl(Stage s, ClientPK c, List<SoldProductPK> listProd, List<Address> list)
+            throws IOException {
         LoadFXML loader = new LoadFXMLImpl();
         var a = loader.load(F);
         if (a instanceof HBox) {
@@ -36,7 +38,10 @@ public class AddressSelectionMenuImpl {
             if (tmp instanceof AddressSelectionController) {
                 ac = (AddressSelectionController) tmp;
                 ac.setClient(c);
-                ac.setShopping(l);
+                ac.setShopping(listProd);
+                if (!list.isEmpty()) {
+                    ac.addAddress(list);
+                }
             } else {
                 var alert = new Alert(AlertType.ERROR, "Something went wrong loading the AddressSelectionMenu");
                 alert.show();
@@ -50,5 +55,8 @@ public class AddressSelectionMenuImpl {
         s.show();
     }
 
+    public AddressSelectionMenuImpl(Stage s, ClientPK c, List<SoldProductPK> l) throws IOException {
+        this(s, c, l, List.of());
+    }
 
 }
