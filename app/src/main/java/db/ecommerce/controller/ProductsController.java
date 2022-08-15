@@ -18,6 +18,7 @@ import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.PRODUCTTYPE;
 import db.ecommerce.view.AddressSelectionMenuImpl;
+import db.ecommerce.view.ProductDetailsMenuImpl;
 import db.ecommerce.view.ShoppingMenuImpl;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -168,7 +169,12 @@ public class ProductsController {
 
     @FXML
     public void details(final Event event) {
-        System.out.println("Dettagli su questo prodotto");
+        Stage s = (Stage) btn_details.getScene().getWindow();
+        try {
+            new ProductDetailsMenuImpl(s, user, filteredListShop.get(lstvw_products.getSelectionModel().getSelectedIndex()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
