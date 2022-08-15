@@ -9,11 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import db.ecommerce.model.SoldProductPK;
 import db.ecommerce.model.Vehicle;
 import db.ecommerce.model.VehicleImpl;
-import db.ecommerce.utils.DateConverter;
-import db.ecommerce.utils.PRODUCTTYPE;
 
 public class VehicleTable implements Table<Vehicle, String> {
 
