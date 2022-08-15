@@ -1,6 +1,5 @@
 package db.ecommerce.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -9,8 +8,6 @@ public class DriveImpl implements Drive {
 
     private final Date start;
     private final Optional<Date> end;
-    private final SimpleDateFormat hStart;
-    private final Optional<SimpleDateFormat> hEnd;
     private final int codCorriere;
     private final String targa;
 
@@ -22,13 +19,9 @@ public class DriveImpl implements Drive {
      * @param codCorriere
      * @param targa
      */
-    public DriveImpl(Date start, Optional<Date> end, SimpleDateFormat hStart, Optional<SimpleDateFormat> hEnd,
-            int codCorriere, String targa) {
-        super();
+    public DriveImpl(Date start, Optional<Date> end, int codCorriere, String targa) {
         this.start = start;
         this.end = end;
-        this.hStart = hStart;
-        this.hEnd = hEnd;
         this.codCorriere = codCorriere;
         this.targa = targa;
     }
@@ -53,22 +46,6 @@ public class DriveImpl implements Drive {
      * {@inheritDoc}
      */
     @Override
-    public SimpleDateFormat gethStart() {
-        return hStart;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Optional<SimpleDateFormat> gethEnd() {
-        return hEnd;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getCodCorriere() {
         return codCorriere;
     }
@@ -83,13 +60,12 @@ public class DriveImpl implements Drive {
 
     @Override
     public String toString() {
-        return "DriveImpl [start=" + start + ", end=" + end + ", hStart=" + hStart + ", hEnd=" + hEnd + ", codCorriere="
-                + codCorriere + ", targa=" + targa + "]";
+        return "DriveImpl [start=" + start + ", end=" + end + ", codCorriere=" + codCorriere + ", targa=" + targa + "]";
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(codCorriere, end, hEnd, hStart, start, targa);
+        return Objects.hash(codCorriere, end, start, targa);
     }
 
     @Override
@@ -101,8 +77,7 @@ public class DriveImpl implements Drive {
         if (getClass() != obj.getClass())
             return false;
         DriveImpl other = (DriveImpl) obj;
-        return codCorriere == other.codCorriere && Objects.equals(end, other.end) && Objects.equals(hEnd, other.hEnd)
-                && Objects.equals(hStart, other.hStart) && Objects.equals(start, other.start)
+        return codCorriere == other.codCorriere && Objects.equals(end, other.end) && Objects.equals(start, other.start)
                 && Objects.equals(targa, other.targa);
     }
 

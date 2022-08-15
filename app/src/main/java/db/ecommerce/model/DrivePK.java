@@ -1,6 +1,5 @@
 package db.ecommerce.model;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -9,14 +8,13 @@ public class DrivePK extends DriveImpl {
 
     private final int codDrive;
 
-    public DrivePK(Date start, Optional<Date> end, SimpleDateFormat hStart, Optional<SimpleDateFormat> hEnd,
-            int codCorriere, String targa, int cod_drive) {
-        super(start, end, hStart, hEnd, codCorriere, targa);
+    public DrivePK(Date start, Optional<Date> end, int codCorriere, String targa, int cod_drive) {
+        super(start, end, codCorriere, targa);
         this.codDrive = cod_drive;
     }
 
     public DrivePK(Drive d, int cod_drive) {
-        super(d.getStart(), d.getEnd(), d.gethStart(), d.gethEnd(), d.getCodCorriere(), d.getTarga());
+        super(d.getStart(), d.getEnd(), d.getCodCorriere(), d.getTarga());
         this.codDrive = cod_drive;
     }
 
@@ -28,7 +26,7 @@ public class DrivePK extends DriveImpl {
     }
 
     public static Drive convertToDrive(final DrivePK d) {
-        return new DriveImpl(d.getStart(), d.getEnd(), d.gethStart(), d.gethEnd(), d.getCodCorriere(), d.getTarga());
+        return new DriveImpl(d.getStart(), d.getEnd(), d.getCodCorriere(), d.getTarga());
     }
 
     @Override
