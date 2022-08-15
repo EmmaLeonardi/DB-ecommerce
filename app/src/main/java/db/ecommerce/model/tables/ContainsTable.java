@@ -97,7 +97,7 @@ public class ContainsTable implements Table<Contains, Pair<Integer, Integer>> {
 
     @Override
     public Optional<Contains> save(Contains value) {
-        final String query = "INSERT INTO (Cod_prodotto_vendita, Cod_spesa) " + TABLE_NAME + " VALUES (?,?)";
+        final String query = "INSERT INTO " + TABLE_NAME + " (Cod_prodotto_vendita, Cod_spesa) VALUES (?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, value.getCodProdotto());

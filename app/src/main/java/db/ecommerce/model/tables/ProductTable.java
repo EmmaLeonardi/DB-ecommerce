@@ -98,8 +98,8 @@ public class ProductTable implements Table<ProductPK, Integer> {
      * Saves the Product into the db
      */
     public Optional<ProductPK> save(Product value) {
-        final String query = "INSERT INTO (Materiale, Descrizione, Cod_produttore, Cod_fabbrica) " + TABLE_NAME
-                + " VALUES (?,?,?,?)";
+        final String query = "INSERT INTO " + TABLE_NAME
+                + "(Materiale, Descrizione, Cod_produttore, Cod_fabbrica) VALUES (?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getMateriale());

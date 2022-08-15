@@ -111,12 +111,12 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
                 + " (Cod_spesa, Costo_consegna, Data, Tipo, Cod_indirizzo, Cod_corriere, Targa)"
                 + "VALUES (?,?,?,?,?,?,?)";
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            statement.setInt(1, value.getCod_spesa().orElseGet(null));
+            statement.setInt(1, value.getCod_spesa().orElse(0));
             statement.setDouble(2, value.getPriceDelivery());
             statement.setDate(3, value.getDate().isEmpty() ? null : DateConverter.dateToSqlDate(value.getDate().get()));
             statement.setString(4, value.getType().name());
             statement.setInt(5, value.getCodIndirizzo());
-            statement.setInt(6, value.getCodCorriere().orElseGet(null));
+            statement.setInt(6, value.getCodCorriere().orElse(0));
             statement.setString(7, value.getTarga().orElse(null));
             final var r = statement.executeUpdate();
             if (r == 1) {

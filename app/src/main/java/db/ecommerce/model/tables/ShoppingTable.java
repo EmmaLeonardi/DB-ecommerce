@@ -96,7 +96,7 @@ public class ShoppingTable implements Table<ShoppingPK, Integer> {
      * Saves the Shopping into the db
      */
     public Optional<ShoppingPK> save(Shopping value) {
-        final String query = "INSERT INTO (Costo,Cod_cliente) " + TABLE_NAME + " VALUES (?,?)";
+        final String query = "INSERT INTO " + TABLE_NAME + "(Costo, Cod_cliente)  VALUES (?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setDouble(1, value.getPrice());
