@@ -109,15 +109,40 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
     public Optional<DeliveryPK> save(Delivery value) {
         final String query = "INSERT INTO " + TABLE_NAME
                 + " (Cod_spesa, Costo_consegna, Data, Tipo, Cod_indirizzo, Cod_corriere, Targa)"
-                + "VALUES (?,?,?,?,?,?,?)";
+                + " VALUES (?,?,?,?,?,?,?)";
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, value.getCod_spesa().orElse(0));
             statement.setDouble(2, value.getPriceDelivery());
             statement.setDate(3, value.getDate().isEmpty() ? null : DateConverter.dateToSqlDate(value.getDate().get()));
             statement.setString(4, value.getType().name());
             statement.setInt(5, value.getCodIndirizzo());
-            statement.setInt(6, value.getCodCorriere().orElse(0));
+            statement.setInt(6, value.getCodCorriere().isPresent() ? value.getCodCorriere().get() : null);
             statement.setString(7, value.getTarga().orElse(null));
+            final var r = statement.executeUpdate();
+            if (r == 1) {
+                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        return Optional.ofNullable(new DeliveryPK(value, generatedKeys.getInt(1)));
+                    }
+                }
+            }
+        } catch (final SQLException e) {
+            return Optional.empty();
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Saves the Delivery into the db, used by the Client
+     */
+    public Optional<DeliveryPK> saveClient(Delivery value) {
+        final String query = "INSERT INTO " + TABLE_NAME + " (Cod_spesa, Costo_consegna, Tipo, Cod_indirizzo)"
+                + " VALUES (?,?,?,?)";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setInt(1, value.getCod_spesa().orElse(0));
+            statement.setDouble(2, value.getPriceDelivery());
+            statement.setString(3, value.getType().name());
+            statement.setInt(4, value.getCodIndirizzo());
             final var r = statement.executeUpdate();
             if (r == 1) {
                 try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
