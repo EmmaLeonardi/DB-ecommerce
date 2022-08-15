@@ -142,30 +142,6 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
         return this.save(DeliveryPK.convertToDelivery(value));
     }
 
-    /**
-     * This method returns the last Cod consegna inserted into the db. This
-     * operation is safe if the latest insertion was possibile and no other
-     * insertions were made meanwhile this method was called
-     * 
-     * @returns the Cod consegna or -1 if the db is empty
-     */
-    public int getLastDeliverySaved() {
-
-        final String query = "SELECT * FROM " + TABLE_NAME + " ORDER BY Cod_consegna DESC";
-        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
-            var result = statement.executeQuery();
-            if (result != null && convertResultSet(result).stream().findFirst().isPresent()) {
-                return convertResultSet(result).stream().findFirst().get().getCod_Consegna();
-            } else {
-                return -1;
-            }
-
-        } catch (final SQLException e) {
-            return -1;
-        }
-
-    }
-
     @Override
     public boolean update(DeliveryPK value) {
         final String query = "UPDATE " + TABLE_NAME
