@@ -27,6 +27,7 @@ import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.TYPEDELIVERY;
 import db.ecommerce.view.AddressCreationMenuImpl;
+import db.ecommerce.view.ShoppingMenuImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -170,6 +171,14 @@ public class AddressSelectionController {
                             "Hai compleato correttamente il pagamento! Il codice della tua consegna è "
                                     + D.getCod_Consegna());
                     alert.show();
+
+                    Stage stage = (Stage) btn_end.getScene().getWindow();
+                    try {
+                        new ShoppingMenuImpl(stage, user);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
                 } else {
                     throw new SQLException("Delivery wasn't saved");
                 }
@@ -229,6 +238,7 @@ public class AddressSelectionController {
         });
     }
 
+    // Rimuovi i duplicati
     private List<String> buildAddress(List<Address> l) {
         List<String> list = new ArrayList<>();
         for (final Address elem : l) {
