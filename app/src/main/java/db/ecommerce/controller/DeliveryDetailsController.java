@@ -13,10 +13,8 @@ import db.ecommerce.view.DeliveryMenuImpl;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class DeliveryDetailsController {
@@ -86,8 +84,13 @@ public class DeliveryDetailsController {
                 lbl_address.setText("" + A.getRoad() + " " + A.getnCiv() + " " + A.getCity() + " (" + A.getRegion()
                         + ") " + A.getCity());
             }
-
-            lbl_customer.setText("--");
+            var u = dlvTbl.getClient(delivery);
+            if (u.isPresent()) {
+                lbl_customer.setText("" + u.get().getName() + " " + u.get().getSurname() + " ("
+                        + u.get().getCod_cliente() + ") " + u.get().getEmail() + " " + u.get().getPhoneNumber());
+            } else {
+                lbl_customer.setText("--");
+            }
 
         });
 
