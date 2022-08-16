@@ -21,6 +21,8 @@ import db.ecommerce.view.AddressSelectionMenuImpl;
 import db.ecommerce.view.ProductDetailsMenuImpl;
 import db.ecommerce.view.ShoppingMenuImpl;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -171,7 +173,8 @@ public class ProductsController {
     public void details(final Event event) {
         Stage s = (Stage) btn_details.getScene().getWindow();
         try {
-            new ProductDetailsMenuImpl(s, user, filteredListShop.get(lstvw_products.getSelectionModel().getSelectedIndex()));
+            new ProductDetailsMenuImpl(s, user,
+                    filteredListShop.get(lstvw_products.getSelectionModel().getSelectedIndex()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -185,6 +188,7 @@ public class ProductsController {
                 Credentials.getDbname());
         this.slpTbl = new SoldProductTable(c.getMySQLConnection());
         this.prdTbl = new ProductTable(c.getMySQLConnection());
+        btn_details.setDisable(true);
 
         Platform.runLater(() -> {
             List<SoldProductPK> allProduct = slpTbl.findAll().stream().filter(p -> {
@@ -195,6 +199,12 @@ public class ProductsController {
                 }
             }).collect(Collectors.toList());
             this.lstvw_products.setItems(FXCollections.observableList(this.buildProduct(allProduct)));
+            lstvw_products.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    btn_details.setDisable(false);
+                }
+            });
             this.fullList = new ArrayList<>(allProduct);
             this.filteredListShop = new ArrayList<>(allProduct);
             this.cartList = new ArrayList<>();
