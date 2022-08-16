@@ -1,10 +1,13 @@
 package db.ecommerce.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import db.ecommerce.model.CourierPK;
 import db.ecommerce.model.DeliveryPK;
@@ -16,6 +19,7 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.view.DeliveryMenuImpl;
+import db.ecommerce.view.GuideCreationMenuImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -82,25 +86,44 @@ public class DeliveryNewController {
     }
 
     @FXML
-    public void save(final Event event) {
-        // Query
-        // Salva torni indietro?
-        Stage s = (Stage) btn_save.getScene().getWindow();
-        try {
-            new DeliveryMenuImpl(s, courier);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void save(final Event event) throws SQLException {
+        if (lstvw_delivery.getSelectionModel().getSelectedIndex() != -1
+                && lstvw_guides.getSelectionModel().getSelectedIndex() != -1 && dtpk_delivery_date.getValue() != null) {
+            DrivePK selectedDrive = showDrives.get(lstvw_guides.getSelectionModel().getSelectedIndex());
+            DeliveryPK selectedDelivery = unDelivered.get(lstvw_delivery.getSelectionModel().getSelectedIndex());
+
+            DeliveryPK d = new DeliveryPK(selectedDelivery.getCod_spesa(), selectedDelivery.getPriceDelivery(),
+                    Optional.of(
+                            Date.from(dtpk_delivery_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant())),
+                    selectedDelivery.getType(), selectedDelivery.getCodIndirizzo(),
+                    Optional.of(courier.getCod_corriere()), Optional.of(selectedDrive.getTarga()),
+                    selectedDelivery.getCod_Consegna());
+            if (dlvTbl.update(d) == true) {
+                var alert = new Alert(AlertType.INFORMATION,
+                        "Hai inserito correttamente la consegna! Ha codice " + selectedDelivery.getCod_Consegna());
+                alert.show();
+                Stage s = (Stage) btn_save.getScene().getWindow();
+                try {
+                    new DeliveryMenuImpl(s, courier);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else {
+                throw new SQLException("Delivery wasn't updated");
+            }
         }
     }
 
     @FXML
     public void new_guide(final Event event) {
-        System.out.println("Nuova guida");
-        // Stage s = (Stage) btn_new_guide.getScene().getWindow();
-        /*
-         * try { //new DeliveryMenuImpl(s, courier); } catch (IOException e) {
-         * e.printStackTrace(); }
-         */
+        Stage s = (Stage) btn_new_guide.getScene().getWindow();
+        try {
+            new GuideCreationMenuImpl(s, courier);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @FXML
