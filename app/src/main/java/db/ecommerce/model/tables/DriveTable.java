@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import db.ecommerce.model.CourierPK;
 import db.ecommerce.model.Drive;
 import db.ecommerce.model.DrivePK;
 import db.ecommerce.utils.ConvertTime;
@@ -167,6 +168,17 @@ public class DriveTable implements Table<DrivePK, Integer> {
         } catch (final SQLException e) {
             return false;
         }
-
     }
+
+    public List<DrivePK> allDriveOfCourier(CourierPK c) {
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_corriere=?";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+            statement.setInt(1, c.getCod_corriere());
+            var result = statement.executeQuery();
+            return convertResultSet(result);
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
 }
