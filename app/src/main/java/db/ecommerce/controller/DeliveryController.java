@@ -9,6 +9,8 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -54,12 +56,22 @@ public class DeliveryController {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
         dlvTbl = new DeliveryTable(c.getMySQLConnection());
+        btn_details.setDisable(true);
 
         Platform.runLater(() -> {
             allDelivery = dlvTbl.allDeliveryOfCourier(courier);
 
             lstvw_delivery_pending.setItems(FXCollections.observableList(buildDelivery(allDelivery)));
-            // Spegni tasto dettagli se nessuna selezionata
+            lstvw_delivery_pending.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (lstvw_delivery_pending.getSelectionModel().getSelectedIndex() == -1) {
+                        btn_details.setDisable(true);
+                    } else {
+                        btn_details.setDisable(false);
+                    }
+                }
+            });
         });
 
     }
