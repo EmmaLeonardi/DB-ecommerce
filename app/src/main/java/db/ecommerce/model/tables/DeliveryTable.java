@@ -283,7 +283,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
      * @return all the deliveries pending
      */
     public List<DeliveryPK> allDeliveriesPending() {
-        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_corriere=null OR Targa=null OR Data=null";
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_corriere IS NULL OR Targa IS NULL OR Data IS NULL";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             var result = statement.executeQuery();
             return convertResultSet(result);
@@ -291,5 +291,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
             return List.of();
         }
     }
+    
+    
 
 }
