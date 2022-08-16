@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox alignment="TOP_CENTER" prefHeight="276.0" prefWidth="585.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="db.ecommerce.controller.GuideCreationController">
+   <children>
+      <VBox prefHeight="363.0" prefWidth="315.0">
+         <children>
+            <Label text="Nuova guida">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+            <GridPane prefHeight="174.0" prefWidth="413.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="153.20001220703125" minWidth="10.0" prefWidth="117.20001220703125" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="214.79998779296875" minWidth="10.0" prefWidth="198.79998779296875" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label text="Data inizio:" />
+                  <DatePicker fx:id="dtpk_start" GridPane.columnIndex="1" />
+                  <Label text="Data fine: " GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dtpk_end" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Label text="Orari in formato 24h" GridPane.rowIndex="2" />
+                  <Label text="Ora inizio:" GridPane.rowIndex="3" />
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <children>
+                        <TextField fx:id="txt_start_h" prefHeight="26.0" prefWidth="44.0" promptText="Ora" />
+                        <Label text=":" />
+                        <TextField fx:id="txt_start_m" prefHeight="26.0" prefWidth="54.0" promptText="Minuti" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <children>
+                        <TextField fx:id="txt_end_h" prefHeight="26.0" prefWidth="44.0" promptText="Ora" />
+                        <Label text=":" />
+                        <TextField fx:id="txt_end_m" prefHeight="26.0" prefWidth="54.0" promptText="Minuti" />
+                     </children>
+                  </HBox>
+                  <Label text="Ora fine:" GridPane.rowIndex="4" />
+                  <Button fx:id="btn_back" mnemonicParsing="false" text="Indietro" GridPane.rowIndex="5" />
+               </children>
+            </GridPane>
+         </children>
+      </VBox>
+      <VBox prefHeight="363.0" prefWidth="218.0">
+         <children>
+            <CheckBox fx:id="end_guide" mnemonicParsing="false" onAction="#change_end" text="Ho finito la guida" />
+            <Label text="Scegli il mezzo:" />
+            <ListView prefHeight="200.0" prefWidth="241.0" />
+            <Button fx:id="btn_save" mnemonicParsing="false" onAction="#save" text="Salva" />
+         </children>
+      </VBox>
+   </children>
+</HBox>
