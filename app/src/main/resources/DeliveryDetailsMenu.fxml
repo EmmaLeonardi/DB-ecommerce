@@ -9,17 +9,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="230.0" prefWidth="325.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="db.ecommerce.controller.DeliveryDetailsController">
+<VBox prefHeight="230.0" prefWidth="412.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="db.ecommerce.controller.DeliveryDetailsController">
    <children>
       <Label text="Dettagli consegna">
          <font>
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
-      <GridPane>
+      <GridPane prefHeight="152.0" prefWidth="367.0">
          <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.5999755859375" minWidth="10.0" prefWidth="104.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="98.4000244140625" minWidth="10.0" prefWidth="96.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="113.5999755859375" minWidth="0.0" prefWidth="68.0000244140625" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.1999614715576" minWidth="10.0" prefWidth="258.39997558593745" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
