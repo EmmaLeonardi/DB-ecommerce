@@ -146,6 +146,11 @@ public class ProductsController {
             cartList.add(filteredListShop.get(i));
             lstvw_shopping_cart.setItems(FXCollections.observableList(this.buildProduct(cartList)));
             lbl_total.setText(cartList.stream().map(p -> p.getPrice()).reduce(Double::sum).orElse(0.0) + "€");
+            if (cartList.isEmpty()) {
+                btn_pay.setDisable(true);
+            } else {
+                btn_pay.setDisable(false);
+            }
         }
     }
 
@@ -156,6 +161,11 @@ public class ProductsController {
             cartList.remove(i);
             lstvw_shopping_cart.setItems(FXCollections.observableList(this.buildProduct(cartList)));
             lbl_total.setText(cartList.stream().map(p -> p.getPrice()).reduce(Double::sum).orElse(0.0) + "€");
+            if (cartList.isEmpty()) {
+                btn_pay.setDisable(true);
+            } else {
+                btn_pay.setDisable(false);
+            }
         }
     }
 
@@ -189,6 +199,7 @@ public class ProductsController {
         this.slpTbl = new SoldProductTable(c.getMySQLConnection());
         this.prdTbl = new ProductTable(c.getMySQLConnection());
         btn_details.setDisable(true);
+        btn_pay.setDisable(true);
 
         Platform.runLater(() -> {
             List<SoldProductPK> allProduct = slpTbl.findAll().stream().filter(p -> {
@@ -202,7 +213,11 @@ public class ProductsController {
             lstvw_products.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                    btn_details.setDisable(false);
+                    if (lstvw_products.getSelectionModel().getSelectedIndex() == -1) {
+                        btn_details.setDisable(true);
+                    } else {
+                        btn_details.setDisable(false);
+                    }
                 }
             });
             this.fullList = new ArrayList<>(allProduct);
