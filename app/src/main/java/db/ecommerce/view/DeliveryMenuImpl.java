@@ -26,7 +26,7 @@ public class DeliveryMenuImpl {
         } else {
             var alert = new Alert(AlertType.ERROR, "Something went wrong loading the DeliveryMenu");
             alert.show();
-            throw new IOException("The loaded menu wasn't a HBox as expected");
+            throw new IOException("The loaded menu wasn't a VBox as expected");
         }
         Scene scene = new Scene(root);
         try {
@@ -35,9 +35,9 @@ public class DeliveryMenuImpl {
                 sc = (DeliveryController) tmp;
                 sc.setCourier(courier);
             } else {
-                var alert = new Alert(AlertType.ERROR, "Something went wrong loading the ProductsMenu");
+                var alert = new Alert(AlertType.ERROR, "Something went wrong loading the DeliveryMenu");
                 alert.show();
-                throw new IOException("The controller wasn't a ProductsController as expected");
+                throw new IOException("The controller wasn't a DeliveryController as expected");
             }
         } catch (IllegalStateException e) {
             e.printStackTrace();
