@@ -1,5 +1,6 @@
 package db.ecommerce.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import db.ecommerce.model.CourierPK;
@@ -8,6 +9,7 @@ import db.ecommerce.model.tables.DeliveryTable;
 import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
+import db.ecommerce.view.DeliveryDetailsMenuImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,6 +18,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 public class DeliveryController {
 
@@ -41,7 +44,13 @@ public class DeliveryController {
 
     @FXML
     public void details(final Event event) {
-        System.out.println("Dettagli");
+        Stage s = (Stage) btn_details.getScene().getWindow();
+        try {
+            new DeliveryDetailsMenuImpl(s, courier,
+                    allDelivery.get(lstvw_delivery_pending.getSelectionModel().getSelectedIndex()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
