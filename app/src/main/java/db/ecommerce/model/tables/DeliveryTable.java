@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import db.ecommerce.model.ClientPK;
+import db.ecommerce.model.CourierPK;
 import db.ecommerce.model.Delivery;
 import db.ecommerce.model.DeliveryPK;
 import db.ecommerce.model.ShoppingPK;
@@ -244,6 +245,21 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
             return Optional.empty();
         }
 
+    }
+    
+    /**
+     * @param the Courier
+     * @return all the deliveries of a Courier
+     */
+    public List<DeliveryPK> allDeliveryOfCourier(final CourierPK c) {
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_corriere=?";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+            statement.setInt(1, c.getCod_corriere());
+            var result = statement.executeQuery();
+            return convertResultSet(result);
+        } catch (final SQLException e) {
+            return List.of();
+        }
     }
 
 }
