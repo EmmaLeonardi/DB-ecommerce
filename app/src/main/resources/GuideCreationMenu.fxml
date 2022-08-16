@@ -56,14 +56,14 @@
                      </children>
                   </HBox>
                   <Label text="Ora fine:" GridPane.rowIndex="4" />
-                  <Button fx:id="btn_back" mnemonicParsing="false" text="Indietro" GridPane.rowIndex="5" />
+                  <Button fx:id="btn_back" mnemonicParsing="false" onAction="#back" text="Indietro" GridPane.rowIndex="5" />
                </children>
             </GridPane>
          </children>
       </VBox>
       <VBox prefHeight="363.0" prefWidth="218.0">
          <children>
-            <CheckBox fx:id="end_guide" mnemonicParsing="false" onAction="#change_end" text="Ho finito la guida" />
+            <CheckBox fx:id="chb_end_guide" mnemonicParsing="false" onAction="#change_end" text="Ho finito la guida" />
             <Label text="Scegli il mezzo:" />
             <ListView prefHeight="200.0" prefWidth="241.0" />
             <Button fx:id="btn_save" mnemonicParsing="false" onAction="#save" text="Salva" />
