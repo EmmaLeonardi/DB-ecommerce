@@ -19,7 +19,7 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.view.DeliveryMenuImpl;
-import db.ecommerce.view.GuideCreationMenuImpl;
+import db.ecommerce.view.DriveCreationMenuImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -119,7 +119,7 @@ public class DeliveryNewController {
     public void new_guide(final Event event) {
         Stage s = (Stage) btn_new_guide.getScene().getWindow();
         try {
-            new GuideCreationMenuImpl(s, courier);
+            new DriveCreationMenuImpl(s, courier);
         } catch (IOException e) {
             e.printStackTrace();
         }
