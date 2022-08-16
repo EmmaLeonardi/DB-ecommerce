@@ -10,6 +10,7 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.view.DeliveryDetailsMenuImpl;
+import db.ecommerce.view.DeliveryNewMenuImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -54,7 +55,12 @@ public class DeliveryController {
 
     @FXML
     public void newDelivery(final Event event) {
-        System.out.println("Nuova consegna");
+        Stage s = (Stage) btn_details.getScene().getWindow();
+        try {
+            new DeliveryNewMenuImpl(s, courier);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
