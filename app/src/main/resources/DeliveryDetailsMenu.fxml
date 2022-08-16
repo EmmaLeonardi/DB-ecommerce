@@ -30,7 +30,7 @@
          </rowConstraints>
          <children>
             <Label text="Spesa collegata:" />
-            <Label text="--" GridPane.columnIndex="1" />
+            <Label fx:id="lbl_shopping" text="--" GridPane.columnIndex="1" />
             <Label text="Data:" GridPane.rowIndex="1" />
             <Label fx:id="lbl_date" text="--" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <Label text="Tipo Consegna:" GridPane.rowIndex="2" />
