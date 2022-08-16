@@ -15,7 +15,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class GuideCreationController {
+public class DriveCreationController {
 
     @FXML
     private DatePicker dtpk_start;
@@ -52,6 +52,18 @@ public class GuideCreationController {
 
     @FXML
     public void change_end(final Event event) {
+        if (chb_end_guide.isSelected()) {
+            txt_end_h.setDisable(false);
+            txt_end_m.setDisable(false);
+            dtpk_end.setDisable(false);
+        } else {
+            txt_end_h.setDisable(true);
+            txt_end_h.setText(null);
+            txt_end_m.setDisable(true);
+            txt_end_m.setText(null);
+            dtpk_end.setDisable(true);
+            dtpk_end.setValue(null);
+        }
     }
 
     @FXML
@@ -74,6 +86,10 @@ public class GuideCreationController {
     public void initialize() {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
+        txt_end_h.setDisable(true);
+        txt_end_m.setDisable(true);
+        dtpk_end.setDisable(true);
+
     }
 
 }
