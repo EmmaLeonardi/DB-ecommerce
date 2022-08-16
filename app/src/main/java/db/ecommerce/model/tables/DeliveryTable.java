@@ -170,8 +170,8 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
 
     @Override
     public boolean update(DeliveryPK value) {
-        final String query = "UPDATE " + TABLE_NAME
-                + "Cod_spesa=?, Costo_consegna=?, Data=?, Tipo=?, Cod_indirizzo=?, Cod_corriere=?, Targa=?"
+        final String query = "UPDATE " + TABLE_NAME+" SET "
+                + " Cod_spesa=?, Costo_consegna=?, Data=?, Tipo=?, Cod_indirizzo=?, Cod_corriere=?, Targa=?"
                 + " WHERE Cod_consegna=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
@@ -182,6 +182,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
             statement.setInt(5, value.getCodIndirizzo());
             statement.setInt(6, value.getCodCorriere().orElseGet(null));
             statement.setString(7, value.getTarga().orElse(null));
+            statement.setInt(8, value.getCod_Consegna());
             final var r = statement.executeUpdate();
             return r == 1;
         } catch (final SQLException e) {
