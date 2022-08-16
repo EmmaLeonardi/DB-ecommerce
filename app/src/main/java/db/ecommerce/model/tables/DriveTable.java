@@ -18,7 +18,7 @@ import db.ecommerce.utils.DateConverter;
 public class DriveTable implements Table<DrivePK, Integer> {
 
     private final Connection conn;
-    private final static String TABLE_NAME = "MEZZI";
+    private final static String TABLE_NAME = "GUIDE";
 
     /**
      * @param conn
@@ -169,7 +169,7 @@ public class DriveTable implements Table<DrivePK, Integer> {
             return false;
         }
     }
-
+    
     public List<DrivePK> allDriveOfCourier(CourierPK c) {
         final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_corriere=?";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
