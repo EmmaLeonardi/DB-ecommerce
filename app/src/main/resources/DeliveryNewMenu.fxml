@@ -24,7 +24,7 @@
             </HBox>
          </children>
       </VBox>
-      <VBox prefHeight="327.0" prefWidth="260.0">
+      <VBox prefHeight="278.0" prefWidth="316.0">
          <children>
             <Label text="Dati consegna:">
                <font>
@@ -33,10 +33,11 @@
             </Label>
             <GridPane>
                <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.20001220703125" minWidth="10.0" prefWidth="87.0000244140625" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="174.79998779296875" minWidth="10.0" prefWidth="155.7999755859375" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="125.20001220703125" minWidth="10.0" prefWidth="86.000048828125" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="193.199951171875" minWidth="10.0" prefWidth="193.199951171875" />
                </columnConstraints>
                <rowConstraints>
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -52,8 +53,10 @@
                   <Label fx:id="lbl_address" text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Cliente:" GridPane.rowIndex="3" />
                   <Label fx:id="lbl_customer" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <DatePicker fx:id="dtpk_delivery_date" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Label text="Data:" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="dtpk_delivery_date" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <Label text="Data:" GridPane.rowIndex="5" />
+                  <Label text="Contatti: " GridPane.rowIndex="4" />
+                  <Label fx:id="lbl_contacts" text="--" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
             </GridPane>
             <HBox alignment="BOTTOM_CENTER" prefHeight="57.0" prefWidth="242.0">
