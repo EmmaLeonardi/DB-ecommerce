@@ -106,13 +106,11 @@ public class AddressSelectionController {
             // C'è almeno un indirizzo
             if (oldAddresses.size() == shownAddress.size()) {
                 // E' un elemento vecchio
-                System.out.println("No query");
                 a = oldAddresses.get(index);
             } else if (newAddresses.size() == shownAddress.size()) {
                 // E un indirizzo nuovo
                 int newIndex = index - oldAddresses.size();
                 var tmp = newAddresses.get(newIndex);
-                System.out.println("Si query");
                 var app = adsTbl.save(tmp);
                 if (app.isPresent()) {
                     a = app.get();
@@ -122,13 +120,11 @@ public class AddressSelectionController {
             } else {
                 // C'è mix
                 if (index >= 0 && index <= oldAddresses.size() - 1) {
-                    System.out.println("No query");
                     a = oldAddresses.get(index);
                 } else if (index >= oldAddresses.size() && index <= shownAddress.size() - 1) {
                     // E' indirizzo nuovo, faccio traslazione
                     int newIndex = index - oldAddresses.size();
                     var tmp = newAddresses.get(newIndex);
-                    System.out.println("Si query");
                     var app = adsTbl.save(tmp);
                     if (app.isPresent()) {
                         a = app.get();
