@@ -65,7 +65,7 @@
          <children>
             <CheckBox fx:id="chb_end_guide" mnemonicParsing="false" onAction="#change_end" text="Ho finito la guida" />
             <Label text="Scegli il mezzo:" />
-            <ListView prefHeight="200.0" prefWidth="241.0" />
+            <ListView fx:id="lstv_vehicle" prefHeight="200.0" prefWidth="241.0" />
             <Button fx:id="btn_save" mnemonicParsing="false" onAction="#save" text="Salva" />
          </children>
       </VBox>
