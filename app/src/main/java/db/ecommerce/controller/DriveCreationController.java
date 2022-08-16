@@ -106,7 +106,6 @@ public class DriveCreationController {
         dtpk_end.setDisable(true);
         Platform.runLater(() -> {
             lstv_vehicle.setItems(FXCollections.observableList(List.of("a", "b", "c")));
-
         });
 
     }
