@@ -246,7 +246,7 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
         }
 
     }
-    
+
     /**
      * @param the Courier
      * @return all the deliveries of a Courier
@@ -260,6 +260,23 @@ public class DeliveryTable implements Table<DeliveryPK, Integer> {
         } catch (final SQLException e) {
             return List.of();
         }
+    }
+
+    /**
+     * @param the Courier
+     * @return all the deliveries of a Courier
+     */
+    public Optional<ClientPK> getClient(final DeliveryPK d) {
+        ShoppingTable s = new ShoppingTable(conn);
+        ClientTable c = new ClientTable(conn);
+        var app = s.findByPrimaryKey(d.getCod_Consegna());
+        if (app.isPresent()) {
+            var tmp = c.findByPrimaryKey(app.get().getCodCliente());
+            if (tmp.isPresent()) {
+                return tmp;
+            }
+        }
+        return Optional.empty();
     }
 
 }
