@@ -39,7 +39,6 @@ public class DeliveryController {
 
     public void setCourier(CourierPK courierPK) {
         this.courier = courierPK;
-
     }
 
     @FXML
@@ -93,7 +92,6 @@ public class DeliveryController {
             s = s + "Codice consegna " + elem.getCod_Consegna() + " ";
             s = s + "Tipo consegna " + elem.getType().name();
             l.add(s);
-
         }
 
         return l;
