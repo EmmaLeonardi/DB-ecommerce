@@ -14,6 +14,7 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.ROLE;
+import db.ecommerce.view.DeliveryMenuImpl;
 import db.ecommerce.view.ShoppingMenuImpl;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -79,7 +80,6 @@ public class LoginController {
                 if (client.isPresent() && client.get().getName().equals(txt_psw.getText())) {
                     Stage s = (Stage) btn_login.getScene().getWindow();
                     new ShoppingMenuImpl(s, client.get());
-
                 } else {
                     var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
                     alert.show();
@@ -89,7 +89,8 @@ public class LoginController {
                 Optional<CourierPK> courier = this.courierTbl
                         .findByPrimaryKey(Integer.parseInt(txt_username.getText()));
                 if (courier.isPresent() && courier.get().getName().equals(txt_psw.getText())) {
-                    System.out.println("ROLE.CORRIERE");
+                    Stage s = (Stage) btn_login.getScene().getWindow();
+                    new DeliveryMenuImpl(s, courier.get());
                 } else {
                     var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
                     alert.show();
