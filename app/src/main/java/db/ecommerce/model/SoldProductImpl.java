@@ -44,7 +44,7 @@ public class SoldProductImpl implements SoldProduct {
      * @param expiration
      * @param codProduct
      */
-    public SoldProductImpl(float price, Date start, Optional<Date> end, Date expiration, int codProduct) {
+    public SoldProductImpl(double price, Date start, Optional<Date> end, Date expiration, int codProduct) {
         this.price = price;
         this.start = start;
         this.end = end;
@@ -62,7 +62,7 @@ public class SoldProductImpl implements SoldProduct {
      * @param size
      * @param codProduct
      */
-    public SoldProductImpl(float price, Date start, Optional<Date> end, String size, int codProduct) {
+    public SoldProductImpl(double price, Date start, Optional<Date> end, String size, int codProduct) {
         this.price = price;
         this.start = start;
         this.end = end;
