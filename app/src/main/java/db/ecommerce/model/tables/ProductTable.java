@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import db.ecommerce.model.ProducerPK;
 import db.ecommerce.model.Product;
 import db.ecommerce.model.ProductPK;
 
@@ -181,6 +182,17 @@ public class ProductTable implements Table<ProductPK, Integer> {
             return r == 1;
         } catch (final SQLException e) {
             return false;
+        }
+    }
+
+    public List<ProductPK> allProductsOfProducer(ProducerPK p) {
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_produttore=?";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+            statement.setInt(1, p.getCod_produttore());
+            var result = statement.executeQuery();
+            return convertResultSet(result);
+        } catch (final SQLException e) {
+            return List.of();
         }
     }
 
