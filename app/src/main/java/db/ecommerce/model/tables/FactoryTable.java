@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 import db.ecommerce.model.Factory;
+import db.ecommerce.model.FactoryManagementPK;
 import db.ecommerce.model.FactoryPK;
+import db.ecommerce.model.ProducerPK;
 
 public class FactoryTable implements Table<FactoryPK, Integer> {
 
@@ -144,6 +146,19 @@ public class FactoryTable implements Table<FactoryPK, Integer> {
         } catch (final SQLException e) {
             return false;
         }
+    }
+
+    public List<FactoryPK> allFactoryOfProducer(ProducerPK p) {
+        var fcm = new FactoryManagementTable(conn);
+        List<FactoryManagementPK> list = fcm.allFactoryManagementOfProducer(p);
+        List<FactoryPK> l = new ArrayList<>();
+        for (var elem : list) {
+            var tmp = this.findByPrimaryKey(elem.getCodFabbrica());
+            if (tmp.isPresent()) {
+                l.add(tmp.get());
+            }
+        }
+        return l;
     }
 
 }
