@@ -112,7 +112,8 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
             statement.setDate(2, DateConverter.dateToSqlDate(value.getStart()));
             statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().get()));
             statement.setString(4, value.getType().name());
-            statement.setDate(5, DateConverter.dateToSqlDate(value.getExpiration().get()));
+            statement.setDate(5, DateConverter
+                    .dateToSqlDate(value.getExpiration().isPresent() ? value.getExpiration().get() : null));
             statement.setString(6, value.getSize().get());
             statement.setInt(7, value.getCodProduct());
             final var r = statement.executeUpdate();
