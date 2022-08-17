@@ -15,6 +15,7 @@ import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.ROLE;
 import db.ecommerce.view.DeliveryMenuImpl;
+import db.ecommerce.view.ProducerChangesMenuImpl;
 import db.ecommerce.view.ShoppingMenuImpl;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
@@ -100,7 +101,8 @@ public class LoginController {
                 Optional<ProducerPK> producer = this.producerTbl
                         .findByPrimaryKey(Integer.parseInt(txt_username.getText()));
                 if (producer.isPresent() && producer.get().getName().equals(txt_psw.getText())) {
-                    System.out.println("ROLE.PRODUTTORE");
+                    Stage s = (Stage) btn_login.getScene().getWindow();
+                    new ProducerChangesMenuImpl(s, producer.get());
                 } else {
                     var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
                     alert.show();
