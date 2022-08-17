@@ -10,7 +10,7 @@
 
 <HBox alignment="TOP_CENTER" prefHeight="318.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="db.ecommerce.controller.ProductCreationController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="268.0">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="268.0">
          <children>
             <HBox prefHeight="38.0" prefWidth="206.0">
                <children>
