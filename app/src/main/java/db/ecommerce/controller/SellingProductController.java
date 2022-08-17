@@ -92,38 +92,51 @@ public class SellingProductController {
         if (txt_price != null && dtpk_start_date.getValue() != null && cmb_type.getValue() != null) {
             try {
                 double price = Double.parseDouble(txt_price.getText());
-                Date start = Date.from(dtpk_start_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Date end = dtpk_end_date.getValue() == null ? null
-                        : Date.from(dtpk_end_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                Date expiry = dtpk_expiry_date.getValue() == null ? null
-                        : Date.from(dtpk_expiry_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                SoldProduct sp = new SoldProductImpl(price, DateConverter.dateToSqlDate(start),
-                        Optional.ofNullable(DateConverter.dateToSqlDate(end)), PRODUCTTYPE.convert(cmb_type.getValue()),
-                        Optional.ofNullable(expiry), Optional.ofNullable(txt_size.getText()),
-                        product.getCod_prodotto());
-                var tmp = slpTbl.save(sp);
-                if (tmp.isPresent()) {
-                    var alert = new Alert(AlertType.INFORMATION,
-                            "Hai messo in vendita il prodotto con codice " + tmp.get().getCodSoldProduct());
+                if (price < 0) {
+                    var alert = new Alert(AlertType.ERROR, "Il prezzo deve essere un numero positivo");
                     alert.show();
-                    Stage s = (Stage) btn_save.getScene().getWindow();
-                    try {
-                        new ProducerChangesMenuImpl(s, producer);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 } else {
-                    throw new SQLException("SoldProduct wasn't saved");
-                }
+                    Date start = Date.from(dtpk_start_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    Date end = dtpk_end_date.getValue() == null ? null
+                            : Date.from(dtpk_end_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    Date expiry = dtpk_expiry_date.getValue() == null ? null
+                            : Date.from(dtpk_expiry_date.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    SoldProduct sp = new SoldProductImpl(price, DateConverter.dateToSqlDate(start),
+                            Optional.ofNullable(DateConverter.dateToSqlDate(end)),
+                            PRODUCTTYPE.convert(cmb_type.getValue()), Optional.ofNullable(expiry),
+                            Optional.ofNullable(txt_size.getText()), product.getCod_prodotto());
+                    if (end.before(start)) {
+                        var alert = new Alert(AlertType.ERROR,
+                                "La data di inizio e la data di fine devono essere corrette");
+                        alert.show();
+                    } else {
+                        var tmp = slpTbl.save(sp);
+                        if (tmp.isPresent()) {
+                            var alert = new Alert(AlertType.INFORMATION,
+                                    "Hai messo in vendita il prodotto con codice " + tmp.get().getCodSoldProduct());
+                            alert.show();
+                            Stage s = (Stage) btn_save.getScene().getWindow();
+                            try {
+                                new ProducerChangesMenuImpl(s, producer);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            throw new SQLException("SoldProduct wasn't saved");
+                        }
 
+                    }
+                }
             } catch (NumberFormatException e) {
                 var alert = new Alert(AlertType.ERROR, "Il prezzo deve essere un numero");
                 alert.show();
             }
+
         } else {
             var alert = new Alert(AlertType.ERROR, "Compila tutti i campi necessari, come prezzo e inizio vendita");
             alert.show();
         }
+
     }
 
     public void initialize() {
@@ -148,6 +161,18 @@ public class SellingProductController {
             } else {
                 cmb_type.setDisable(false);
             }
+
+            cmb_type.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+                if (cmb_type.getSelectionModel().getSelectedItem() == PRODUCTTYPE.ALIMENTARE.name()) {
+                    dtpk_expiry_date.setDisable(false);
+                    txt_size.setDisable(true);
+                    txt_size.setText(null);
+                } else {
+                    dtpk_expiry_date.setDisable(true);
+                    txt_size.setDisable(false);
+                    dtpk_expiry_date.setValue(null);
+                }
+            });
         });
     }
 
