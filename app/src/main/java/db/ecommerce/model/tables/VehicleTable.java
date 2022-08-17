@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import db.ecommerce.model.Vehicle;
 import db.ecommerce.model.VehicleImpl;
@@ -143,6 +144,12 @@ public class VehicleTable implements Table<Vehicle, String> {
         } catch (final SQLException e) {
             return false;
         }
+    }
+
+    public List<Vehicle> allUnusedVehicles(List<Vehicle> l) {
+        List<Vehicle> all = findAll();
+        return all.stream().filter(element -> !l.contains(element)).collect(Collectors.toList());
+
     }
 
 }
