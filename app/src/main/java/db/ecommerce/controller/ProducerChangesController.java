@@ -10,6 +10,7 @@ import db.ecommerce.model.tables.ProductTable;
 import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
+import db.ecommerce.view.ProductCreationMenuImpl;
 import db.ecommerce.view.SellingProductMenuImpl;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -57,7 +58,12 @@ public class ProducerChangesController {
     }
 
     public void new_product(final Event event) {
-        System.out.println("New");
+        Stage s = (Stage) btn_new.getScene().getWindow();
+        try {
+            new ProductCreationMenuImpl(s, producer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /***
@@ -90,7 +96,8 @@ public class ProducerChangesController {
     private List<String> buildProduct(List<ProductPK> l) {
         List<String> list = new ArrayList<>();
         for (var elem : l) {
-            String s = "" + elem.getCod_prodotto() + " " + elem.getDescrizione() + " " + elem.getMateriale()+" Fabbrica N° "+elem.getCod_fabbrica();
+            String s = "" + elem.getCod_prodotto() + " " + elem.getDescrizione() + " " + elem.getMateriale()
+                    + " Fabbrica N° " + elem.getCod_fabbrica();
             list.add(s);
         }
         return list;
