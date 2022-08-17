@@ -39,7 +39,7 @@
       <VBox prefHeight="364.0" prefWidth="292.0">
          <children>
             <Label text="Fabbrica in cui viene prodotto" />
-            <ListView fx:id="lsvw_selling_products" prefHeight="278.0" prefWidth="90.0" />
+            <ListView fx:id="lsvw_factory" prefHeight="278.0" prefWidth="90.0" />
          </children>
       </VBox>
    </children>
