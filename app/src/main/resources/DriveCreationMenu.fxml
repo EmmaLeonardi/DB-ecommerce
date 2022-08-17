@@ -57,6 +57,11 @@
                   </HBox>
                   <Label text="Ora fine:" GridPane.rowIndex="4" />
                   <Button fx:id="btn_back" mnemonicParsing="false" onAction="#back" text="Indietro" GridPane.rowIndex="5" />
+                  <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                     <children>
+                        <Button fx:id="btn_find_vehicle" mnemonicParsing="false" onAction="#find_vehicle" text="Cerca mezzo libero" />
+                     </children>
+                  </HBox>
                </children>
             </GridPane>
          </children>
