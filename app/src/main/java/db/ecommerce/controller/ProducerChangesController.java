@@ -1,5 +1,6 @@
 package db.ecommerce.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,8 +46,12 @@ public class ProducerChangesController {
     public void change(final Event event) {
         if (ltvw_products.getSelectionModel().getSelectedIndex() != -1 && !showProducts.isEmpty()) {
             Stage s = (Stage) btn_change.getScene().getWindow();
-            new SellingProductMenuImpl(s, producer,
-                    showProducts.get(ltvw_products.getSelectionModel().getSelectedIndex()));
+            try {
+                new SellingProductMenuImpl(s, producer,
+                        showProducts.get(ltvw_products.getSelectionModel().getSelectedIndex()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
