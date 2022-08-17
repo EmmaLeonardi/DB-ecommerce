@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import db.ecommerce.model.FactoryManagement;
 import db.ecommerce.model.FactoryManagementPK;
+import db.ecommerce.model.ProducerPK;
 import db.ecommerce.utils.DateConverter;
 
 public class FactoryManagementTable implements Table<FactoryManagementPK, Integer> {
@@ -150,6 +151,17 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
             return r == 1;
         } catch (final SQLException e) {
             return false;
+        }
+    }
+    
+    public List<FactoryManagementPK> allFactoryManagementOfProducer(ProducerPK p) {
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_produttore=?";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+            statement.setInt(1, p.getCod_produttore());
+            var result = statement.executeQuery();
+            return convertResultSet(result);
+        } catch (final SQLException e) {
+            return List.of();
         }
     }
 
