@@ -110,7 +110,7 @@ public class SoldProductTable implements Table<SoldProductPK, Integer> {
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setDouble(1, value.getPrice());
             statement.setDate(2, DateConverter.dateToSqlDate(value.getStart()));
-            statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().get()));
+            statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().isPresent()?value.getEnd().get():null));
             statement.setString(4, value.getType().name());
             statement.setDate(5, DateConverter
                     .dateToSqlDate(value.getExpiration().isPresent() ? value.getExpiration().get() : null));
