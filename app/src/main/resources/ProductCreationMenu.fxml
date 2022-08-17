@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox alignment="TOP_CENTER" prefHeight="318.0" prefWidth="580.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="200.0" prefWidth="268.0">
+         <children>
+            <HBox prefHeight="38.0" prefWidth="206.0">
+               <children>
+                  <Label text="Materiale" />
+                  <TextField fx:id="txt_material" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Descrizione" />
+                  <TextArea fx:id="txt_description" prefHeight="170.0" prefWidth="179.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="40.0" prefWidth="268.0">
+               <children>
+                  <Button fx:id="btn_back" mnemonicParsing="false" onAction="#back" text="Indietro" />
+                  <HBox alignment="TOP_RIGHT" prefHeight="42.0" prefWidth="200.0">
+                     <children>
+                        <Button fx:id="btn_save" mnemonicParsing="false" onAction="#save" text="Salva" />
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="364.0" prefWidth="292.0">
+         <children>
+            <Label text="Fabbrica in cui viene prodotto" />
+            <ListView fx:id="lsvw_selling_products" prefHeight="278.0" prefWidth="90.0" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

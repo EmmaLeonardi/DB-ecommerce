@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<HBox prefHeight="281.0" prefWidth="456.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox alignment="CENTER" prefHeight="282.0" prefWidth="229.0">
+         <children>
+            <Button fx:id="btn_change" mnemonicParsing="false" onAction="#change" text="Gestisci la vendita di un prodotto" />
+            <Button fx:id="btn_new" mnemonicParsing="false" onAction="#new_product" text="Nuovo prodotto" />
+         </children>
+      </VBox>
+      <ListView fx:id="ltvw_products" prefHeight="282.0" prefWidth="283.0" />
+   </children>
+</HBox>
