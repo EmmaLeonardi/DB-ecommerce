@@ -34,13 +34,13 @@
                </rowConstraints>
                <children>
                   <Label text="Codice fiscale" GridPane.rowIndex="1" />
-                  <TextField fx:id="txt_cf1" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="txt_cf" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Nome" GridPane.rowIndex="2" />
-                  <TextField fx:id="txt_name1" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="txt_name" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Cognome" GridPane.rowIndex="3" />
-                  <TextField fx:id="txt_surname1" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="txt_surname" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="Data di nascita" GridPane.rowIndex="4" />
-                  <DatePicker fx:id="dtpkr_birthday1" prefHeight="26.0" prefWidth="252.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="dtpkr_birthday" prefHeight="26.0" prefWidth="252.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Codice Corriere" />
                   <Label fx:id="lbl_cod_corriere" text="--" GridPane.columnIndex="1" />
                   <Label text="Codice Patente" GridPane.rowIndex="5" />
@@ -56,7 +56,7 @@
             <ListView fx:id="lstvw_courier" prefHeight="247.0" prefWidth="107.0" />
             <HBox alignment="TOP_CENTER" prefHeight="26.0" prefWidth="271.0">
                <children>
-                  <Button fx:id="btn_back1" mnemonicParsing="false" onAction="#back" text="Indietro" />
+                  <Button fx:id="btn_back" mnemonicParsing="false" onAction="#back" text="Indietro" />
                </children>
             </HBox>
             <GridPane>
@@ -71,7 +71,7 @@
                <children>
                   <Button fx:id="btn_change" mnemonicParsing="false" onAction="#change" text="Modifica" />
                   <Button fx:id="btn_save" mnemonicParsing="false" onAction="#save" prefHeight="26.0" prefWidth="53.0" text="Salva" GridPane.columnIndex="1" />
-                  <Button fx:id="btn_delete1" mnemonicParsing="false" onAction="#delete" text="Elimina" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Button fx:id="btn_delete" mnemonicParsing="false" onAction="#delete" text="Elimina" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button fx:id="btn_new" mnemonicParsing="false" onAction="#newCourier" prefHeight="26.0" prefWidth="61.0" text="Nuovo" GridPane.rowIndex="1" />
                </children>
             </GridPane>
