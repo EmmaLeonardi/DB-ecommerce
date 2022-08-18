@@ -100,14 +100,15 @@ public class CourierTable implements Table<CourierPK, Integer> {
      */
     public Optional<CourierPK> save(Courier value) {
         final String query = "INSERT INTO " + TABLE_NAME + " (Codice_fiscale, Nome, Cognome,"
-                + " Data_di_nascita, Cod_patente, Nazionalità_patente) VALUES (?,?,?,?,?)";
+                + " Data_di_nascita, Cod_patente, Nazionalità_patente) VALUES (?,?,?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getCodFis());
             statement.setString(2, value.getName());
-            statement.setDate(3, DateConverter.dateToSqlDate(value.getDateBirth()));
-            statement.setString(4, value.getCodDrivingLic());
-            statement.setString(5, value.getDrivingNat());
+            statement.setString(3, value.getSurname());
+            statement.setDate(4, DateConverter.dateToSqlDate(value.getDateBirth()));
+            statement.setString(5, value.getCodDrivingLic());
+            statement.setString(6, value.getDrivingNat());
             final var r = statement.executeUpdate();
             if (r == 1) {
                 try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -139,10 +140,11 @@ public class CourierTable implements Table<CourierPK, Integer> {
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getCodFis());
             statement.setString(2, value.getName());
-            statement.setDate(3, DateConverter.dateToSqlDate(value.getDateBirth()));
-            statement.setString(4, value.getCodDrivingLic());
-            statement.setString(5, value.getDrivingNat());
-            statement.setInt(6, value.getCod_corriere());
+            statement.setString(3, value.getSurname());
+            statement.setDate(4, DateConverter.dateToSqlDate(value.getDateBirth()));
+            statement.setString(5, value.getCodDrivingLic());
+            statement.setString(6, value.getDrivingNat());
+            statement.setInt(7, value.getCod_corriere());
             final var r = statement.executeUpdate();
             return r == 1;
         } catch (final SQLException e) {
