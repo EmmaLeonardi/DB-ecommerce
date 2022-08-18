@@ -14,6 +14,7 @@ import db.ecommerce.utils.ConnectionProvider;
 import db.ecommerce.utils.ConnectionProviderImpl;
 import db.ecommerce.utils.Credentials;
 import db.ecommerce.utils.ROLE;
+import db.ecommerce.view.AdminMenuImpl;
 import db.ecommerce.view.DeliveryMenuImpl;
 import db.ecommerce.view.ProducerChangesMenuImpl;
 import db.ecommerce.view.ShoppingMenuImpl;
@@ -69,8 +70,8 @@ public class LoginController {
             switch (cbx_role.getValue()) {
             case ADMIN:
                 if (txt_psw.getText().equals(ADMIN_CRED) && txt_username.getText().equals(ADMIN_CRED)) {
-                    System.out.println("ROLE.ADMIN");
-
+                    Stage s = (Stage) btn_login.getScene().getWindow();
+                    new AdminMenuImpl(s);
                 } else {
                     var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
                     alert.show();
