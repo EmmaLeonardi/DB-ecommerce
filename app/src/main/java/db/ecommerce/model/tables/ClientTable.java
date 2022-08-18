@@ -110,13 +110,14 @@ public class ClientTable implements Table<ClientPK, Integer> {
         try (final PreparedStatement statement = this.conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getCodFis());
             statement.setString(2, value.getName());
-            statement.setDate(3, DateConverter.dateToSqlDate(value.getDateBirth()));
-            statement.setString(4, value.getEmail());
-            statement.setInt(5, value.getPhoneNumber());
-            statement.setString(6, value.getResStreet());
-            statement.setInt(7, value.getResNumber());
-            statement.setString(8, value.getResCity());
-            statement.setString(9, value.getBankInfo());
+            statement.setString(3, value.getSurname());
+            statement.setDate(4, DateConverter.dateToSqlDate(value.getDateBirth()));
+            statement.setString(5, value.getEmail());
+            statement.setInt(6, value.getPhoneNumber());
+            statement.setString(7, value.getResStreet());
+            statement.setInt(8, value.getResNumber());
+            statement.setString(9, value.getResCity());
+            statement.setString(10, value.getBankInfo());
             final var r = statement.executeUpdate();
             if (r == 1) {
                 try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
@@ -149,14 +150,15 @@ public class ClientTable implements Table<ClientPK, Integer> {
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getCodFis());
             statement.setString(2, value.getName());
-            statement.setDate(3, DateConverter.dateToSqlDate(value.getDateBirth()));
-            statement.setString(4, value.getEmail());
-            statement.setInt(5, value.getPhoneNumber());
-            statement.setString(6, value.getResStreet());
-            statement.setInt(7, value.getResNumber());
-            statement.setString(8, value.getResCity());
-            statement.setString(9, value.getBankInfo());
-            statement.setInt(10, value.getCod_cliente());
+            statement.setString(3, value.getSurname());
+            statement.setDate(4, DateConverter.dateToSqlDate(value.getDateBirth()));
+            statement.setString(5, value.getEmail());
+            statement.setInt(6, value.getPhoneNumber());
+            statement.setString(7, value.getResStreet());
+            statement.setInt(8, value.getResNumber());
+            statement.setString(9, value.getResCity());
+            statement.setString(10, value.getBankInfo());
+            statement.setInt(11, value.getCod_cliente());
             final var r = statement.executeUpdate();
             return r == 1;
         } catch (final SQLException e) {
