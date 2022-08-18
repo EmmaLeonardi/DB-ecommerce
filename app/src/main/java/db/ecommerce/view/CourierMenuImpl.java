@@ -21,7 +21,7 @@ public class CourierMenuImpl {
         if (a instanceof HBox) {
             this.root = (HBox) a;
         } else {
-            var alert = new Alert(AlertType.ERROR, "Something went wrong loading the ClientMenu");
+            var alert = new Alert(AlertType.ERROR, "Something went wrong loading the CourierMenu");
             alert.show();
             throw new IOException("The loaded menu wasn't a HBox as expected");
         }
