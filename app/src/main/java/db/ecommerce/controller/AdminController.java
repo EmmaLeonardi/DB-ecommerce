@@ -1,8 +1,12 @@
 package db.ecommerce.controller;
 
+import java.io.IOException;
+
+import db.ecommerce.view.ClientMenuImpl;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class AdminController {
 
@@ -26,7 +30,12 @@ public class AdminController {
 
     @FXML
     public void new_client(final Event event) {
-        System.out.println("Nuovo cliente");
+        Stage s = (Stage) btn_customers.getScene().getWindow();
+        try {
+            new ClientMenuImpl(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
