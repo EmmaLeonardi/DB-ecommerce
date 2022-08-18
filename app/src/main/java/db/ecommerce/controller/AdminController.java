@@ -3,6 +3,7 @@ package db.ecommerce.controller;
 import java.io.IOException;
 
 import db.ecommerce.view.ClientMenuImpl;
+import db.ecommerce.view.CourierMenuImpl;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,7 +46,12 @@ public class AdminController {
 
     @FXML
     public void new_courier(final Event event) {
-        System.out.println("Nuovo corriere");
+        Stage s = (Stage) btn_couriers.getScene().getWindow();
+        try {
+            new CourierMenuImpl(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
