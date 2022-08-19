@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -26,11 +27,14 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="410.0" prefWidth="196.0">
          <children>
+            <CheckBox fx:id="chb_ended" mnemonicParsing="false" onAction="#has_ended" text="Gestione finita" />
+            <Label text="Codice Gestione Fabbrica:" />
+            <Label fx:id="lbl_cod_gestione_fabbrica" text="--" />
             <Label text="Data inizio gestione" />
             <DatePicker fx:id="dtpk_start" />
             <Label text="Data fine gestione" />
             <DatePicker fx:id="dtpk_end" />
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="109.0" prefWidth="196.0">
                <children>
                   <HBox alignment="BOTTOM_CENTER" prefHeight="34.0" prefWidth="196.0">
                      <children>
@@ -60,7 +64,7 @@
       <VBox prefHeight="410.0" prefWidth="234.0">
          <children>
             <Label text="Gestione Fabbriche" />
-            <ListView fx:id="lstv_gestione_fabbriche" prefHeight="350.0" prefWidth="100.0" />
+            <ListView fx:id="lsvw_gestione_fabbriche" prefHeight="350.0" prefWidth="100.0" />
          </children>
       </VBox>
    </children>
