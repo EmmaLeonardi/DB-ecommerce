@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import db.ecommerce.view.ClientMenuImpl;
 import db.ecommerce.view.CourierMenuImpl;
+import db.ecommerce.view.FactoryManagementMenuImpl;
 import db.ecommerce.view.FactoryMenuImpl;
 import db.ecommerce.view.ProducerMenuImpl;
 import db.ecommerce.view.VehicleMenuImpl;
@@ -84,7 +85,12 @@ public class AdminController {
 
     @FXML
     public void new_factory_management(final Event event) {
-        System.out.println("Nuova gestione fabbriche");
+        Stage s = (Stage) btn_factory_management.getScene().getWindow();
+        try {
+            new FactoryManagementMenuImpl(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
