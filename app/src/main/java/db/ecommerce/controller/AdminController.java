@@ -5,6 +5,7 @@ import java.io.IOException;
 import db.ecommerce.view.ClientMenuImpl;
 import db.ecommerce.view.CourierMenuImpl;
 import db.ecommerce.view.ProducerMenuImpl;
+import db.ecommerce.view.VehicleMenuImpl;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -67,7 +68,12 @@ public class AdminController {
 
     @FXML
     public void new_vehicle(final Event event) {
-        System.out.println("Nuovo veicolo");
+        Stage s = (Stage) btn_vehicle.getScene().getWindow();
+        try {
+            new VehicleMenuImpl(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
