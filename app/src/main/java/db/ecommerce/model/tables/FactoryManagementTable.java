@@ -102,7 +102,7 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setInt(1, value.getCodFabbrica());
             statement.setDate(2, DateConverter.dateToSqlDate(value.getStart()));
-            statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().get()));
+            statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().isPresent() ? value.getEnd().get() : null));
             statement.setInt(4, value.getCodProduttore());
             final var r = statement.executeUpdate();
             if (r == 1) {
@@ -131,7 +131,7 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, value.getCodFabbrica());
             statement.setDate(2, DateConverter.dateToSqlDate(value.getStart()));
-            statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().get()));
+            statement.setDate(3, DateConverter.dateToSqlDate(value.getEnd().isPresent() ? value.getEnd().get() : null));
             statement.setInt(4, value.getCodProduttore());
             statement.setInt(5, value.getCodGestione());
             final var r = statement.executeUpdate();
@@ -153,7 +153,7 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
             return false;
         }
     }
-    
+
     public List<FactoryManagementPK> allFactoryManagementOfProducer(ProducerPK p) {
         final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_produttore=?";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
