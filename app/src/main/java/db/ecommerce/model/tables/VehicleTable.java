@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -97,18 +96,14 @@ public class VehicleTable implements Table<Vehicle, String> {
         final String query = "INSERT INTO " + TABLE_NAME
                 + " (Targa, Paese_immatricolazione, Marca, Tipo_veicolo) VALUES (?,?,?,?)";
 
-        try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getTarga());
             statement.setString(2, value.getStato());
             statement.setString(3, value.getMarca());
             statement.setString(4, value.getTipo_veicolo());
             final var r = statement.executeUpdate();
             if (r == 1) {
-                try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-                    if (generatedKeys.next()) {
-                        return Optional.ofNullable(value);
-                    }
-                }
+                return Optional.ofNullable(value);
             }
         } catch (final SQLException e) {
             return Optional.empty();
