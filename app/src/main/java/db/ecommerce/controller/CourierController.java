@@ -108,7 +108,7 @@ public class CourierController {
     @FXML
     public void save(final Event event) throws SQLException {
         if (lbl_cod_corriere.getText().equals(NOCOURIER)) {
-            // E' un cliente nuovo
+            // E' un corriere nuovo
             if (txt_cf.getText() != "" && txt_name.getText() != "" && txt_surname.getText() != ""
                     && dtpkr_birthday.getValue() != null && txt_licence_country.getText() != ""
                     && txt_license_number.getText() != "") {
@@ -148,7 +148,7 @@ public class CourierController {
                 alert.show();
             }
         } else {
-            // E' un cliente vecchio
+            // E' un corriere vecchio
             if (txt_cf.getText() != "" && txt_name.getText() != "" && txt_surname.getText() != ""
                     && dtpkr_birthday.getValue() != null && txt_licence_country.getText() != ""
                     && txt_license_number.getText() != "") {
