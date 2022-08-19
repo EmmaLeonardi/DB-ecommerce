@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import db.ecommerce.view.ClientMenuImpl;
 import db.ecommerce.view.CourierMenuImpl;
+import db.ecommerce.view.ProducerMenuImpl;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -41,7 +42,12 @@ public class AdminController {
 
     @FXML
     public void new_producer(final Event event) {
-        System.out.println("Nuovo produttore");
+        Stage s = (Stage) btn_producers.getScene().getWindow();
+        try {
+            new ProducerMenuImpl(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
