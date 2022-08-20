@@ -57,7 +57,7 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
 
     @Override
     public Optional<FactoryManagementPK> findByPrimaryKey(Integer primaryKey) {
-        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_gestione_fabbrica=?";
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_gestione=?";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, primaryKey);
             var result = statement.executeQuery();
@@ -126,7 +126,7 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
     @Override
     public boolean update(FactoryManagementPK value) {
         final String query = "UPDATE " + TABLE_NAME
-                + " SET Cod_fabbrica=?, Data_inizio=?, Data_fine=?, Cod_produttore=? WHERE Cod_gestione_fabbrica=?";
+                + " SET Cod_fabbrica=?, Data_inizio=?, Data_fine=?, Cod_produttore=? WHERE Cod_gestione=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, value.getCodFabbrica());
@@ -143,7 +143,7 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
 
     @Override
     public boolean delete(Integer primaryKey) {
-        final String query = "DELETE FROM " + TABLE_NAME + " WHERE Cod_gestione_fabbrica=?";
+        final String query = "DELETE FROM " + TABLE_NAME + " WHERE Cod_gestione=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, primaryKey);
