@@ -76,8 +76,7 @@ public class ProducerController {
 
     @FXML
     public void back(final Event event) {
-        if (btn_save.isDisabled() == false || txt_cf.getText() != "" || txt_name.getText() != ""
-                || txt_surname.getText() != "" || dtpkr_birthday.getValue() != null || txt_IVA.getText() != "") {
+        if (btn_save.isDisabled() == false) {
             var alert = new Alert(AlertType.WARNING,
                     "Stai per tornare al menu principale, ma perderai i dati inseriti. Continuare?", ButtonType.NO,
                     ButtonType.YES);

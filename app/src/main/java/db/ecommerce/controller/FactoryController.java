@@ -68,8 +68,7 @@ public class FactoryController {
 
     @FXML
     public void back(final Event event) {
-        if (btn_save.isDisabled() == false || txt_address_city.getText() != "" || txt_address_number.getText() != ""
-                || txt_address_street.getText() != "") {
+        if (btn_save.isDisabled() == false ) {
             var alert = new Alert(AlertType.WARNING,
                     "Stai per tornare al menu principale, ma perderai i dati inseriti. Continuare?", ButtonType.NO,
                     ButtonType.YES);

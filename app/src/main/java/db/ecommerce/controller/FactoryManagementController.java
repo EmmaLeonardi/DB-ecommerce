@@ -90,7 +90,7 @@ public class FactoryManagementController {
 
     @FXML
     public void back(final Event event) {
-        if (btn_save.isDisabled() == false || dtpk_start.getValue() == null) {
+        if (btn_save.isDisabled() == false) {
             var alert = new Alert(AlertType.WARNING,
                     "Stai per tornare al menu principale, ma perderai i dati inseriti. Continuare?", ButtonType.NO,
                     ButtonType.YES);

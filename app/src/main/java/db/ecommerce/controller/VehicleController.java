@@ -66,8 +66,7 @@ public class VehicleController {
 
     @FXML
     public void back(final Event event) {
-        if (btn_save.isDisabled() == false || txt_license.getText() != "" || txt_country.getText() != ""
-                || txt_brand.getText() != "" || txt_type.getText() != "") {
+        if (btn_save.isDisabled() == false ) {
             var alert = new Alert(AlertType.WARNING,
                     "Stai per tornare al menu principale, ma perderai i dati inseriti. Continuare?", ButtonType.NO,
                     ButtonType.YES);
