@@ -66,57 +66,72 @@ public class LoginController {
     @FXML
     public void login(final Event event) throws IOException {
         if (cbx_role.getValue() != null) {
-
             switch (cbx_role.getValue()) {
             case ADMIN:
                 if (txt_psw.getText().equals(ADMIN_CRED) && txt_username.getText().equals(ADMIN_CRED)) {
                     Stage s = (Stage) btn_login.getScene().getWindow();
                     new AdminMenuImpl(s);
                 } else {
-                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                    var alert = new Alert(AlertType.ERROR, "Credenziali sbagliate");
                     alert.show();
                 }
                 break;
             case CLIENTE:
-                Optional<ClientPK> client = this.clientTbl.findByPrimaryKey(Integer.parseInt(txt_username.getText()));
-                if (client.isPresent() && client.get().getName().equals(txt_psw.getText())) {
-                    Stage s = (Stage) btn_login.getScene().getWindow();
-                    new ShoppingMenuImpl(s, client.get());
-                } else {
-                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                try {
+                    int c = Integer.parseInt(txt_username.getText());
+                    Optional<ClientPK> client = this.clientTbl.findByPrimaryKey(c);
+                    if (client.isPresent() && client.get().getName().equals(txt_psw.getText())) {
+                        Stage s = (Stage) btn_login.getScene().getWindow();
+                        new ShoppingMenuImpl(s, client.get());
+                    } else {
+                        var alert = new Alert(AlertType.ERROR, "Credenziali sbagliate");
+                        alert.show();
+                    }
+                } catch (NumberFormatException e) {
+                    var alert = new Alert(AlertType.ERROR, "Credenziali sbagliate");
                     alert.show();
                 }
                 break;
             case CORRIERE:
-                Optional<CourierPK> courier = this.courierTbl
-                        .findByPrimaryKey(Integer.parseInt(txt_username.getText()));
-                if (courier.isPresent() && courier.get().getName().equals(txt_psw.getText())) {
-                    Stage s = (Stage) btn_login.getScene().getWindow();
-                    new DeliveryMenuImpl(s, courier.get());
-                } else {
-                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                try {
+                    int c = Integer.parseInt(txt_username.getText());
+                    Optional<CourierPK> courier = this.courierTbl.findByPrimaryKey(c);
+                    if (courier.isPresent() && courier.get().getName().equals(txt_psw.getText())) {
+                        Stage s = (Stage) btn_login.getScene().getWindow();
+                        new DeliveryMenuImpl(s, courier.get());
+                    } else {
+                        var alert = new Alert(AlertType.ERROR, "Credenziali sbagliate");
+                        alert.show();
+                    }
+                } catch (NumberFormatException e) {
+                    var alert = new Alert(AlertType.ERROR, "Credenziali sbagliate");
                     alert.show();
                 }
                 break;
             case PRODUTTORE:
-                Optional<ProducerPK> producer = this.producerTbl
-                        .findByPrimaryKey(Integer.parseInt(txt_username.getText()));
-                if (producer.isPresent() && producer.get().getName().equals(txt_psw.getText())) {
-                    Stage s = (Stage) btn_login.getScene().getWindow();
-                    new ProducerChangesMenuImpl(s, producer.get());
-                } else {
-                    var alert = new Alert(AlertType.ERROR, "Wrong credentials, retry");
+                try {
+                    int p = Integer.parseInt(txt_username.getText());
+                    Optional<ProducerPK> producer = this.producerTbl.findByPrimaryKey(p);
+                    if (producer.isPresent() && producer.get().getName().equals(txt_psw.getText())) {
+                        Stage s = (Stage) btn_login.getScene().getWindow();
+                        new ProducerChangesMenuImpl(s, producer.get());
+                    } else {
+                        var alert = new Alert(AlertType.ERROR, "Credenziali sbagliate");
+                        alert.show();
+                    }
+                } catch (NumberFormatException e) {
+                    var alert = new Alert(AlertType.ERROR, "Credenziali sbagliate");
                     alert.show();
                 }
                 break;
             default:
-                var alert = new Alert(AlertType.ERROR, "Please select a role, retry");
+                var alert = new Alert(AlertType.ERROR, "Scegli un ambito");
                 alert.show();
                 break;
 
             }
         } else {
-            var alert = new Alert(AlertType.ERROR, "Please select a role, retry");
+            var alert = new Alert(AlertType.ERROR, "Scegli un ambito");
             alert.show();
         }
 
