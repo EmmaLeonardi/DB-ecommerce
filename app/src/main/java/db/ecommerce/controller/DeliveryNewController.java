@@ -41,6 +41,9 @@ public class DeliveryNewController {
 
     @FXML
     private Button btn_new_guide;
+    
+    @FXML
+    private Button btn_modify_guide;
 
     @FXML
     private Button btn_save;
@@ -119,7 +122,18 @@ public class DeliveryNewController {
     public void new_guide(final Event event) {
         Stage s = (Stage) btn_new_guide.getScene().getWindow();
         try {
-            new DriveCreationMenuImpl(s, courier);
+            new DriveCreationMenuImpl(s, courier, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    public void modify_guide(final Event event) {
+        Stage s = (Stage) btn_modify_guide.getScene().getWindow();
+        DrivePK d=showDrives.get(lstvw_guides.getSelectionModel().getSelectedIndex());
+        try {
+            new DriveCreationMenuImpl(s, courier, d);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -146,6 +160,7 @@ public class DeliveryNewController {
         adsTbl = new AddressTable(c.getMySQLConnection());
         drvTbl = new DriveTable(c.getMySQLConnection());
         btn_save.setDisable(true);
+        btn_modify_guide.setDisable(true);
         // Lo accendo quando ho tutto selezionato
 
         Platform.runLater(() -> {
@@ -186,14 +201,21 @@ public class DeliveryNewController {
                 @Override
                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                     if (lstvw_guides.getSelectionModel().getSelectedIndex() != -1) {
+                        if(showDrives.get(lstvw_guides.getSelectionModel().getSelectedIndex()).getEnd().isPresent()) {
+                            btn_modify_guide.setDisable(true);
+                        }else {
+                            btn_modify_guide.setDisable(false);
+                        }
                         if (lstvw_delivery.getSelectionModel().getSelectedIndex() != -1) {
                             btn_save.setDisable(false);
+                            
                         } else {
                             btn_save.setDisable(true);
                         }
                         dtpk_delivery_date.setDisable(false);
                     } else {
                         dtpk_delivery_date.setDisable(true);
+                        btn_modify_guide.setDisable(true);
                     }
                 }
             });
