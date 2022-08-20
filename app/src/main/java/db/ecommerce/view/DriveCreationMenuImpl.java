@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import db.ecommerce.controller.DriveCreationController;
 import db.ecommerce.model.CourierPK;
+import db.ecommerce.model.DrivePK;
 import db.ecommerce.utils.LoadFXML;
 import db.ecommerce.utils.LoadFXMLImpl;
 import javafx.scene.Scene;
@@ -18,7 +19,7 @@ public class DriveCreationMenuImpl {
     private final HBox root;
     private DriveCreationController sc;
 
-    public DriveCreationMenuImpl(Stage s, CourierPK courier) throws IOException {
+    public DriveCreationMenuImpl(Stage s, CourierPK courier, DrivePK d) throws IOException {
         LoadFXML loader = new LoadFXMLImpl();
         var a = loader.load(F);
         if (a instanceof HBox) {
@@ -34,6 +35,7 @@ public class DriveCreationMenuImpl {
             if (tmp instanceof DriveCreationController) {
                 sc = (DriveCreationController) tmp;
                 sc.setCourier(courier);
+                sc.setDrive(d);
             } else {
                 var alert = new Alert(AlertType.ERROR, "Something went wrong loading the DriveCreationMenu");
                 alert.show();

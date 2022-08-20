@@ -79,6 +79,8 @@ public class DriveCreationController {
 
     private List<Vehicle> showVehicle;
 
+    private DrivePK drive;
+
     public void setCourier(CourierPK courier) {
         this.courier = courier;
     }
@@ -102,20 +104,49 @@ public class DriveCreationController {
     @FXML
     public void save(final Event event) throws SQLException {
         if (min != null && lstv_vehicle.getSelectionModel().getSelectedIndex() != -1) {
-            Drive d = new DriveImpl(min, Optional.ofNullable(max), courier.getCod_corriere(),
-                    showVehicle.get(lstv_vehicle.getSelectionModel().getSelectedIndex()).getTarga());
-            var saved = drvTbl.save(d);
-            if (saved.isEmpty()) {
-                throw new SQLException("Guide wasn't saved");
+            if (drive != null) {
+                if (dtpk_end.getValue() != null && txt_end_h.getText() != "" && txt_end_m.getText() != "") {
+                    this.max = ConvertTime.convertIntoTime(
+                            Date.from(dtpk_end.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                            Double.parseDouble(txt_end_h.getText()) + 0.01 * Double.parseDouble(txt_end_m.getText()));
+                    DrivePK d = new DrivePK(min, Optional.ofNullable(max), courier.getCod_corriere(),
+                            showVehicle.get(lstv_vehicle.getSelectionModel().getSelectedIndex()).getTarga(),
+                            drive.getCodDrive());
+                    var saved = drvTbl.update(d);
+                    if (!saved) {
+                        throw new SQLException("Guide wasn't updated");
+                    } else {
+                        var alert = new Alert(AlertType.INFORMATION,
+                                "Hai aggiornato la guida con codice " + drive.getCodDrive());
+                        alert.show();
+                        Stage s = (Stage) btn_back.getScene().getWindow();
+                        try {
+                            new DeliveryNewMenuImpl(s, courier);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } else {
+                    var alert = new Alert(AlertType.ERROR, "Devi inserire data e ora di fine della guida per salvare");
+                    alert.show();
+                }
             } else {
-                var alert = new Alert(AlertType.INFORMATION,
-                        "Hai salvato la guida con codice " + saved.get().getCodDrive());
-                alert.show();
-                Stage s = (Stage) btn_back.getScene().getWindow();
-                try {
-                    new DeliveryNewMenuImpl(s, courier);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
+                Drive d = new DriveImpl(min, Optional.ofNullable(max), courier.getCod_corriere(),
+                        showVehicle.get(lstv_vehicle.getSelectionModel().getSelectedIndex()).getTarga());
+                var saved = drvTbl.save(d);
+                if (saved.isEmpty()) {
+                    throw new SQLException("Guide wasn't saved");
+                } else {
+                    var alert = new Alert(AlertType.INFORMATION,
+                            "Hai salvato la guida con codice " + saved.get().getCodDrive());
+                    alert.show();
+                    Stage s = (Stage) btn_back.getScene().getWindow();
+                    try {
+                        new DeliveryNewMenuImpl(s, courier);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
@@ -176,6 +207,7 @@ public class DriveCreationController {
     /**
      * This method is called at the start and inizializes the list view
      */
+    @SuppressWarnings("deprecation")
     public void initialize() {
         ConnectionProvider c = new ConnectionProviderImpl(Credentials.getUsername(), Credentials.getPassword(),
                 Credentials.getDbname());
@@ -184,8 +216,30 @@ public class DriveCreationController {
         txt_end_h.setDisable(true);
         txt_end_m.setDisable(true);
         dtpk_end.setDisable(true);
+        this.showVehicle = new ArrayList<>();
         Platform.runLater(() -> {
             lstv_vehicle.setItems(FXCollections.observableList(List.of()));
+            if (drive != null) {
+                min = drive.getStart();
+                dtpk_start.setValue(drive.getStart().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+                dtpk_start.setDisable(true);
+                txt_start_h.setText(drive.getStart().getHours() + "");
+                txt_start_h.setDisable(true);
+                txt_start_m.setText(drive.getStart().getMinutes() + "");
+                txt_start_m.setDisable(true);
+                var a = vhcTbl.findByPrimaryKey(drive.getTarga());
+                showVehicle.add(a.get());
+                lstv_vehicle.setItems(FXCollections.observableList(buildVehicle(showVehicle)));
+                lstv_vehicle.getSelectionModel().select(0);
+                lstv_vehicle.setDisable(true);
+                chb_end_guide.setSelected(true);
+                chb_end_guide.setDisable(true);
+                btn_find_vehicle.setDisable(true);
+                txt_end_h.setDisable(false);
+                txt_end_m.setDisable(false);
+                dtpk_end.setDisable(false);
+
+            }
         });
 
     }
@@ -251,5 +305,10 @@ public class DriveCreationController {
             list.add(s);
         }
         return list;
+    }
+
+    public void setDrive(DrivePK d) {
+        this.drive = d;
+
     }
 }
