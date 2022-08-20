@@ -199,11 +199,12 @@ public class AddressSelectionController {
         this.cntTbl = new ContainsTable(c.getMySQLConnection());
         Platform.runLater(() -> {
             // ListView
-            this.oldAddresses = adsTbl.allAddressOfClient(user);
+            this.oldAddresses = adsTbl.allDistinctAddressOfClient(user);
             this.shownAddress = new ArrayList<Address>(oldAddresses);
             if (!newAddresses.isEmpty()) {
                 this.shownAddress.addAll(newAddresses);
             }
+            
             lstvw_address.setItems(FXCollections.observableList(buildAddress(shownAddress)));
             lstvw_address.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
                 @Override
