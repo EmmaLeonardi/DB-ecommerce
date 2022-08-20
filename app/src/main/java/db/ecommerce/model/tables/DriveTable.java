@@ -131,9 +131,9 @@ public class DriveTable implements Table<DrivePK, Integer> {
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setDate(1, DateConverter.dateToSqlDate(value.getStart()));
-            statement.setDate(2, DateConverter.dateToSqlDate(value.getEnd().get()));
+            statement.setDate(2, DateConverter.dateToSqlDate(value.getEnd().isPresent()?value.getEnd().get():null));
             statement.setDouble(3, ConvertTime.convertIntoDouble(value.getStart()));
-            statement.setDouble(4, ConvertTime.convertIntoDouble(value.getEnd().get()));
+            statement.setDouble(4, ConvertTime.convertIntoDouble(value.getEnd().isPresent()?value.getEnd().get():null));
             statement.setInt(5, value.getCodCorriere());
             statement.setString(6, value.getTarga());
             final var r = statement.executeUpdate();
