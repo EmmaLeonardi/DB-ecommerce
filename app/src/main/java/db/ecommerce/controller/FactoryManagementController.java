@@ -122,9 +122,10 @@ public class FactoryManagementController {
                     && (chb_ended.isSelected() == true && dtpk_end.getValue() != null
                             || chb_ended.isSelected() == false)) {
                 if (dtpk_end.getValue() != null) {
+                    // Ha entrambe le date
                     Date s = Date.from(dtpk_start.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
                     Date e = Date.from(dtpk_end.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    if (s.before(e)) {
+                    if (e.before(s)) {
                         var alert = new Alert(AlertType.ERROR, "Le date devono essere nell'ordine corretto");
                         alert.show();
                     } else {
@@ -140,6 +141,7 @@ public class FactoryManagementController {
                             alert.show();
                             lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
                             dtpk_start.setValue(null);
+                            dtpk_end.setValue(null);
                             chb_ended.setSelected(false);
                             lsvw_gestione_fabbriche.setDisable(false);
                             lsvw_gestione_fabbriche.getSelectionModel().select(-1);
@@ -155,72 +157,25 @@ public class FactoryManagementController {
                             this.btn_change.setDisable(true);
                             this.btn_delete.setDisable(true);
                             this.btn_new.setDisable(false);
+                            this.dtpk_end.setDisable(true);
                         } else {
                             throw new SQLException("Factory management wasn't saved");
                         }
                     }
                 } else {
-                    var alert = new Alert(AlertType.ERROR, "Tutti i campi sono obbligatori");
-                    alert.show();
-                }
-            }
-        } else {
-            // E' un cliente vecchio
-            if (dtpk_start.getValue() != null && lsvw_factory.getSelectionModel().getSelectedIndex() != -1
-                    && lsvw_producers.getSelectionModel().getSelectedIndex() != -1
-                    && (chb_ended.isSelected() == true && dtpk_end.getValue() != null
-                            || chb_ended.isSelected() == false)) {
-                var id = Integer.parseInt(lbl_cod_gestione_fabbrica.getText());
-                if (dtpk_end.getValue() != null) {
+                    // Ha solo una data
                     Date s = Date.from(dtpk_start.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    Date e = Date.from(dtpk_end.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    if (s.before(e)) {
-                        var alert = new Alert(AlertType.ERROR, "Le date devono essere nell'ordine corretto");
-                        alert.show();
-                    } else {
-                        FactoryManagementPK f = new FactoryManagementPK(
-                                showFactory.get(lsvw_factory.getSelectionModel().getSelectedIndex()).getCodFabbrica(),
-                                s, Optional.ofNullable(e), showProducers
-                                        .get(lsvw_producers.getSelectionModel().getSelectedIndex()).getCod_produttore(),
-                                id);
-                        var app = fmgTbl.update(f);
-                        if (app) {
-                            var alert = new Alert(AlertType.INFORMATION,
-                                    "Hai aggiornato correttamente la gestione fabbrica!");
-                            alert.show();
-                            lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
-                            dtpk_start.setValue(null);
-                            chb_ended.setSelected(false);
-                            lsvw_gestione_fabbriche.setDisable(false);
-                            lsvw_gestione_fabbriche.getSelectionModel().select(-1);
-                            lsvw_factory.setDisable(true);
-                            lsvw_factory.getSelectionModel().select(-1);
-                            lsvw_producers.setDisable(true);
-                            lsvw_producers.getSelectionModel().select(-1);
-                            this.showFactoryManagement = fmgTbl.findAll();
-                            lsvw_gestione_fabbriche.setItems(
-                                    FXCollections.observableList(buildFactoryManagement(showFactoryManagement)));
-                            setDisabledAll(true);
-                            this.btn_save.setDisable(true);
-                            this.btn_change.setDisable(true);
-                            this.btn_delete.setDisable(true);
-                            this.btn_new.setDisable(false);
-                        }
-                    }
-                } else {
-                    Date s = Date.from(dtpk_start.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                    FactoryManagementPK f = new FactoryManagementPK(
+                    FactoryManagement f = new FactoryManagementImpl(
                             showFactory.get(lsvw_factory.getSelectionModel().getSelectedIndex()).getCodFabbrica(), s,
                             Optional.ofNullable(null), showProducers
-                                    .get(lsvw_producers.getSelectionModel().getSelectedIndex()).getCod_produttore(),
-                            id);
-                    var app = fmgTbl.update(f);
-                    if (app) {
-                        var alert = new Alert(AlertType.INFORMATION,
-                                "Hai aggiornato correttamente la gestione fabbrica!");
+                                    .get(lsvw_producers.getSelectionModel().getSelectedIndex()).getCod_produttore());
+                    var tmp = fmgTbl.save(f);
+                    if (tmp.isPresent()) {
+                        var alert = new Alert(AlertType.INFORMATION, "Hai salvato correttamente la gestione fabbrica!");
                         alert.show();
                         lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
                         dtpk_start.setValue(null);
+                        dtpk_end.setValue(null);
                         chb_ended.setSelected(false);
                         lsvw_gestione_fabbriche.setDisable(false);
                         lsvw_gestione_fabbriche.getSelectionModel().select(-1);
@@ -236,46 +191,104 @@ public class FactoryManagementController {
                         this.btn_change.setDisable(true);
                         this.btn_delete.setDisable(true);
                         this.btn_new.setDisable(false);
+                        this.dtpk_end.setDisable(true);
+                    } else {
+                        throw new SQLException("Factory management wasn't saved");
+                    }
+
+                }
+            } else {
+                var alert = new Alert(AlertType.ERROR, "Tutti i campi sono obbligatori");
+                alert.show();
+            }
+        } else {
+            // E' una gestione fabbrica vecchia
+            if (dtpk_start.getValue() != null && lsvw_factory.getSelectionModel().getSelectedIndex() != -1
+                    && lsvw_producers.getSelectionModel().getSelectedIndex() != -1
+                    && (chb_ended.isSelected() == true && dtpk_end.getValue() != null
+                            || chb_ended.isSelected() == false)) {
+                var id = Integer.parseInt(lbl_cod_gestione_fabbrica.getText());
+                if (dtpk_end.getValue() != null) {
+                    // Sto salvando i dati avendo tutti e due le date
+                    Date s = Date.from(dtpk_start.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    Date e = Date.from(dtpk_end.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    if (e.before(s)) {
+                        var alert = new Alert(AlertType.ERROR, "Le date devono essere nell'ordine corretto");
+                        alert.show();
+                    } else {
+                        FactoryManagementPK f = new FactoryManagementPK(
+                                showFactory.get(lsvw_factory.getSelectionModel().getSelectedIndex()).getCodFabbrica(),
+                                s, Optional.ofNullable(e), showProducers
+                                        .get(lsvw_producers.getSelectionModel().getSelectedIndex()).getCod_produttore(),
+                                id);
+                        var app = fmgTbl.update(f);
+                        if (app) {
+                            var alert = new Alert(AlertType.INFORMATION,
+                                    "Hai aggiornato correttamente la gestione fabbrica!");
+                            alert.show();
+                            lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
+                            dtpk_start.setValue(null);
+                            dtpk_end.setValue(null);
+                            chb_ended.setSelected(false);
+                            lsvw_gestione_fabbriche.setDisable(false);
+                            lsvw_gestione_fabbriche.getSelectionModel().select(-1);
+                            lsvw_factory.setDisable(true);
+                            lsvw_factory.getSelectionModel().select(-1);
+                            lsvw_producers.setDisable(true);
+                            lsvw_producers.getSelectionModel().select(-1);
+                            this.showFactoryManagement = fmgTbl.findAll();
+                            lsvw_gestione_fabbriche.setItems(
+                                    FXCollections.observableList(buildFactoryManagement(showFactoryManagement)));
+                            setDisabledAll(true);
+                            this.btn_save.setDisable(true);
+                            this.btn_change.setDisable(true);
+                            this.btn_delete.setDisable(true);
+                            this.btn_new.setDisable(false);
+                            this.dtpk_end.setDisable(true);
+                        }else {
+                            throw new SQLException("Factory management wasn't updated");
+                        }
+                    }
+                } else {
+                    // Sto salvando i dati con 1 data
+                    Date s = Date.from(dtpk_start.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+                    FactoryManagementPK f = new FactoryManagementPK(
+                            showFactory.get(lsvw_factory.getSelectionModel().getSelectedIndex()).getCodFabbrica(), s,
+                            Optional.ofNullable(null), showProducers
+                                    .get(lsvw_producers.getSelectionModel().getSelectedIndex()).getCod_produttore(),
+                            id);
+                    var app = fmgTbl.update(f);
+                    if (app) {
+                        var alert = new Alert(AlertType.INFORMATION,
+                                "Hai aggiornato correttamente la gestione fabbrica!");
+                        alert.show();
+                        lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
+                        dtpk_start.setValue(null);
+                        dtpk_end.setValue(null);
+                        chb_ended.setSelected(false);
+                        lsvw_gestione_fabbriche.setDisable(false);
+                        lsvw_gestione_fabbriche.getSelectionModel().select(-1);
+                        lsvw_factory.setDisable(true);
+                        lsvw_factory.getSelectionModel().select(-1);
+                        lsvw_producers.setDisable(true);
+                        lsvw_producers.getSelectionModel().select(-1);
+                        this.showFactoryManagement = fmgTbl.findAll();
+                        lsvw_gestione_fabbriche
+                                .setItems(FXCollections.observableList(buildFactoryManagement(showFactoryManagement)));
+                        setDisabledAll(true);
+                        this.btn_save.setDisable(true);
+                        this.btn_change.setDisable(true);
+                        this.btn_delete.setDisable(true);
+                        this.btn_new.setDisable(false);
+                        this.dtpk_end.setDisable(true);
                     } else {
                         throw new SQLException("Factory management wasn't updated");
                     }
                 }
             } else {
-                var id = Integer.parseInt(lbl_cod_gestione_fabbrica.getText());
-                Date s = Date.from(dtpk_start.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
-                FactoryManagementPK f = new FactoryManagementPK(
-                        showFactory.get(lsvw_factory.getSelectionModel().getSelectedIndex()).getCodFabbrica(), s,
-                        Optional.ofNullable(null),
-                        showProducers.get(lsvw_producers.getSelectionModel().getSelectedIndex()).getCod_produttore(),
-                        id);
-                var app = fmgTbl.update(f);
-                if (app) {
-                    var alert = new Alert(AlertType.INFORMATION, "Hai aggiornato correttamente la gestione fabbrica!");
-                    alert.show();
-                    lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
-                    dtpk_start.setValue(null);
-                    chb_ended.setSelected(false);
-                    lsvw_gestione_fabbriche.setDisable(false);
-                    lsvw_gestione_fabbriche.getSelectionModel().select(-1);
-                    lsvw_factory.setDisable(true);
-                    lsvw_factory.getSelectionModel().select(-1);
-                    lsvw_producers.setDisable(true);
-                    lsvw_producers.getSelectionModel().select(-1);
-                    this.showFactoryManagement = fmgTbl.findAll();
-                    lsvw_gestione_fabbriche
-                            .setItems(FXCollections.observableList(buildFactoryManagement(showFactoryManagement)));
-                    setDisabledAll(true);
-                    this.btn_save.setDisable(true);
-                    this.btn_change.setDisable(true);
-                    this.btn_delete.setDisable(true);
-                    this.btn_new.setDisable(false);
-
-                } else {
-                    throw new SQLException("Factory management wasn't updated");
-                }
+                var alert = new Alert(AlertType.ERROR, "Tutti i campi sono obbligatori");
+                alert.show();
             }
-            var alert = new Alert(AlertType.ERROR, "Tutti i campi sono obbligatori");
-            alert.show();
         }
     }
 
