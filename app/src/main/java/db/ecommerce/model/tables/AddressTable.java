@@ -168,7 +168,7 @@ public class AddressTable implements Table<AddressPK, Integer> {
 
     /**
      * @param the Client
-     * @return all the deliveries of a Client
+     * @return all the addresses of a Client
      */
     public List<AddressPK> allAddressOfClient(final ClientPK c) {
         List<AddressPK> l = new ArrayList<>();
@@ -181,6 +181,21 @@ public class AddressTable implements Table<AddressPK, Integer> {
             }
         }
         return l;
+    }
+    
+    /**
+     * @param the Client
+     * @return all the distinct addresses of a Client
+     */
+    public List<AddressPK> allDistinctAddressOfClient(final ClientPK c) {
+        final String query = "SELECT DISTINCT i.Cod_indirizzo, i.Via, i.Numero_civico, i.Città, i.CAP, i.Provincia, i.Paese FROM indirizzi i, consegne c, spese s WHERE c.Cod_indirizzo=i.Cod_indirizzo AND c.Cod_spesa=s.Cod_spesa AND s.Cod_cliente=?";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+            statement.setInt(1, c.getCod_cliente());
+            var result = statement.executeQuery();
+            return convertResultSet(result);
+        } catch (final SQLException e) {
+            return List.of();
+        }
     }
 
 }
