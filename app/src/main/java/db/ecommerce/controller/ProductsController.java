@@ -26,11 +26,14 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class ProductsController {
@@ -182,11 +185,25 @@ public class ProductsController {
     @FXML
     public void details(final Event event) {
         Stage s = (Stage) btn_details.getScene().getWindow();
-        try {
-            new ProductDetailsMenuImpl(s, user,
-                    filteredListShop.get(lstvw_products.getSelectionModel().getSelectedIndex()));
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (btn_pay.isDisable() == true) {
+            try {
+                new ProductDetailsMenuImpl(s, user,
+                        filteredListShop.get(lstvw_products.getSelectionModel().getSelectedIndex()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            var alert = new Alert(AlertType.WARNING,
+                    "Se vai a guardare i dettagli di questo prodotto, perderai il carrello attuale", ButtonType.NO,
+                    ButtonType.YES);
+            alert.showAndWait().filter(response -> response == ButtonType.YES).ifPresent(response -> {
+                try {
+                    new ProductDetailsMenuImpl(s, user,
+                            filteredListShop.get(lstvw_products.getSelectionModel().getSelectedIndex()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
         }
     }
 
