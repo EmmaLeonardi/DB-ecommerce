@@ -62,6 +62,7 @@
             <HBox alignment="BOTTOM_CENTER" prefHeight="57.0" prefWidth="242.0">
                <children>
                   <Button fx:id="btn_new_guide" mnemonicParsing="false" onAction="#new_guide" text="Nuova guida" />
+                  <Button fx:id="btn_modify_guide" mnemonicParsing="false" onAction="#modify_guide" text="Modifica Guida" />
                </children>
             </HBox>
          </children>
