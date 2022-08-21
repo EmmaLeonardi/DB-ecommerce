@@ -29,6 +29,7 @@ public class LoginMenuImpl extends Application {
             alert.show();
             throw new IOException("The loaded menu wasn't a VBox as expected");
         }
+        primaryStage.setTitle("Applicazione di Ecommerce");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
