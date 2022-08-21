@@ -51,9 +51,6 @@ public class FactoryManagementController {
     private Button btn_new;
 
     @FXML
-    private Button btn_delete;
-
-    @FXML
     private Label lbl_cod_gestione_fabbrica;
 
     @FXML
@@ -162,7 +159,6 @@ public class FactoryManagementController {
                                 setDisabledAll(true);
                                 this.btn_save.setDisable(true);
                                 this.btn_change.setDisable(true);
-                                this.btn_delete.setDisable(true);
                                 this.btn_new.setDisable(false);
                                 this.dtpk_end.setDisable(true);
                             } else {
@@ -205,7 +201,6 @@ public class FactoryManagementController {
                             setDisabledAll(true);
                             this.btn_save.setDisable(true);
                             this.btn_change.setDisable(true);
-                            this.btn_delete.setDisable(true);
                             this.btn_new.setDisable(false);
                             this.dtpk_end.setDisable(true);
                         } else {
@@ -269,7 +264,6 @@ public class FactoryManagementController {
                                 setDisabledAll(true);
                                 this.btn_save.setDisable(true);
                                 this.btn_change.setDisable(true);
-                                this.btn_delete.setDisable(true);
                                 this.btn_new.setDisable(false);
                                 this.dtpk_end.setDisable(true);
 
@@ -314,7 +308,6 @@ public class FactoryManagementController {
                             setDisabledAll(true);
                             this.btn_save.setDisable(true);
                             this.btn_change.setDisable(true);
-                            this.btn_delete.setDisable(true);
                             this.btn_new.setDisable(false);
                             this.dtpk_end.setDisable(true);
                         } else {
@@ -336,7 +329,6 @@ public class FactoryManagementController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lsvw_gestione_fabbriche.setDisable(true);
         dtpk_end.setValue(null);
         dtpk_start.setValue(null);
@@ -351,17 +343,11 @@ public class FactoryManagementController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lsvw_gestione_fabbriche.setDisable(true);
         lsvw_producers.setDisable(false);
         lsvw_factory.setDisable(false);
     }
-
-    @FXML
-    public void delete(final Event event) {
-        System.out.println("Elimina");
-    }
-
+    
     @FXML
     public void has_ended(final Event event) {
         if (chb_ended.isSelected()) {
@@ -392,7 +378,6 @@ public class FactoryManagementController {
             this.setDisabledAll(true);
             this.btn_save.setDisable(true);
             this.btn_change.setDisable(true);
-            this.btn_delete.setDisable(true);
             lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
             chb_ended.setDisable(true);
             dtpk_end.setDisable(true);
@@ -420,7 +405,6 @@ public class FactoryManagementController {
                                 var p = prdTbl.findByPrimaryKey(item.getCodProduttore());
                                 lsvw_producers.getSelectionModel().select(showProducers.indexOf(p.get()));
                                 btn_change.setDisable(false);
-                                btn_delete.setDisable(false);
                                 lsvw_factory.setDisable(true);
                                 lsvw_producers.setDisable(true);
                                 chb_ended.setDisable(true);
@@ -429,7 +413,6 @@ public class FactoryManagementController {
                                 setDisabledAll(true);
                                 btn_save.setDisable(true);
                                 btn_change.setDisable(true);
-                                btn_delete.setDisable(true);
                                 dtpk_start.setValue(null);
                                 chb_ended.setDisable(true);
                                 lbl_cod_gestione_fabbrica.setText(NOFACTORYMANAGEMENT);
