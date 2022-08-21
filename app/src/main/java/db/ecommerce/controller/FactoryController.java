@@ -43,9 +43,6 @@ public class FactoryController {
     private Button btn_new;
 
     @FXML
-    private Button btn_delete;
-
-    @FXML
     private Label lbl_cod_fabbrica;
 
     @FXML
@@ -115,7 +112,6 @@ public class FactoryController {
                         setDisabledAll(true);
                         this.btn_save.setDisable(true);
                         this.btn_change.setDisable(true);
-                        this.btn_delete.setDisable(true);
                         this.btn_new.setDisable(false);
                     } else {
                         throw new SQLException("Factory wasn't saved");
@@ -151,7 +147,6 @@ public class FactoryController {
                         setDisabledAll(true);
                         this.btn_save.setDisable(true);
                         this.btn_change.setDisable(true);
-                        this.btn_delete.setDisable(true);
                         this.btn_new.setDisable(false);
                     } else {
                         throw new SQLException("Factory wasn't updated");
@@ -174,7 +169,6 @@ public class FactoryController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lstvw_factory.setDisable(true);
         txt_address_city.setText("");
         txt_address_number.setText("");
@@ -188,13 +182,7 @@ public class FactoryController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lstvw_factory.setDisable(true);
-    }
-
-    @FXML
-    public void delete(final Event event) {
-        System.out.println("Elimina");
     }
 
     public void initialize() {
@@ -207,7 +195,6 @@ public class FactoryController {
             this.setDisabledAll(true);
             this.btn_save.setDisable(true);
             this.btn_change.setDisable(true);
-            this.btn_delete.setDisable(true);
             lbl_cod_fabbrica.setText(NOFACTORY);
             txt_address_city.setText("");
             txt_address_number.setText("");
@@ -224,13 +211,11 @@ public class FactoryController {
                         txt_address_street.setText(item.getVia());
                         lbl_cod_fabbrica.setText(item.getCodFabbrica() + "");
                         btn_change.setDisable(false);
-                        btn_delete.setDisable(false);
 
                     } else {
                         setDisabledAll(true);
                         btn_save.setDisable(true);
                         btn_change.setDisable(true);
-                        btn_delete.setDisable(true);
                         txt_address_city.setText("");
                         txt_address_number.setText("");
                         txt_address_street.setText("");
