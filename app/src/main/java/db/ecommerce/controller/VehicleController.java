@@ -41,9 +41,6 @@ public class VehicleController {
     private Button btn_new;
 
     @FXML
-    private Button btn_delete;
-
-    @FXML
     private ListView<String> lstvw_vehicles;
 
     @FXML
@@ -112,7 +109,6 @@ public class VehicleController {
                     setDisabledAll(true);
                     this.btn_save.setDisable(true);
                     this.btn_change.setDisable(true);
-                    this.btn_delete.setDisable(true);
                     this.btn_new.setDisable(false);
                 } else {
                     throw new SQLException("Vehicle wasn't saved");
@@ -142,7 +138,6 @@ public class VehicleController {
                     setDisabledAll(true);
                     this.btn_save.setDisable(true);
                     this.btn_change.setDisable(true);
-                    this.btn_delete.setDisable(true);
                     this.btn_new.setDisable(false);
                 } else {
                     throw new SQLException("Vehicle wasn't updated");
@@ -162,7 +157,6 @@ public class VehicleController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lstvw_vehicles.setDisable(true);
         txt_type.setText("");
         txt_country.setText("");
@@ -176,14 +170,8 @@ public class VehicleController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lstvw_vehicles.setDisable(true);
         txt_license.setDisable(true);
-    }
-
-    @FXML
-    public void delete(final Event event) {
-        System.out.println("Elimina");
     }
 
     public void initialize() {
@@ -196,7 +184,6 @@ public class VehicleController {
             this.setDisabledAll(true);
             this.btn_save.setDisable(true);
             this.btn_change.setDisable(true);
-            this.btn_delete.setDisable(true);
             txt_license.setText(NOVEHICLE);
             txt_country.setText("");
             txt_brand.setText("");
@@ -213,13 +200,11 @@ public class VehicleController {
                         txt_brand.setText(item.getMarca());
                         txt_type.setText(item.getTipo_veicolo());
                         btn_change.setDisable(false);
-                        btn_delete.setDisable(false);
 
                     } else {
                         setDisabledAll(true);
                         btn_save.setDisable(true);
                         btn_change.setDisable(true);
-                        btn_delete.setDisable(true);
                         txt_license.setText(NOVEHICLE);
                         txt_country.setText("");
                         txt_brand.setText("");
