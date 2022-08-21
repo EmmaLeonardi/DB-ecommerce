@@ -46,9 +46,6 @@ public class CourierController {
     private Button btn_new;
 
     @FXML
-    private Button btn_delete;
-
-    @FXML
     private ListView<String> lstvw_courier;
 
     @FXML
@@ -136,7 +133,6 @@ public class CourierController {
                     setDisabledAll(true);
                     this.btn_save.setDisable(true);
                     this.btn_change.setDisable(true);
-                    this.btn_delete.setDisable(true);
                     this.btn_new.setDisable(false);
                 } else {
                     throw new SQLException("Courier wasn't saved");
@@ -175,7 +171,6 @@ public class CourierController {
                     setDisabledAll(true);
                     this.btn_save.setDisable(true);
                     this.btn_change.setDisable(true);
-                    this.btn_delete.setDisable(true);
                     this.btn_new.setDisable(false);
                 } else {
                     throw new SQLException("Courier wasn't updated");
@@ -195,7 +190,6 @@ public class CourierController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         txt_cf.setText("");
         txt_name.setText("");
         txt_surname.setText("");
@@ -211,13 +205,7 @@ public class CourierController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lstvw_courier.setDisable(true);
-    }
-
-    @FXML
-    public void delete(final Event event) {
-        System.out.println("Elimina");
     }
 
     public void initialize() {
@@ -230,7 +218,6 @@ public class CourierController {
             this.setDisabledAll(true);
             this.btn_save.setDisable(true);
             this.btn_change.setDisable(true);
-            this.btn_delete.setDisable(true);
             txt_cf.setText("");
             txt_name.setText("");
             txt_surname.setText("");
@@ -254,13 +241,11 @@ public class CourierController {
                         txt_licence_country.setText(item.getDrivingNat());
                         txt_license_number.setText(item.getCodDrivingLic());
                         btn_change.setDisable(false);
-                        btn_delete.setDisable(false);
 
                     } else {
                         setDisabledAll(true);
                         btn_save.setDisable(true);
                         btn_change.setDisable(true);
-                        btn_delete.setDisable(true);
                         txt_cf.setText("");
                         txt_name.setText("");
                         txt_surname.setText("");
