@@ -46,9 +46,6 @@ public class ClientController {
     private Button btn_new;
 
     @FXML
-    private Button btn_delete;
-
-    @FXML
     private ListView<String> lstvw_clients;
 
     @FXML
@@ -154,7 +151,6 @@ public class ClientController {
                         setDisabledAll(true);
                         this.btn_save.setDisable(true);
                         this.btn_change.setDisable(true);
-                        this.btn_delete.setDisable(true);
                         this.btn_new.setDisable(false);
                     } else {
                         throw new SQLException("Client wasn't saved");
@@ -203,7 +199,6 @@ public class ClientController {
                         setDisabledAll(true);
                         this.btn_save.setDisable(true);
                         this.btn_change.setDisable(true);
-                        this.btn_delete.setDisable(true);
                         this.btn_new.setDisable(false);
                     } else {
                         throw new SQLException("Client wasn't updated");
@@ -226,7 +221,6 @@ public class ClientController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lstvw_clients.setDisable(true);
         txt_address_city.setText("");
         txt_address_number.setText("");
@@ -247,13 +241,7 @@ public class ClientController {
         btn_change.setDisable(true);
         btn_save.setDisable(false);
         btn_new.setDisable(true);
-        btn_delete.setDisable(true);
         lstvw_clients.setDisable(true);
-    }
-
-    @FXML
-    public void delete(final Event event) {
-        System.out.println("Elimina");
     }
 
     public void initialize() {
@@ -266,7 +254,6 @@ public class ClientController {
             this.setDisabledAll(true);
             this.btn_save.setDisable(true);
             this.btn_change.setDisable(true);
-            this.btn_delete.setDisable(true);
             txt_address_city.setText("");
             txt_address_number.setText("");
             txt_address_street.setText("");
@@ -298,13 +285,11 @@ public class ClientController {
                         txt_phone_number.setText(item.getPhoneNumber() + "");
                         txt_cc.setText(item.getBankInfo());
                         btn_change.setDisable(false);
-                        btn_delete.setDisable(false);
 
                     } else {
                         setDisabledAll(true);
                         btn_save.setDisable(true);
                         btn_change.setDisable(true);
-                        btn_delete.setDisable(true);
                         txt_address_city.setText("");
                         txt_address_number.setText("");
                         txt_address_street.setText("");
