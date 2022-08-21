@@ -6,11 +6,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import db.ecommerce.model.FactoryManagement;
 import db.ecommerce.model.FactoryManagementPK;
+import db.ecommerce.model.FactoryPK;
 import db.ecommerce.model.ProducerPK;
 import db.ecommerce.utils.DateConverter;
 
@@ -162,6 +164,60 @@ public class FactoryManagementTable implements Table<FactoryManagementPK, Intege
             return convertResultSet(result);
         } catch (final SQLException e) {
             return List.of();
+        }
+    }
+
+    private List<FactoryManagementPK> allFactoryManagementOfFactory(FactoryPK f) {
+        final String query = "SELECT * FROM " + TABLE_NAME + " WHERE Cod_fabbrica=?";
+        try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
+            statement.setInt(1, f.getCodFabbrica());
+            var result = statement.executeQuery();
+            return convertResultSet(result);
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    /**
+     * @param the        date min, the date max.
+     * @param f          the factory being managed
+     * @param management the management in question (necessary if the management is
+     *                   being modified)
+     * @return true if no other management is occurring in the timeline given
+     *
+     */
+    public boolean isManagementLegal(Date min, Date max, FactoryPK f, FactoryManagementPK man) {
+        List<FactoryManagementPK> allManagement = new ArrayList<>(this.allFactoryManagementOfFactory(f));
+        if (man != null) {
+            // Escludo la gestione stessa
+            allManagement.remove(man);
+        }
+        if (max != null) {
+            // Non è nullo, possono esserci gestioni dopo
+            for (var elem : allManagement) {
+                if (elem.getEnd().isPresent() && elem.getEnd().get().before(min)) {
+                    // E' prima
+                } else {
+                    if (elem.getStart().after(max)) {
+                        // E' dopo
+                    } else {
+                        // E' in mezzo
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            // E' nullo, tutte le gestioni devono essere prima
+            for (var elem : allManagement) {
+                if (elem.getEnd().isPresent() && elem.getEnd().get().before(min)) {
+                    // E' prima
+                } else {
+                    // E' dopo o in mezzo
+                    return false;
+                }
+            }
+            return true;
         }
     }
 
