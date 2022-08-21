@@ -109,15 +109,48 @@ public class DriveCreationController {
                     this.max = ConvertTime.convertIntoTime(
                             Date.from(dtpk_end.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                             Double.parseDouble(txt_end_h.getText()) + 0.01 * Double.parseDouble(txt_end_m.getText()));
-                    DrivePK d = new DrivePK(min, Optional.ofNullable(max), courier.getCod_corriere(),
-                            showVehicle.get(lstv_vehicle.getSelectionModel().getSelectedIndex()).getTarga(),
-                            drive.getCodDrive());
-                    var saved = drvTbl.update(d);
-                    if (!saved) {
-                        throw new SQLException("Guide wasn't updated");
+                    if (!drvTbl.isDriveLegal(min, max, courier, drive)) {
+                        var alert = new Alert(AlertType.ERROR, "Non puoi creare una guida in questo periodo, si sovrapponebbe con una guida già esistente");
+                        alert.show();
+                    } else {
+
+                        DrivePK d = new DrivePK(min, Optional.ofNullable(max), courier.getCod_corriere(),
+                                showVehicle.get(lstv_vehicle.getSelectionModel().getSelectedIndex()).getTarga(),
+                                drive.getCodDrive());
+                        var saved = drvTbl.update(d);
+                        if (!saved) {
+                            throw new SQLException("Guide wasn't updated");
+                        } else {
+                            var alert = new Alert(AlertType.INFORMATION,
+                                    "Hai aggiornato la guida con codice " + drive.getCodDrive());
+                            alert.show();
+                            Stage s = (Stage) btn_back.getScene().getWindow();
+                            try {
+                                new DeliveryNewMenuImpl(s, courier);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                } else {
+                    var alert = new Alert(AlertType.ERROR, "Devi inserire data e ora di fine della guida per salvare");
+                    alert.show();
+                }
+
+            } else {
+                if (!drvTbl.isDriveLegal(min, max, courier, null)) {
+                    var alert = new Alert(AlertType.ERROR, "Non puoi creare una guida in questo periodo, si sovrapponebbe con una guida già esistente");
+                    alert.show();
+                } else {
+
+                    Drive d = new DriveImpl(min, Optional.ofNullable(max), courier.getCod_corriere(),
+                            showVehicle.get(lstv_vehicle.getSelectionModel().getSelectedIndex()).getTarga());
+                    var saved = drvTbl.save(d);
+                    if (saved.isEmpty()) {
+                        throw new SQLException("Guide wasn't saved");
                     } else {
                         var alert = new Alert(AlertType.INFORMATION,
-                                "Hai aggiornato la guida con codice " + drive.getCodDrive());
+                                "Hai salvato la guida con codice " + saved.get().getCodDrive());
                         alert.show();
                         Stage s = (Stage) btn_back.getScene().getWindow();
                         try {
@@ -125,27 +158,6 @@ public class DriveCreationController {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }
-                } else {
-                    var alert = new Alert(AlertType.ERROR, "Devi inserire data e ora di fine della guida per salvare");
-                    alert.show();
-                }
-            } else {
-
-                Drive d = new DriveImpl(min, Optional.ofNullable(max), courier.getCod_corriere(),
-                        showVehicle.get(lstv_vehicle.getSelectionModel().getSelectedIndex()).getTarga());
-                var saved = drvTbl.save(d);
-                if (saved.isEmpty()) {
-                    throw new SQLException("Guide wasn't saved");
-                } else {
-                    var alert = new Alert(AlertType.INFORMATION,
-                            "Hai salvato la guida con codice " + saved.get().getCodDrive());
-                    alert.show();
-                    Stage s = (Stage) btn_back.getScene().getWindow();
-                    try {
-                        new DeliveryNewMenuImpl(s, courier);
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 }
             }
