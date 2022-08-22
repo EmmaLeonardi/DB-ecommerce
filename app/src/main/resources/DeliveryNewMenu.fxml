@@ -53,7 +53,7 @@
                   <Label fx:id="lbl_address" text="--" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Label text="Cliente:" GridPane.rowIndex="3" />
                   <Label fx:id="lbl_customer" text="--" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <DatePicker fx:id="dtpk_delivery_date" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  <DatePicker fx:id="dtpk_delivery_date" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                   <Label text="Data:" GridPane.rowIndex="5" />
                   <Label text="Contatti: " GridPane.rowIndex="4" />
                   <Label fx:id="lbl_contacts" text="--" GridPane.columnIndex="1" GridPane.rowIndex="4" />

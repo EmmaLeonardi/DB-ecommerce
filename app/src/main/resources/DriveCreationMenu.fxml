@@ -36,9 +36,9 @@
                </rowConstraints>
                <children>
                   <Label text="Data inizio:" />
-                  <DatePicker fx:id="dtpk_start" GridPane.columnIndex="1" />
+                  <DatePicker fx:id="dtpk_start" editable="false" GridPane.columnIndex="1" />
                   <Label text="Data fine: " GridPane.rowIndex="1" />
-                  <DatePicker fx:id="dtpk_end" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <DatePicker fx:id="dtpk_end" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Label text="Orari in formato 24h" GridPane.rowIndex="2" />
                   <Label text="Ora inizio:" GridPane.rowIndex="3" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3">

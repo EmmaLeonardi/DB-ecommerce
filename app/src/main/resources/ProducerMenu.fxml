@@ -36,7 +36,7 @@
                   <Label text="Cognome" GridPane.rowIndex="3" />
                   <TextField fx:id="txt_surname" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Label text="Data di nascita" GridPane.rowIndex="4" />
-                  <DatePicker fx:id="dtpkr_birthday" prefHeight="26.0" prefWidth="252.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <DatePicker fx:id="dtpkr_birthday" editable="false" prefHeight="26.0" prefWidth="252.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label text="Codice Produttore" />
                   <Label fx:id="lbl_cod_produttore" text="--" GridPane.columnIndex="1" />
                   <Label text="Partita IVA" GridPane.rowIndex="5" />

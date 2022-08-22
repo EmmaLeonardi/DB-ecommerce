@@ -31,9 +31,9 @@
             <Label text="Codice Gestione Fabbrica:" />
             <Label fx:id="lbl_cod_gestione_fabbrica" text="--" />
             <Label text="Data inizio gestione" />
-            <DatePicker fx:id="dtpk_start" />
+            <DatePicker fx:id="dtpk_start" editable="false" />
             <Label text="Data fine gestione" />
-            <DatePicker fx:id="dtpk_end" />
+            <DatePicker fx:id="dtpk_end" editable="false" />
             <VBox prefHeight="109.0" prefWidth="196.0">
                <children>
                   <HBox alignment="BOTTOM_CENTER" prefHeight="34.0" prefWidth="196.0" />
