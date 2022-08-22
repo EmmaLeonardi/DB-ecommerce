@@ -1,6 +1,6 @@
 package db.ecommerce;
 
-import db.ecommerce.view.LoginMenuImpl;
+import db.ecommerce.view.MySQLCredentialsMenu;
 import javafx.application.Application;
 
 /**
@@ -9,7 +9,6 @@ import javafx.application.Application;
 public class App {
 
     public static void main(String[] args) {
-        Application.launch(LoginMenuImpl.class);
-
+        Application.launch(MySQLCredentialsMenu.class);
     }
 }
