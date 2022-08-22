@@ -4,20 +4,18 @@ import java.io.IOException;
 
 import db.ecommerce.utils.LoadFXML;
 import db.ecommerce.utils.LoadFXMLImpl;
-import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class LoginMenuImpl extends Application {
+public class LoginMenuImpl {
 
     private final static String F = "/LoginMenu.fxml";
     private VBox root;
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
+    public LoginMenuImpl(Stage s) throws IOException {
 
         LoadFXML loader = new LoadFXMLImpl();
         var a = loader.load(F);
@@ -29,10 +27,9 @@ public class LoginMenuImpl extends Application {
             alert.show();
             throw new IOException("The loaded menu wasn't a VBox as expected");
         }
-        primaryStage.setTitle("Applicazione di Ecommerce");
         Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        s.setScene(scene);
+        s.show();
     }
 
 }
