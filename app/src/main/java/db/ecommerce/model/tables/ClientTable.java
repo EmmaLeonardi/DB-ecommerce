@@ -36,7 +36,7 @@ public class ClientTable implements Table<ClientPK, Integer> {
                 + "Codice_fiscale char(16) not null," + "Nome varchar(20) not null," + "Cognome varchar(20) not null,"
                 + "Data_di_nascita date not null," + "Email varchar(50) not null," + "Numero_di_telefono int not null,"
                 + "Via_residenza varchar(50) not null," + "Numero_civ_residenza bigint not null,"
-                + "Città_residenza varchar(50) not null," + "Coordinate_bancarie varchar(25) not null,"
+                + "Citta_residenza varchar(50) not null," + "Coordinate_bancarie varchar(25) not null,"
                 + "constraint IDCLIENTE primary key (Cod_cliente))";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.executeUpdate(query);
@@ -78,7 +78,7 @@ public class ClientTable implements Table<ClientPK, Integer> {
                             result.getString("Nome"), result.getString("Cognome"),
                             DateConverter.sqlDateToDate(result.getDate("Data_di_nascita")), result.getString("Email"),
                             result.getInt("Numero_di_telefono"), result.getString("Via_residenza"),
-                            result.getInt("Numero_civ_residenza"), result.getString("Città_residenza"),
+                            result.getInt("Numero_civ_residenza"), result.getString("Citta_residenza"),
                             result.getString("Coordinate_bancarie")));
                 }
             } catch (SQLException e) {
@@ -105,7 +105,7 @@ public class ClientTable implements Table<ClientPK, Integer> {
     public Optional<ClientPK> save(Client value) {
         final String query = "INSERT INTO " + TABLE_NAME + " (Codice_fiscale, Nome, Cognome,"
                 + " Data_di_nascita, Email, Numero_di_telefono, Via_residenza, Numero_civ_residenza,"
-                + " Città_residenza, Coordinate_bancarie) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                + " Citta_residenza, Coordinate_bancarie) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getCodFis());
@@ -145,7 +145,7 @@ public class ClientTable implements Table<ClientPK, Integer> {
     public boolean update(ClientPK value) {
         final String query = "UPDATE " + TABLE_NAME + " SET Codice_fiscale=?, Nome=?, Cognome=?,"
                 + " Data_di_nascita=?, Email=?, Numero_di_telefono=?, Via_residenza=?, Numero_civ_residenza=?,"
-                + " Città_residenza=?, Coordinate_bancarie=? WHERE Cod_cliente=?";
+                + " Citta_residenza=?, Coordinate_bancarie=? WHERE Cod_cliente=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getCodFis());

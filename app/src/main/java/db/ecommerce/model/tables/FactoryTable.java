@@ -34,7 +34,7 @@ public class FactoryTable implements Table<FactoryPK, Integer> {
     @Override
     public boolean createTable() {
         final String query = "CREATE TABLE" + TABLE_NAME + "(" + "Cod_fabbrica int not null auto_increment,"
-                + "Via varchar(50) not null," + "Numero_civ varchar(10) not null," + "Città varchar(25) not null,"
+                + "Via varchar(50) not null," + "Numero_civ varchar(10) not null," + "Citta varchar(25) not null,"
                 + "constraint IDFABBRICA_ID primary key (Cod_fabbrica));";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.executeUpdate(query);
@@ -73,7 +73,7 @@ public class FactoryTable implements Table<FactoryPK, Integer> {
             try {
                 while (result.next()) {
                     list.add(new FactoryPK(result.getString("Via"), result.getInt("Numero_civ"),
-                            result.getString("Città"), result.getInt("Cod_fabbrica")));
+                            result.getString("Citta"), result.getInt("Cod_fabbrica")));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -94,7 +94,7 @@ public class FactoryTable implements Table<FactoryPK, Integer> {
     }
 
     public Optional<FactoryPK> save(Factory value) {
-        final String query = "INSERT INTO " + TABLE_NAME + " (Via, Numero_civ, Città) VALUES (?,?,?)";
+        final String query = "INSERT INTO " + TABLE_NAME + " (Via, Numero_civ, Citta) VALUES (?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getVia());
@@ -121,7 +121,7 @@ public class FactoryTable implements Table<FactoryPK, Integer> {
 
     @Override
     public boolean update(FactoryPK value) {
-        final String query = "UPDATE " + TABLE_NAME + " SET Via=?, Numero_civ=?, Città=? WHERE Cod_fabbrica=?";
+        final String query = "UPDATE " + TABLE_NAME + " SET Via=?, Numero_civ=?, Citta=? WHERE Cod_fabbrica=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getVia());

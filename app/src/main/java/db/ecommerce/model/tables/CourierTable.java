@@ -35,7 +35,7 @@ public class CourierTable implements Table<CourierPK, Integer> {
         final String query = "CREATE TABLE" + TABLE_NAME + "(" + "Cod_corriere int not null auto_increment,"
                 + "Codice_fiscale char(16) not null," + "Nome varchar(20) not null," + "Cognome varchar(20) not null,"
                 + "Data_di_nascita date not null," + "Cod_patente varchar(20) not null,"
-                + "Nazionalità_patente varchar(25) not null," + "constraint IDCORRIERE_1 primary key (Cod_corriere))";
+                + "Nazionalita_patente varchar(25) not null," + "constraint IDCORRIERE_1 primary key (Cod_corriere))";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.executeUpdate(query);
             return true;
@@ -75,7 +75,7 @@ public class CourierTable implements Table<CourierPK, Integer> {
                     list.add(new CourierPK(result.getInt("Cod_corriere"), result.getString("Codice_fiscale"),
                             result.getString("Nome"), result.getString("Cognome"),
                             DateConverter.sqlDateToDate(result.getDate("Data_di_nascita")),
-                            result.getString("Cod_patente"), result.getString("Nazionalità_patente")));
+                            result.getString("Cod_patente"), result.getString("Nazionalita_patente")));
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -100,7 +100,7 @@ public class CourierTable implements Table<CourierPK, Integer> {
      */
     public Optional<CourierPK> save(Courier value) {
         final String query = "INSERT INTO " + TABLE_NAME + " (Codice_fiscale, Nome, Cognome,"
-                + " Data_di_nascita, Cod_patente, Nazionalità_patente) VALUES (?,?,?,?,?,?)";
+                + " Data_di_nascita, Cod_patente, Nazionalita_patente) VALUES (?,?,?,?,?,?)";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getCodFis());
@@ -135,7 +135,7 @@ public class CourierTable implements Table<CourierPK, Integer> {
     @Override
     public boolean update(CourierPK value) {
         final String query = "UPDATE " + TABLE_NAME + " SET Codice_fiscale=?, Nome=?, Cognome=?,"
-                + " Data_di_nascita=?, Cod_patente=?, Nazionalità_patente=? WHERE Cod_corriere=?";
+                + " Data_di_nascita=?, Cod_patente=?, Nazionalita_patente=? WHERE Cod_corriere=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setString(1, value.getCodFis());

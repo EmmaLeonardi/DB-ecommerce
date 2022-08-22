@@ -35,7 +35,7 @@ public class AddressTable implements Table<AddressPK, Integer> {
     @Override
     public boolean createTable() {
         final String query = "CREATE TABLE" + TABLE_NAME + " (Cod_indirizzo int not null auto_increment,"
-                + "Via varchar(25) not null," + "Numero_civico int not null," + "Città varchar(25) not null,"
+                + "Via varchar(25) not null," + "Numero_civico int not null," + "Citta varchar(25) not null,"
                 + "CAP int not null," + "Provincia varchar(25) not null," + "Paese varchar(25) not null,"
                 + "constraint IDINDIRIZZO primary key (Cod_indirizzo))";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
@@ -75,7 +75,7 @@ public class AddressTable implements Table<AddressPK, Integer> {
             try {
                 while (result.next()) {
                     list.add(new AddressPK(result.getString("Via"), result.getInt("Numero_civico"),
-                            result.getString("Città"), result.getInt("CAP"), result.getString("Provincia"),
+                            result.getString("Citta"), result.getInt("CAP"), result.getString("Provincia"),
                             result.getString("Paese"), result.getInt("Cod_indirizzo")));
                 }
             } catch (SQLException e) {
@@ -100,7 +100,7 @@ public class AddressTable implements Table<AddressPK, Integer> {
      * Saves the Address into the db
      */
     public Optional<AddressPK> save(Address value) {
-        final String query = "INSERT INTO " + TABLE_NAME + " (Via, Numero_civico, Città, CAP, Provincia, Paese)"
+        final String query = "INSERT INTO " + TABLE_NAME + " (Via, Numero_civico, Citta, CAP, Provincia, Paese)"
                 + "VALUES (?,?,?,?,?,?);";
         try (final PreparedStatement statement = this.conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, value.getRoad());
@@ -135,7 +135,7 @@ public class AddressTable implements Table<AddressPK, Integer> {
 
     @Override
     public boolean update(AddressPK value) {
-        final String query = "UPDATE " + TABLE_NAME + "Via=?, Numero_civico=?, Città=?, CAP=?, Provincia=?, Paese=?"
+        final String query = "UPDATE " + TABLE_NAME + "Via=?, Numero_civico=?, Citta=?, CAP=?, Provincia=?, Paese=?"
                 + " WHERE Cod_indirizzo=?";
 
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
@@ -188,7 +188,7 @@ public class AddressTable implements Table<AddressPK, Integer> {
      * @return all the distinct addresses of a Client
      */
     public List<AddressPK> allDistinctAddressOfClient(final ClientPK c) {
-        final String query = "SELECT DISTINCT i.Cod_indirizzo, i.Via, i.Numero_civico, i.Città, i.CAP, i.Provincia, i.Paese FROM indirizzi i, consegne c, spese s WHERE c.Cod_indirizzo=i.Cod_indirizzo AND c.Cod_spesa=s.Cod_spesa AND s.Cod_cliente=?";
+        final String query = "SELECT DISTINCT i.Cod_indirizzo, i.Via, i.Numero_civico, i.Citta, i.CAP, i.Provincia, i.Paese FROM indirizzi i, consegne c, spese s WHERE c.Cod_indirizzo=i.Cod_indirizzo AND c.Cod_spesa=s.Cod_spesa AND s.Cod_cliente=?";
         try (final PreparedStatement statement = this.conn.prepareStatement(query)) {
             statement.setInt(1, c.getCod_cliente());
             var result = statement.executeQuery();
