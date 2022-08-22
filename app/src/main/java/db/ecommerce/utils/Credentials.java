@@ -2,9 +2,14 @@ package db.ecommerce.utils;
 
 public class Credentials {
 
-    private final static String username = "root";
-    private final static String password = "emma";
-    private final static String dbName = "ecommerce";
+    private static String username = null;
+    private static String password = null;
+    private static String dbName = "ecommerce";
+
+    public Credentials(String username, String password) {
+        Credentials.username = username;
+        Credentials.password = password;
+    }
 
     /**
      * @return the username
@@ -26,7 +31,5 @@ public class Credentials {
     public static String getDbname() {
         return dbName;
     }
-    
-    
 
 }
