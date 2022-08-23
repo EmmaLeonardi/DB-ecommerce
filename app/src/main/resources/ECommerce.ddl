@@ -4,8 +4,8 @@
 -- Database Section
 -- ________________ 
 
---create database ECommerce;
-use ECommerce;
+--create database Ecommerce;
+use Ecommerce;
 
 
 -- Tables Section
