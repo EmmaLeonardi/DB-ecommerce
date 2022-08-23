@@ -25,7 +25,7 @@ public class MySQLCredentialsController {
     @FXML
     private Button btn_login;
 
-    public final static String CREATIONFILE = "/Ecommerce.ddl";
+    public final static String CREATIONFILE = "/ECommerce.ddl";
 
     public final static String INSERTIONFILE = "/Population-queries.sql";
 
